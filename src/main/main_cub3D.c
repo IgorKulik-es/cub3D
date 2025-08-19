@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main_cub3D.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/18 18:54:20 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/19 10:25:11 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3D.h"
+#include "cub3D.h"
 
 int	main(int argc, char **argv)
 {
