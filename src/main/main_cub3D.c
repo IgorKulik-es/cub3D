@@ -18,6 +18,7 @@ int	main(int argc, char **argv)
 
 	(void)argv;
 	(void)argc;
+	initialize_data(&data);
 	create_dummy_map(&data);
 	cast_ray(&data, &(data.screen), (float)WIN_WIDTH / 2.0f);
 	//data.mlx = mlx_init();

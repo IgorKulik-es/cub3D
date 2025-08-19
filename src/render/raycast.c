@@ -28,39 +28,42 @@ void	create_screen(t_mlx_data *data)
 void	cast_ray(t_mlx_data *data, t_screen *screen, float x)
 {
 	float	mult;
+	//bool	hit;
 	t_pos	view;
 	t_pos	start_x;
 	t_pos	start_y;
 	t_pos	step_x;
 	t_pos	step_y;
 
+	hit = false;
 	mult = (x - screen->half_w) / screen->win_w;
 	view = mult_scalar(data->player.camera, mult);
-	view = sum_vectors(view, data->player.facing);
+	view = add_vectors(view, data->player.facing);
 	if (view.x != 0.0f)
-		step_x.x = 1.0f / view.x;
-	step_x.y = 1.0f;
+		step_x.y = view.y / view.x;
+	step_x.x = 1.0f;
 	if (view.y != 0.0f)
-		step_y.y = 1.0f / view.y;
-	step_y.x = 1.0f;
+		step_y.x = view.x / view.y;
+	step_y.y = 1.0f;
 	find_intersects(view, data->player.pos, &start_x, &start_y);
-	printf("start_x: %f %f, start_y: %f %f\n", start_x.x, start_x.y, start_y.x, start_y.y);
+	//printf("start_x: %f %f, start_y: %f %f\n", start_x.x, start_x.y, start_y.x, start_y.y);
+	//printf("step_x: %f %f, step_y: %f %f\n", step_x.x, step_x.y, step_y.x, step_y.y);
 }
 
 int	find_intersects(t_pos view, t_pos player, t_pos *start_x, t_pos *start_y)
 {
 
-	start_x->x = roundf(player.x) - player.x + (view.x > 0);
-	start_y->y = roundf(player.y) - player.y + (view.y > 0);
+	start_x->x = floor(player.x) + (view.x > 0);
+	start_y->y = floor(player.y) + (view.y > 0);
 	if (view.x != 0.0f)
-		start_x->y = (start_x->x / view.x) * view.y;
+		start_x->y = (start_x->x / view.x) * view.y + player.y;
 	else
 	{
 		start_x->y = 0.0f;
 		start_x->x = 0.0f;
 	}
 	if (view.y != 0.0f)
-		start_y->x = (start_y->y / view.y) * view.x;
+		start_y->x = (start_y->y / view.y) * view.x + player.x;
 	else
 	{
 		start_y->y = 0.0f;

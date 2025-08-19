@@ -108,7 +108,7 @@ int		key_manager(int key, t_mlx_data *data);
 
 //maths
 t_pos	mult_scalar(t_pos vector, float mult);
-t_pos	sum_vectors(t_pos a, t_pos b);
+t_pos	add_vectors(t_pos a, t_pos b);
 
 //raycasting
 

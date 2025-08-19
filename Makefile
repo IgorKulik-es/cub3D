@@ -50,7 +50,7 @@ SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC)
 OBJS		= $(SRCS:src/%.c=obj/%.o)
 
 CFLAGS		= -Wall -Wextra -Werror -g3
-MFLAGS		= -L libft -lft -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm -lz
+MFLAGS		= -L libft -lft -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm
 INCLUDES	= -I$(INCLUDE)
 TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC))
 SRC_NUM		= 0

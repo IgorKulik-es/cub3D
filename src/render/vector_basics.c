@@ -21,7 +21,7 @@ t_pos	mult_scalar(t_pos vector, float mult)
 	return (temp);
 }
 
-t_pos	sum_vectors(t_pos a, t_pos b)
+t_pos	add_vectors(t_pos a, t_pos b)
 {
 	t_pos	temp;
 
