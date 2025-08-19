@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/18 18:50:18 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:36:47 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <fcntl.h>
 # include <X11/keysym.h>
 # include "get_next_line.h"
-# include "../minilibx-linux/mlx.h"
-# include "../libft/libft.h"
+# include "minilibx-linux/mlx.h"
+# include "libft.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -34,6 +34,13 @@
 # define ESC XK_Escape
 # define WIN_WIDTH 2560
 # define WIN_HEIGHT 1440
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+# define LEFT 65361
+# define RIGHT 65363
+# define PI 3.14159265359
 
 typedef struct s_coordinates
 {
@@ -67,6 +74,32 @@ typedef struct s_mlx_data
 	int			game_over;
 	t_map_data	map;
 }		t_mlx_data;
+
+typedef  struct s_player
+{
+	float	x;
+	float	y;
+	float	angle;
+	bool	key_up;
+	bool	key_down;
+	bool	key_left;
+	bool	key_right;
+	bool	left_rotate;
+	bool	right_rotate;
+};
+
+typedef struct s_game
+{
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			size_line;
+	int			endian;
+	t_player	player;
+	char		**map;
+}		t_game;
 
 void	clean_exit(t_map_data *map, char *error, int exit_code);
 int		close_game(t_mlx_data *data);

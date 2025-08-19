@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cleaners.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/18 18:54:09 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/19 12:30:45 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../../include/cub3D.h"
+#include "include/cub3D.h"
 
 int	close_game(t_mlx_data *data)
 {
