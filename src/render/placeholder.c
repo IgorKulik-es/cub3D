@@ -25,19 +25,24 @@ void	create_dummy_map(t_mlx_data *data)
 	{
 		data->map.map[i] = malloc (data->map.width * sizeof(char));
 		data->map.map[i][0] = '1';
-		data->map.map[i][data->map.width -1] = '1';
+		data->map.map[i][data->map.width - 1] = '1';
 		j = 1;
 		while (j < data->map.width - 1)
 		{
-			data->map.map[i][j] = '0';
+			if (i == 0 || i == data->map.height - 1)
+				data->map.map[i][j] = '1';
+			else
+				data->map.map[i][j] = '0';
 			j++;
 		}
 		i++;
 	}
+	data->player.pos.x = 10.25f;
+	data->player.pos.y = 10.25f;
 	data->player.facing.x = 1.0f;
 	data->player.facing.y = 0.0f;
-	data->player.pos.x = 10.5f;
-	data->player.pos.y = 10.5f;
 	data->player.camera.x = 0.0f;
 	data->player.camera.y = 1.0f;
+	data->player.camera = rotate_vector(data->player.camera, -M_PI * 2.0f);
+	data->player.facing = rotate_vector(data->player.facing, -M_PI * 2.0f);
 }

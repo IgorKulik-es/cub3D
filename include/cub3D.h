@@ -69,6 +69,16 @@ typedef struct s_player
 	t_pos	camera;
 }			t_player;
 
+typedef struct s_ray_params
+{
+	t_pos	view;
+	t_pos	start_x;
+	t_pos	start_y;
+	t_pos	step_x;
+	t_pos	step_y;
+	int		x_dir;
+}			t_ray;
+
 typedef struct s_textures
 {
 	void	*wall_n;
@@ -109,6 +119,8 @@ int		key_manager(int key, t_mlx_data *data);
 //maths
 t_pos	mult_scalar(t_pos vector, float mult);
 t_pos	add_vectors(t_pos a, t_pos b);
+t_pos	subtr_vectors(t_pos a, t_pos b);
+t_pos	rotate_vector(t_pos vector, float angle);
 
 //raycasting
 

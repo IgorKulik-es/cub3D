@@ -12,7 +12,10 @@
 
 #include "../../include/cub3D.h"
 
-int	find_intersects(t_pos view, t_pos player, t_pos *start_x, t_pos *start_y);
+void	find_intersects(t_mlx_data *data, t_pos player, t_ray *ray);
+void	calculate_steps(t_mlx_data *data, t_ray *ray, float column);
+t_pos	find_collision_neg_x(t_mlx_data *data, t_ray *ray);
+t_pos	find_collision_pos_x(t_mlx_data *data, t_ray *ray);
 
 void	create_screen(t_mlx_data *data)
 {
@@ -25,53 +28,114 @@ void	create_screen(t_mlx_data *data)
 			&dummy, &dummy, &dummy);
 }
 
-void	cast_ray(t_mlx_data *data, t_screen *screen, float x)
+void	cast_ray(t_mlx_data *data, t_screen *screen, float column)
 {
-	float	mult;
-	//bool	hit;
-	t_pos	view;
-	t_pos	start_x;
-	t_pos	start_y;
-	t_pos	step_x;
-	t_pos	step_y;
+	t_ray	ray;
+	t_pos	collision;
 
-	hit = false;
-	mult = (x - screen->half_w) / screen->win_w;
-	view = mult_scalar(data->player.camera, mult);
-	view = add_vectors(view, data->player.facing);
-	if (view.x != 0.0f)
-		step_x.y = view.y / view.x;
-	step_x.x = 1.0f;
-	if (view.y != 0.0f)
-		step_y.x = view.x / view.y;
-	step_y.y = 1.0f;
-	find_intersects(view, data->player.pos, &start_x, &start_y);
-	//printf("start_x: %f %f, start_y: %f %f\n", start_x.x, start_x.y, start_y.x, start_y.y);
-	//printf("step_x: %f %f, step_y: %f %f\n", step_x.x, step_x.y, step_y.x, step_y.y);
+	(void)screen;
+	calculate_steps(data, &ray, column);
+	find_intersects(data, data->player.pos, &ray);
+	//printf("view: %f %f\n", ray.view.x, ray.view.y);
+	//printf("start_x: %f %f, start_y: %f %f\n", ray.start_x.x, ray.start_x.y, ray.start_y.x, ray.start_y.y);
+	//printf("step_x: %f %f, step_y: %f %f\n", ray.step_x.x, ray.step_x.y, ray.step_y.x, ray.step_y.y);
+	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)
+		collision = find_collision_neg_x(data, &ray);
+	else
+		collision = find_collision_pos_x(data, &ray);
+	collision = subtr_vectors(collision, ray.view);
+	//printf("collision: %f %f\n", collision.x, collision.y);
+
 }
 
-int	find_intersects(t_pos view, t_pos player, t_pos *start_x, t_pos *start_y)
+void	find_intersects(t_mlx_data *data, t_pos player, t_ray *ray)
 {
 
-	start_x->x = floor(player.x) + (view.x > 0);
-	start_y->y = floor(player.y) + (view.y > 0);
-	if (view.x != 0.0f)
-		start_x->y = (start_x->x / view.x) * view.y + player.y;
+	ray->start_x.x = floor(player.x) + (ray->view.x > 0);
+	ray->start_y.y = floor(player.y) + (ray->view.y > 0);
+	if (fabs(ray->view.x - 0.0f) > __FLT_EPSILON__)
+		ray->start_x.y = ((ray->start_x.x - player.x) / ray->view.x)
+			* ray->view.y + player.y;
 	else
 	{
-		start_x->y = 0.0f;
-		start_x->x = 0.0f;
+		ray->start_x.y = data->map.height;
+		ray->start_x.x = data->map.width;
 	}
-	if (view.y != 0.0f)
-		start_y->x = (start_y->y / view.y) * view.x + player.x;
+	if (fabs(ray->view.y - 0.0f) > __FLT_EPSILON__)
+		ray->start_y.x = ((ray->start_y.y - player.y) / ray->view.y)
+			* ray->view.x + player.x;
 	else
 	{
-		start_y->y = 0.0f;
-		start_y->x = 0.0f;
+		ray->start_y.y = data->map.height;
+		ray->start_y.x = data->map.width * (ray->view.x > 0);
 	}
-	if (fabs(start_x->x - player.x) > fabs(start_y->x - player.x))
-		return (FIRST_HIT_Y);
-	return (FIRST_HIT_X);
 }
 
+void	calculate_steps(t_mlx_data *data, t_ray *ray, float column)
+{
+	ray->view = mult_scalar(data->player.camera, (column - data->screen.half_w)
+		/ data->screen.win_w);
+	ray->view = add_vectors(ray->view, data->player.facing);
+	ray->step_x.y = 0;
+	ray->step_x.x = 0;
+	ray->step_y.x = 0;
+	ray->step_y.y = 0;
+	if (fabs(ray->view.x - 0.0f) > __FLT_EPSILON__) 
+		ray->step_x = mult_scalar(ray->view, 1.0f / fabs(ray->view.x));
+	if (fabs(ray->view.y - 0.0f) > __FLT_EPSILON__)
+		ray->step_y = mult_scalar(ray->view, 1.0f / fabs(ray->view.y));
+}
 
+t_pos	find_collision_neg_x(t_mlx_data *data, t_ray *ray)
+{
+	if (ray->start_x.x > ray->start_y.x)
+	{
+		if (data->map.map[(int)floor(ray->start_x.y)][(int)
+			roundf(ray->start_x.x) - 1] == '1')
+				return (ray->start_x);
+		else
+		{
+			ray->start_x = add_vectors(ray->start_x, ray->step_x);
+			return (find_collision_neg_x(data, ray));
+		}
+	}
+	else
+	{
+		if (data->map.map[(int)roundf(ray->start_y.y) - (ray->step_y.y < 0)]
+			[(int)floor(ray->start_y.x)] == '1')
+			return (ray->start_y);
+		else
+		{
+			ray->start_y = add_vectors(ray->start_y, ray->step_y);
+			return (find_collision_neg_x(data, ray));
+		}
+	}
+}
+
+t_pos	find_collision_pos_x(t_mlx_data *data, t_ray *ray)
+{
+	if (ray->start_x.x < ray->start_y.x)
+	{
+		if (data->map.map[(int)floor(ray->start_x.y)][(int)
+			roundf(ray->start_x.x)] == '1')
+				return (ray->start_x);
+		else
+		{
+			ray->start_x = add_vectors(ray->start_x, ray->step_x);
+			return (find_collision_pos_x(data, ray));
+		}
+	}
+	else
+	{
+		if (data->map.map[(int)roundf(ray->start_y.y) - (ray->step_y.y < 0)]
+			[(int)floor(ray->start_y.x)] == '1')
+				return (ray->start_y);
+		else
+		{
+			ray->start_y = add_vectors(ray->start_y, ray->step_y);
+			return (find_collision_pos_x(data, ray));
+		}
+	}
+}
+
+//t_pos	find_collision_orth(t_mlx_data *data, t_ray *ray, )

@@ -14,18 +14,34 @@
 
 t_pos	mult_scalar(t_pos vector, float mult)
 {
-	t_pos	temp;
-
-	temp.x = vector.x * mult;
-	temp.y = vector.y * mult;
-	return (temp);
+	vector.x *= mult;
+	vector.y *= mult;
+	return (vector);
 }
 
 t_pos	add_vectors(t_pos a, t_pos b)
 {
-	t_pos	temp;
+	a.x += b.x;
+	a.y += b.y;
+	return (a);
+}
 
-	temp.x = a.x + b.x;
-	temp.y = a.y + b.y;
-	return (temp);
+t_pos	subtr_vectors(t_pos a, t_pos b)
+{
+	a.x -= b.x;
+	a.y -= b.y;
+	return (a);
+}
+
+t_pos	rotate_vector(t_pos vector, float angle)
+{
+	float	m_sin;
+	float	m_cos;
+	t_pos	result;
+
+	m_sin = sin(angle);
+	m_cos = cos(angle);
+	result.x = m_cos * vector.x - m_sin * vector.y;
+	result.y = m_sin * vector.x + m_cos * vector.y;
+	return (result);
 }
