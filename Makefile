@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/18 19:31:30 by ikulik           ###   ########.fr        #
+#    Updated: 2025/08/21 12:31:24 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,20 +20,24 @@ NAME		= cub3D
 
 MAIN		= main_cub3D.c
 
-UTIL		= cleaners.c get_next_line.c get_next_line_utils.c
+UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c
 
-PARSE		=
+PARSE		= parser.c
 
 CONTROLS	= gaming.c
+
+RENDER		= placeholder.c raycast.c vector_basics.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils
 MAINDIR		= src/main
 CONTROLSDIR	= src/controls
+RENDERDIR	= src/render
 MAINSRC		= $(addprefix $(MAINDIR)/, $(MAIN))
 UTILSRC		= $(addprefix $(UTILDIR)/, $(UTIL))
 PARSESRC	= $(addprefix $(PARSEDIR)/, $(PARSE))
 CONTROLSSRC	= $(addprefix $(CONTROLSDIR)/, $(CONTROLS))
+RENDERSRC	= $(addprefix $(RENDERDIR)/, $(RENDER))
 SRCSDIR		= src
 OBJDIR		= obj
 INCLUDE		= include
@@ -41,17 +45,15 @@ INCLUDE		= include
 LIBRARY = minilibx-linux/libmlx_Linux.a
 LIBGIT = https://github.com/42paris/minilibx-linux.git
 
-SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC)
+SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC)
 
 OBJS		= $(SRCS:src/%.c=obj/%.o)
 
 CFLAGS		= -Wall -Wextra -Werror -g3
-MFLAGS		= -L libft -lft -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm -lz
+MFLAGS		= -L libft -lft -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm
 INCLUDES	= -I$(INCLUDE)
-TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC))
+TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC))
 SRC_NUM		= 0
-MINLIBX_NUM	= 0
-TOTAL_MLBX	= 41
 
 RM = rm -rf
 
