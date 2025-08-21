@@ -6,7 +6,7 @@
 #    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/21 16:31:53 by vtrofyme         ###   ########.fr        #
+#    Updated: 2025/08/21 18:44:28 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,13 @@ NAME		= cub3D
 
 MAIN		= main_cub3D.c
 
-UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c
+UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c
 
 PARSE		= parser.c parse_utils.c
 
 CONTROLS	= gaming.c
 
-RENDER		= placeholder.c raycast.c vector_basics.c
+RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils

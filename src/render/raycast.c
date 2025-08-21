@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 12:44:04 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:17:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	create_screen(t_game *data)
 			&dummy, &dummy, &dummy);
 }
 
-void	cast_ray(t_game *data, t_screen *screen, float column)
+float	cast_ray(t_game *data, t_screen *screen, float column)
 {
 	t_ray	ray;
 	t_pos	collision;
@@ -43,7 +43,10 @@ void	cast_ray(t_game *data, t_screen *screen, float column)
 		collision = find_collision_neg_x(data, &ray);
 	else
 		collision = find_collision_pos_x(data, &ray);
-	collision = subtr_vectors(collision, ray.view);
+	collision = subtr_vectors(collision, data->player.pos);
+	if (fabs(ray.view.x - 0.0f) > __FLT_EPSILON__)
+		return (collision.x / ray.view.x);
+	return (collision.y / ray.view.y);
 	//printf("collision: %f %f\n", collision.x, collision.y);
 
 }
@@ -74,7 +77,7 @@ void	find_intersects(t_game *data, t_pos player, t_ray *ray)
 void	calculate_steps(t_game *data, t_ray *ray, float column)
 {
 	ray->view = mult_scalar(data->player.camera, (column - data->screen.half_w)
-		/ data->screen.win_w);
+			/ data->screen.win_w);
 	ray->view = add_vectors(ray->view, data->player.facing);
 	ray->step_x.y = 0;
 	ray->step_x.x = 0;
@@ -92,7 +95,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray)
 	{
 		if (data->map.map[(int)floor(ray->start_x.y)][(int)
 			roundf(ray->start_x.x) - 1] == '1')
-				return (ray->start_x);
+			return (ray->start_x);
 		else
 		{
 			ray->start_x = add_vectors(ray->start_x, ray->step_x);
