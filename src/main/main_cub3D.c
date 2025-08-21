@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 18:45:34 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:46:41 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 	(void)argc;
 	if (argc != 2)
 		return(error("Add only one argument ended in .cub"), 1);
-	if (parse_cub(&data, argv[1]))
+	if (parse_cub(&game, argv[1]))
 		return (1);
 	initialize_data(&game);
 	create_dummy_map(&game);

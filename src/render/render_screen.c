@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_screen.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 17:26:04 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/21 18:47:56 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	render_frame(t_game *game)
 	float	column;
 	float	distance;
 	time_t	time;
-	time_t	fps;
+	// time_t	fps;
 
 	column = 0;
 	if (game->moving)
 		move_player(game, game->moving);
 	time = get_time();
-	fps = T_MICROSEC / (time - game->screen.last_frame_time);
+	// fps = T_MICROSEC / (time - game->screen.last_frame_time);
 	game->screen.last_frame_time = time;
 	while (column < game->screen.win_w)
 	{
@@ -34,7 +34,7 @@ int	render_frame(t_game *game)
 		column += 1;
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
-	//printf("fps: %d\n", (int)fps);
+	// printf("fps: %d\n", (int)fps);
 	return (0);
 }
 
