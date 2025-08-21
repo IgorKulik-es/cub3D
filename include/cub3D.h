@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 12:34:45 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:49:37 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@
 # define A 97
 # define S 115
 # define D 100
-# define LEFT 65361
-# define RIGHT 65363
-# define PI 3.14159265359
 
 typedef struct s_float_coordinates
 {
@@ -106,7 +103,7 @@ typedef struct s_screen_data
 	int		win_h;
 }			t_screen;
 
-typedef struct s_mlx_data
+typedef struct s_game_data
 {
 	void		*mlx;
 	void		*win;
@@ -115,13 +112,13 @@ typedef struct s_mlx_data
 	t_map_data	map;
 	t_player	player;
 	t_textures	texts;
-}			t_mlx_data;
+}			t_game;
 
 //utils
 void	clean_exit(t_map_data *map, char *error, int exit_code);
-int		close_game(t_mlx_data *data);
-void	initialize_data( t_mlx_data *data);
-int		key_manager(int key, t_mlx_data *data);
+int		close_game(t_game *data);
+void	initialize_data( t_game *data);
+int		key_manager(int key, t_game *data);
 
 //maths
 t_pos	mult_scalar(t_pos vector, float mult);
@@ -131,9 +128,9 @@ t_pos	rotate_vector(t_pos vector, float angle);
 
 //raycasting
 
-void	cast_ray(t_mlx_data *data, t_screen *screen, float x);
+void	cast_ray(t_game *data, t_screen *screen, float x);
 
 //debug
-void	create_dummy_map(t_mlx_data *data);
+void	create_dummy_map(t_game *data);
 
 #endif

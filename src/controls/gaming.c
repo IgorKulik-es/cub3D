@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   gaming.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/18 18:54:27 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/21 12:41:20 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/cub3D.h"
 
-int	key_manager(int key, t_mlx_data *data)
+int	key_manager(int key, t_game *data)
 {
 	if (key == ESC)
 		close_game(data);

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/19 20:12:23 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/21 12:44:04 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3D.h"
 
-void	find_intersects(t_mlx_data *data, t_pos player, t_ray *ray);
-void	calculate_steps(t_mlx_data *data, t_ray *ray, float column);
-t_pos	find_collision_neg_x(t_mlx_data *data, t_ray *ray);
-t_pos	find_collision_pos_x(t_mlx_data *data, t_ray *ray);
+void	find_intersects(t_game *data, t_pos player, t_ray *ray);
+void	calculate_steps(t_game *data, t_ray *ray, float column);
+t_pos	find_collision_neg_x(t_game *data, t_ray *ray);
+t_pos	find_collision_pos_x(t_game *data, t_ray *ray);
 
-void	create_screen(t_mlx_data *data)
+void	create_screen(t_game *data)
 {
 	t_screen	*screen;
 	int			dummy;
@@ -28,7 +28,7 @@ void	create_screen(t_mlx_data *data)
 			&dummy, &dummy, &dummy);
 }
 
-void	cast_ray(t_mlx_data *data, t_screen *screen, float column)
+void	cast_ray(t_game *data, t_screen *screen, float column)
 {
 	t_ray	ray;
 	t_pos	collision;
@@ -48,7 +48,7 @@ void	cast_ray(t_mlx_data *data, t_screen *screen, float column)
 
 }
 
-void	find_intersects(t_mlx_data *data, t_pos player, t_ray *ray)
+void	find_intersects(t_game *data, t_pos player, t_ray *ray)
 {
 
 	ray->start_x.x = floor(player.x) + (ray->view.x > 0);
@@ -71,7 +71,7 @@ void	find_intersects(t_mlx_data *data, t_pos player, t_ray *ray)
 	}
 }
 
-void	calculate_steps(t_mlx_data *data, t_ray *ray, float column)
+void	calculate_steps(t_game *data, t_ray *ray, float column)
 {
 	ray->view = mult_scalar(data->player.camera, (column - data->screen.half_w)
 		/ data->screen.win_w);
@@ -80,13 +80,13 @@ void	calculate_steps(t_mlx_data *data, t_ray *ray, float column)
 	ray->step_x.x = 0;
 	ray->step_y.x = 0;
 	ray->step_y.y = 0;
-	if (fabs(ray->view.x - 0.0f) > __FLT_EPSILON__) 
+	if (fabs(ray->view.x - 0.0f) > __FLT_EPSILON__)
 		ray->step_x = mult_scalar(ray->view, 1.0f / fabs(ray->view.x));
 	if (fabs(ray->view.y - 0.0f) > __FLT_EPSILON__)
 		ray->step_y = mult_scalar(ray->view, 1.0f / fabs(ray->view.y));
 }
 
-t_pos	find_collision_neg_x(t_mlx_data *data, t_ray *ray)
+t_pos	find_collision_neg_x(t_game *data, t_ray *ray)
 {
 	if (ray->start_x.x > ray->start_y.x)
 	{
@@ -112,7 +112,7 @@ t_pos	find_collision_neg_x(t_mlx_data *data, t_ray *ray)
 	}
 }
 
-t_pos	find_collision_pos_x(t_mlx_data *data, t_ray *ray)
+t_pos	find_collision_pos_x(t_game *data, t_ray *ray)
 {
 	if (ray->start_x.x < ray->start_y.x)
 	{

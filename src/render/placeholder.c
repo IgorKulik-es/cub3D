@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   placeholder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:25:53 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/19 20:10:22 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/21 12:43:49 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3D.h"
 
-void	create_dummy_map(t_mlx_data *data)
+void	create_dummy_map(t_game *data)
 {
 	int	i;
 	int	j;

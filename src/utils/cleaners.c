@@ -6,14 +6,14 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/19 12:30:45 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:43:19 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "include/cub3D.h"
+#include "cub3D.h"
 
-int	close_game(t_mlx_data *data)
+int	close_game(t_game *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
