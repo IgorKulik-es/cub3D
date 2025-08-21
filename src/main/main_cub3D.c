@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 12:41:39 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:14:50 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ int	main(int argc, char **argv)
 
 	(void)argv;
 	(void)argc;
+	if (argc != 2)
+		return(error("Add only one argument ended in .cub"), 1);
+	if (parse_cub(&data, argv[1]))
+		return (1);
 	initialize_data(&data);
 	create_dummy_map(&data);
 	cast_ray(&data, &(data.screen), (float)WIN_WIDTH / 2.0f);

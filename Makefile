@@ -6,7 +6,7 @@
 #    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/21 12:50:46 by vtrofyme         ###   ########.fr        #
+#    Updated: 2025/08/21 16:31:53 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ MAIN		= main_cub3D.c
 
 UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c
 
-PARSE		= parser.c
+PARSE		= parser.c parse_utils.c
 
 CONTROLS	= gaming.c
 
@@ -80,6 +80,7 @@ $(OBJDIR)/%.o: $(SRCSDIR)/%.c
 $(LIBRARY):
 	@git clone $(LIBGIT) minilibx-linux > /dev/null 2>&1
 	@cd minilibx-linux && ./configure
+	@rm -rf minilibx-linux/.git minilibx-linux/.github
 	@cd ..
 	@echo
 

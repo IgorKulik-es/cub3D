@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 12:49:37 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:14:30 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@
 # define A 97
 # define S 115
 # define D 100
+# define C_RED "\001\x1B[31m\002"
+# define C_GRN "\001\x1B[32m\002"
+# define C_YELLOW "\001\x1B[33m\002"
+# define C_BLU "\001\x1B[34m\002"
+# define C_MAG "\001\x1B[35m\002"
+# define C_RESET "\001\x1B[0m\002"
 
 typedef struct s_float_coordinates
 {
@@ -132,5 +138,13 @@ void	cast_ray(t_game *data, t_screen *screen, float x);
 
 //debug
 void	create_dummy_map(t_game *data);
+
+//parse
+int		parse_cub(t_game *data, char *path);
+void	error(char *str);
+int		parse_rgb(char *str);
+int		is_map_line(char *line);
+void	set_player(t_player *p, char c, int x, int y);
+void	load_texture(void *mlx, char *path, void **dest);
 
 #endif
