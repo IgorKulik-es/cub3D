@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/19 20:08:55 by ikulik           ###   ########.fr        #
+#    Updated: 2025/08/21 12:50:46 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ MAIN		= main_cub3D.c
 
 UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c
 
-PARSE		=
+PARSE		= parser.c
 
 CONTROLS	= gaming.c
 
