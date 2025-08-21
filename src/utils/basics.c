@@ -1,15 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   basics.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/21 13:04:01 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 13:05:02 by ikulik           ###   ########.fr       */
+/*   Created: 2025/08/21 13:47:27 by ikulik            #+#    #+#             */
+/*   Updated: 2025/08/21 13:51:04 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3D.h"
 
-void	fill_screen()
+time_t	get_time(void)
+{
+	struct timeval	tm;
+
+	gettimeofday(&tm, NULL);
+	return (tm.tv_sec * 1000000 + tm.tv_usec);
+}

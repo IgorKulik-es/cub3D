@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   placeholder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:25:53 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 12:43:49 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:07:17 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ void	create_dummy_map(t_game *data)
 		}
 		i++;
 	}
-	data->player.pos.x = 10.25f;
-	data->player.pos.y = 10.25f;
-	data->player.facing.x = 1.0f;
-	data->player.facing.y = 0.0f;
-	data->player.camera.x = 0.0f;
-	data->player.camera.y = 1.0f;
-	data->player.camera = rotate_vector(data->player.camera, -M_PI * 2.0f);
-	data->player.facing = rotate_vector(data->player.facing, -M_PI * 2.0f);
+	data->map.map[1][3] = '0';
+	data->map.map[3][1] = '0';
+	data->player.pos.x = 1.5f;
+	data->player.pos.y = 1.5f;
+	data->player.facing.x = 0.0f;
+	data->player.facing.y = 1.0f;
+	data->player.camera.x = 1.66f;
+	data->player.camera.y = 0.0f;
+	data->player.camera = rotate_vector(data->player.camera, -M_PI * 0.0f);
+	data->player.facing = rotate_vector(data->player.facing, -M_PI * 0.0f);
 }

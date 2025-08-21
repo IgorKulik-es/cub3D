@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 12:49:37 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:25:32 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdbool.h>
+# include <sys/time.h>
 # include <X11/keysym.h>
 # include "get_next_line.h"
 # include "../minilibx-linux/mlx.h"
@@ -33,14 +35,20 @@
 # define LEFT 'a'
 # define RIGHT 'd'
 # define ESC XK_Escape
+# define T_MICROSEC 1000000
+# define P_MOVE_SPEED 20000
+# define P_ROTATE_SPEED 100000
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
-# define WIN_WIDTH 2560
-# define WIN_HEIGHT 1440
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define W 119
 # define A 97
 # define S 115
 # define D 100
+# define C_SKY_BLUE 0xa3e0e5
+# define C_WALL_BROWN 0x47281b
+# define C_FLOOR_SAND 0xeda85b
 
 typedef struct s_float_coordinates
 {
@@ -101,6 +109,7 @@ typedef struct s_screen_data
 	int		win_w;
 	float	half_w;
 	int		win_h;
+	time_t	last_frame_time;
 }			t_screen;
 
 typedef struct s_game_data
@@ -108,6 +117,7 @@ typedef struct s_game_data
 	void		*mlx;
 	void		*win;
 	int			game_over;
+	char		moving;
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
@@ -115,10 +125,13 @@ typedef struct s_game_data
 }			t_game;
 
 //utils
-void	clean_exit(t_map_data *map, char *error, int exit_code);
+void	clean_exit(t_game *map, char *error, int exit_code);
 int		close_game(t_game *data);
 void	initialize_data( t_game *data);
-int		key_manager(int key, t_game *data);
+int		key_press(int key, t_game *data);
+int		key_release(int key, t_game *game);
+time_t	get_time(void);
+void	clean_double_array(char **arr, int n);
 
 //maths
 t_pos	mult_scalar(t_pos vector, float mult);
@@ -126,10 +139,13 @@ t_pos	add_vectors(t_pos a, t_pos b);
 t_pos	subtr_vectors(t_pos a, t_pos b);
 t_pos	rotate_vector(t_pos vector, float angle);
 
-//raycasting
+//rendering
 
-void	cast_ray(t_game *data, t_screen *screen, float x);
+float	cast_ray(t_game *data, t_screen *screen, float x);
+int		render_frame(t_game *game);
+//gaming
 
+void	move_player(t_game *game, int key);
 //debug
 void	create_dummy_map(t_game *data);
 

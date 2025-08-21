@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 13:12:20 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/21 13:17:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	create_screen(t_game *data)
 			&dummy, &dummy, &dummy);
 }
 
-void	cast_ray(t_game *data, t_screen *screen, float column)
+float	cast_ray(t_game *data, t_screen *screen, float column)
 {
 	t_ray	ray;
 	t_pos	collision;

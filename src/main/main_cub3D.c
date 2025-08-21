@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cub3D.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 12:41:39 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:26:59 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 int	main(int argc, char **argv)
 {
-	t_game	data;
+	t_game	game;
+	int		dummy;
 
 	(void)argv;
 	(void)argc;
-	initialize_data(&data);
-	create_dummy_map(&data);
-	cast_ray(&data, &(data.screen), (float)WIN_WIDTH / 2.0f);
-	//data.mlx = mlx_init();
-	//data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	//mlx_hook(data.win, 2, 1L << 0, key_manager, &data);
-	//mlx_hook(data.win, 17, 0L, close_game, &data);
-	//mlx_loop(data.mlx);
+	initialize_data(&game);
+	create_dummy_map(&game);
+	game.mlx = mlx_init();
+	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+	game.screen.img = mlx_new_image(game.mlx, game.screen.win_w, game.screen.win_h);
+	game.screen.pixels = (int *)mlx_get_data_addr(game.screen.img, &dummy, &dummy, &dummy);
+	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
+	mlx_hook(game.win, 3, 1L << 0, key_release, &game);
+	mlx_hook(game.win, 17, 0L, close_game, &game);
+	mlx_loop_hook(game.mlx, render_frame, &game);
+	mlx_loop(game.mlx);
 }
 //for map viewing and debug purposes
 //
