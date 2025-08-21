@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 18:44:56 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 23:47:47 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,23 @@ typedef struct s_ray_params
 	int		x_dir;
 }			t_ray;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		width;
+	int		height;
+}			t_img;
+
 typedef struct s_textures
 {
-	void	*wall_n;
-	void	*wall_s;
-	void	*wall_e;
-	void	*wall_w;
+	t_img	wall_n;
+	t_img	wall_s;
+	t_img	wall_w;
+	t_img	wall_e;
 	int		bot_color;
 	int		top_color;
 	int		wall_color;

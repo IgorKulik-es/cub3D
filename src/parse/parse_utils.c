@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/21 15:08:53 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:51:43 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error(char *str)
 {
-	printf(C_RED "Error:\n %s" C_RESET "\n", str);
+	printf(C_RED "Error:\n%s" C_RESET "\n", str);
 }
 
 int	parse_rgb(char *str)
