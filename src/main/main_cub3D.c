@@ -6,21 +6,20 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 18:46:41 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:24:07 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+static void	check_arguments(int argc);
 
 int	main(int argc, char **argv)
 {
 	t_game	game;
 	int		dummy;
 
-	(void)argv;
-	(void)argc;
-	if (argc != 2)
-		return(error("Add only one argument ended in .cub"), 1);
+	check_arguments(argc);
 	if (parse_cub(&game, argv[1]))
 		return (1);
 	initialize_data(&game);
@@ -34,6 +33,22 @@ int	main(int argc, char **argv)
 	mlx_hook(game.win, 17, 0L, close_game, &game);
 	mlx_loop_hook(game.mlx, render_frame, &game);
 	mlx_loop(game.mlx);
+}
+
+static void	check_arguments(int argc)
+{
+	if (argc < 2)
+	{
+		printf("Error: no map file.\n");
+		exit(EXIT_FAILURE);
+	}
+	else if (argc > 2)
+	{
+		printf("Error: too many arguments.\n");
+		exit(EXIT_FAILURE);
+	}
+	else
+		return ;
 }
 //for map viewing and debug purposes
 //

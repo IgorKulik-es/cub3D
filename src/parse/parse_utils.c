@@ -6,18 +6,13 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/21 18:51:43 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:09:12 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	error(char *str)
-{
-	printf(C_RED "Error:\n%s" C_RESET "\n", str);
-}
-
-int	parse_rgb(char *str)
+int	parse_rgb(t_game *game, char *str)
 {
 	int		r;
 	int		g;
@@ -27,18 +22,15 @@ int	parse_rgb(char *str)
 
 	split = ft_split(str, ',');
 	if (!split || !split[0] || !split[1] || !split[2])
-		return (error("Invalid RGB format"), 1);
+		clean_exit(game, "Invalid RGB format", MAP_ERROR);
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-		return (error("RGB out of range"), 1);
+		clean_exit(game, "RGB out of range", MAP_ERROR);
 	i = 0;
 	while (i < 3)
-	{
-		free(split[i]);
-		i++;
-	}
+		free(split[i++]);
 	free(split);
 	return ((r << 16) | (g << 8) | b);
 }
@@ -88,12 +80,9 @@ void	set_player(t_player *p, char c, int x, int y)
 		p->camera = (t_pos){0, -1};
 	}
 }
-void	load_texture(void *mlx, char *path, void **dest)
+void	load_texture(t_game *game, char *path, t_img *dest)
 {
-	int	w;
-	int	h;
-
-	*dest = mlx_xpm_file_to_image(mlx, path, &w, &h);
-	if (!*dest)
-		error("Texture load failed");
-}
+	dest->img = mlx_xpm_file_to_image(game->mlx, path, &dest->width, &dest->height);
+	if (!dest->img)
+		clean_exit(game, "Texture load failed", MAP_ERROR);
+	}

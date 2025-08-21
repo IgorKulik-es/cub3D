@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 23:47:47 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:02:38 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,11 +167,10 @@ void	move_player(t_game *game, int key);
 void	create_dummy_map(t_game *data);
 
 //parse
-int		parse_cub(t_game *data, char *path);
-void	error(char *str);
-int		parse_rgb(char *str);
+int		parse_cub(t_game *game, char *path);
+int		parse_rgb(t_game *game, char *str);
 int		is_map_line(char *line);
 void	set_player(t_player *p, char c, int x, int y);
-void	load_texture(void *mlx, char *path, void **dest);
+void	load_texture(t_game *game, char *path, t_img *dest);
 
 #endif

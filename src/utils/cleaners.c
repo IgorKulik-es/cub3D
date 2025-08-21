@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 23:48:45 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:13:36 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	clean_exit(t_game *game, char *error, int exit_code)
 	if (exit_code != 0)
 	{
 		if (exit_code == EXIT_FAILURE)
-			write(2, "cube3D: ", 7);
+			write(2, "cube3D: ", 8);
 		if (exit_code == MAP_ERROR)
-			write(2, "Error: ", 6);
+			write(2, "Error: ", 7);
 		if (error)
 			write(2, error, ft_strlen(error));
 		write(2, "\n", 1);
