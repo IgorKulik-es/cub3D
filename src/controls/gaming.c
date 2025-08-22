@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 15:24:59 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/22 18:47:08 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void	move_player(t_game *game, int key)
 	if (new.x < 1.0f || new.x > game->map.width - 1 || new.y < 0
 		|| new.y > game->map.height - 1)
 		return ;
-	if (0 <= column && column < game->map.width && 0 <= row
-		&& row < game->map.height && game->map.map[row][column] != '1')
+	if (game->map.map[row][column] == '0' && cast_ray(game, game->screen.win_w / 2).dist > 0.25f && cast_ray(game, game->screen.win_w * 2.5f).dist > 0.25)
 		game->player.pos = new;
 }
 
