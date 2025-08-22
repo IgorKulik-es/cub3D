@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 14:13:36 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/22 14:20:01 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static void	check_arguments(int argc);
 int	main(int argc, char **argv)
 {
 	t_game	game;
-	int		dummy;
+	// int		dummy;
 
 	check_arguments(argc);
-	if (parse_cub(&game, argv[1]))
-		return (1);
 	initialize_data(&game);
 	create_dummy_map(&game);
 	game.mlx = mlx_init();
+	if (parse_cub(&game, argv[1]))
+		return (1);
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	game.screen.img = mlx_new_image(game.mlx, game.screen.win_w, game.screen.win_h);
 	game.screen.pixels = (int *)mlx_get_data_addr(game.screen.img, &dummy, &dummy, &dummy);

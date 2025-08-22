@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/22 00:27:13 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:20:42 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,12 @@ int parse_cub(t_game *game, char *path)
 		trimmed = ft_strtrim(line, " \n");
 		free(line);
 		line = trimmed;
+		if (line[0] == '\0')
+		{
+			free(line);
+			line = get_next_line(fd);
+			continue ;
+		}
 		if (ft_strncmp(line, "NO", 2) == 0)
 			load_texture(game, skip_spaces(line + 2), &game->texts.wall_n);
 		else if (ft_strncmp(line, "SO", 2) == 0)
@@ -131,16 +137,13 @@ int parse_cub(t_game *game, char *path)
 		else
 		{
 			free(line);
-			free(map_lines);
+			clean_double_array(map_lines, map_count);
 			clean_exit(game, "Invalid line in .cub", MAP_ERROR);
 		}
 		line = get_next_line(fd);
 	}
 	close(fd);
 	parse_map_lines(game, map_lines, map_count);
-	i = 0;
-	while (i < map_count)
-		free(map_lines[i++]);
-	free(map_lines);
+	clean_double_array(map_lines, map_count);
 	return (0);
 }
