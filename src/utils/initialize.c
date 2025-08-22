@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:49:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 17:24:17 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/22 15:19:45 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ void	initialize_data(t_game *data)
 	data->screen.win_w = WIN_WIDTH;
 	data->screen.half_w = WIN_WIDTH / 2;
 	data->screen.last_frame_time = get_time();
-	data->moving = 0;
+	data->player.moving = 0;
+	data->player.rotating = 0;
 }

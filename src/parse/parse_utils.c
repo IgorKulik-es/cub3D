@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/22 12:47:56 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:36:54 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ void	set_player(t_player *p, char c, int x, int y)
 }
 void	load_texture(t_game *game, char *path, t_img *dest)
 {
-	dest->img = mlx_xpm_file_to_image(game->mlx, path, &dest->width, &dest->height);
+	dest->img = mlx_xpm_file_to_image(game->mlx, path,
+			&dest->width, &dest->height);
+	dest->addr = (int *)mlx_get_data_addr(dest->img, &(dest->bpp),
+			&(dest->line_length), &(dest->endian));
 	if (!dest->img)
 		clean_exit(game, "Texture load failed", MAP_ERROR);
-	}
+}

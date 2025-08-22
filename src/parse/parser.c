@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/22 13:20:42 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:21:33 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int parse_cub(t_game *game, char *path)
 	int		map_count;
 	int		total_map_lines;
 	char	*trimmed;
-	int		i;
+	//int		i;
 
 	map_count = 0;
 	total_map_lines = count_map_lines(game, path);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaners.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 13:29:15 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:30:00 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	free_textures(t_game *game);
 
 int	close_game(t_game *data)
 {
+	mlx_do_key_autorepeaton(data->mlx);
 	if (data->screen.img)
 		mlx_destroy_image(data->mlx, data->screen.img);
 	if (data->win)
@@ -73,8 +74,8 @@ static void	free_texture(void *mlx, t_img *tex)
 
 static void	free_textures(t_game *game)
 {
-	free_texture(game->mlx, &game->texts.wall_n);
-	free_texture(game->mlx, &game->texts.wall_s);
-	free_texture(game->mlx, &game->texts.wall_w);
-	free_texture(game->mlx, &game->texts.wall_e);
+	free_texture(game->mlx, &(game->texts.wall_n));
+	free_texture(game->mlx, &(game->texts.wall_s));
+	free_texture(game->mlx, &(game->texts.wall_w));
+	free_texture(game->mlx, &(game->texts.wall_e));
 }

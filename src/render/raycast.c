@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 13:17:34 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/22 18:07:35 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,32 @@ void	calculate_steps(t_game *data, t_ray *ray, float column);
 t_pos	find_collision_neg_x(t_game *data, t_ray *ray);
 t_pos	find_collision_pos_x(t_game *data, t_ray *ray);
 
-void	create_screen(t_game *data)
-{
-	t_screen	*screen;
-	int			dummy;
-
-	screen = &(data->screen);
-	screen->img = mlx_new_image(data->mlx, screen->win_w, screen->win_h);
-	screen->pixels = (int *)mlx_get_data_addr(screen->img,
-			&dummy, &dummy, &dummy);
-}
-
-float	cast_ray(t_game *data, t_screen *screen, float column)
+t_hit	cast_ray(t_game *data, float column)
 {
 	t_ray	ray;
+	t_hit	hit;
 	t_pos	collision;
 
-	(void)screen;
 	calculate_steps(data, &ray, column);
 	find_intersects(data, data->player.pos, &ray);
-	//printf("view: %f %f\n", ray.view.x, ray.view.y);
-	//printf("start_x: %f %f, start_y: %f %f\n", ray.start_x.x, ray.start_x.y, ray.start_y.x, ray.start_y.y);
-	//printf("step_x: %f %f, step_y: %f %f\n", ray.step_x.x, ray.step_x.y, ray.step_y.x, ray.step_y.y);
 	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)
 		collision = find_collision_neg_x(data, &ray);
 	else
 		collision = find_collision_pos_x(data, &ray);
+	if (fabs(collision.y - roundf(collision.y)) < __FLT_EPSILON__)
+		hit.type = 'W' * (ray.view.y > 0) + 'E' * (ray.view.y <= 0);
+	else
+		hit.type = 'N' * (ray.view.x > 0) + 'S' * (ray.view.x <= 0);
+	hit.column = collision.x - floor(collision.x)
+		+ collision.y - floor(collision.y);
+/* 	if (hit.column < 0)
+		hit.column = hit.column + 1; */
 	collision = subtr_vectors(collision, data->player.pos);
 	if (fabs(ray.view.x - 0.0f) > __FLT_EPSILON__)
-		return (collision.x / ray.view.x);
-	return (collision.y / ray.view.y);
-	//printf("collision: %f %f\n", collision.x, collision.y);
-
+		hit.dist = collision.x / ray.view.x;
+	else
+		hit.dist = collision.y / ray.view.y;
+	return (hit);
 }
 
 void	find_intersects(t_game *data, t_pos player, t_ray *ray)
@@ -121,7 +115,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray)
 	{
 		if (data->map.map[(int)floor(ray->start_x.y)][(int)
 			roundf(ray->start_x.x)] == '1')
-				return (ray->start_x);
+			return (ray->start_x);
 		else
 		{
 			ray->start_x = add_vectors(ray->start_x, ray->step_x);
@@ -132,7 +126,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray)
 	{
 		if (data->map.map[(int)roundf(ray->start_y.y) - (ray->step_y.y < 0)]
 			[(int)floor(ray->start_y.x)] == '1')
-				return (ray->start_y);
+			return (ray->start_y);
 		else
 		{
 			ray->start_y = add_vectors(ray->start_y, ray->step_y);
@@ -140,5 +134,3 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray)
 		}
 	}
 }
-
-//t_pos	find_collision_orth(t_mlx_data *data, t_ray *ray, )

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 00:02:38 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:47:41 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@
 # define RIGHT 'd'
 # define ESC XK_Escape
 # define T_MICROSEC 1000000
-# define P_MOVE_SPEED 20000
-# define P_ROTATE_SPEED 100000
+# define P_MOVE_SPEED 500000
+# define P_ROTATE_SPEED 500000
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
+# define TEXTURE_SIZE 64
+# define P_POV 16 / 9.0f
 # define W 119
 # define A 97
 # define S 115
@@ -85,6 +87,8 @@ typedef struct s_player
 	t_pos	pos;
 	t_pos	facing;
 	t_pos	camera;
+	char	moving;
+	char	rotating;
 }			t_player;
 
 typedef struct s_ray_params
@@ -94,13 +98,19 @@ typedef struct s_ray_params
 	t_pos	start_y;
 	t_pos	step_x;
 	t_pos	step_y;
-	int		x_dir;
 }			t_ray;
+
+typedef struct s_hit_parameters
+{
+	float	dist;
+	char	type;
+	float	column;
+}			t_hit;
 
 typedef struct s_img
 {
 	void	*img;
-	char	*addr;
+	int		*addr;
 	int		bpp;
 	int		line_length;
 	int		endian;
@@ -134,7 +144,6 @@ typedef struct s_game_data
 	void		*mlx;
 	void		*win;
 	int			game_over;
-	char		moving;
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
@@ -158,11 +167,14 @@ t_pos	rotate_vector(t_pos vector, float angle);
 
 //rendering
 
-float	cast_ray(t_game *data, t_screen *screen, float x);
+t_hit	cast_ray(t_game *data, float column);
 int		render_frame(t_game *game);
-//gaming
+void	create_screen(t_game *game);
 
+//gaming
 void	move_player(t_game *game, int key);
+void	rotate_player(t_game *game, int key);
+
 //debug
 void	create_dummy_map(t_game *data);
 
