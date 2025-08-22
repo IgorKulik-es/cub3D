@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cub3D.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 00:24:07 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:13:36 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv)
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	game.screen.img = mlx_new_image(game.mlx, game.screen.win_w, game.screen.win_h);
 	game.screen.pixels = (int *)mlx_get_data_addr(game.screen.img, &dummy, &dummy, &dummy);
+	mlx_do_key_autorepeatoff(game.mlx);
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 0, key_release, &game);
 	mlx_hook(game.win, 17, 0L, close_game, &game);
