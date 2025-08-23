@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 16:47:41 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/23 17:07:30 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,6 @@ int		parse_cub(t_game *game, char *path);
 int		parse_rgb(t_game *game, char *str);
 int		is_map_line(char *line);
 void	set_player(t_player *p, char c, int x, int y);
-void	load_texture(t_game *game, char *path, t_img *dest);
+void	load_texture(t_game *game, char *path, t_img *dest, char **map_lines, int num, char *line);
 
 #endif
