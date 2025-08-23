@@ -55,8 +55,15 @@ void	move_player(t_game *game, int key)
 	if (new.x < 1.0f || new.x > game->map.width - 1 || new.y < 0
 		|| new.y > game->map.height - 1)
 		return ;
-	if (game->map.map[row][column] == '0' && cast_ray(game, game->screen.win_w / 2).dist > 0.25f && cast_ray(game, game->screen.win_w * 2.5f).dist > 0.25)
+	if (new.x - column > 0.25f && new.y - row > 0.25f
+		&& game->map.map[row][column] == '0')
 		game->player.pos = new;
+	// if (game->map.map[row][column] == '0' && key == W
+	// 		&& cast_ray(game, game->screen.win_w / 2).dist > 0.25f);
+	// 	game->player.pos = new;
+	// if (game->map.map[row][column] == '0' && key == S
+	// 		&& cast_ray(game, game->screen.win_w * (0.5f + M_PI / P_POV).dist > 0.25))
+	// 	game->player.pos = new;
 }
 
 void	rotate_player(t_game *game, int key)

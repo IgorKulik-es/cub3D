@@ -121,13 +121,13 @@ int parse_cub(t_game *game, char *path)
 			continue ;
 		}
 		if (ft_strncmp(line, "NO", 2) == 0)
-			load_texture(game, skip_spaces(line + 2), &game->texts.wall_n);
+			load_texture(game, skip_spaces(line + 2), &(game->texts.wall_n));
 		else if (ft_strncmp(line, "SO", 2) == 0)
-			load_texture(game, skip_spaces(line + 2), &game->texts.wall_s);
+			load_texture(game, skip_spaces(line + 2), &(game->texts.wall_s));
 		else if (ft_strncmp(line, "WE", 2) == 0)
-			load_texture(game, skip_spaces(line + 2), &game->texts.wall_w);
+			load_texture(game, skip_spaces(line + 2), &(game->texts.wall_w));
 		else if (ft_strncmp(line, "EA", 2) == 0)
-			load_texture(game, skip_spaces(line + 2), &game->texts.wall_e);
+			load_texture(game, skip_spaces(line + 2), &(game->texts.wall_e));
 		else if (ft_strncmp(line, "F", 1) == 0)
 			game->texts.bot_color = parse_rgb(game, skip_spaces(line + 1));
 		else if (ft_strncmp(line, "C", 1) == 0)

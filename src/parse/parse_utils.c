@@ -84,8 +84,8 @@ void	load_texture(t_game *game, char *path, t_img *dest)
 {
 	dest->img = mlx_xpm_file_to_image(game->mlx, path,
 			&dest->width, &dest->height);
-	dest->addr = (int *)mlx_get_data_addr(dest->img, &(dest->bpp),
-			&(dest->line_length), &(dest->endian));
 	if (!dest->img)
 		clean_exit(game, "Texture load failed", MAP_ERROR);
+	dest->addr = (int *)mlx_get_data_addr(dest->img, &(dest->bpp),
+			&(dest->line_length), &(dest->endian));
 }
