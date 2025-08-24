@@ -91,6 +91,28 @@ typedef struct s_player
 	char	rotating;
 }			t_player;
 
+typedef struct s_trapezoid
+{
+	int		left_height;
+	int		right_height;
+	int		width;
+	int		last_pxl_right;
+	int		x;
+	int		y;
+	float	top_pixel;
+	float	bot_pixel;
+	float	step_screen;
+	float	step_width;
+	float	step_height;
+	int		i_screen;
+	float	x_texture;
+	float	y_texture;
+	float	edge_left;
+	float	hor_portion;
+	float	edge_top;
+	float	vert_portion;
+}			t_trapz;
+
 typedef struct s_ray_params
 {
 	t_pos	view;
