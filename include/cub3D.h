@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/23 17:07:30 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/23 23:27:33 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,13 @@ typedef struct s_game_data
 	t_textures	texts;
 }			t_game;
 
+typedef struct s_parse_ctx
+{
+	char	*line;
+	char	**map_lines;
+	int		map_count;
+}	t_parse_ctx;
+
 //utils
 void	clean_exit(t_game *map, char *error, int exit_code);
 int		close_game(t_game *data);
@@ -183,6 +190,7 @@ int		parse_cub(t_game *game, char *path);
 int		parse_rgb(t_game *game, char *str);
 int		is_map_line(char *line);
 void	set_player(t_player *p, char c, int x, int y);
-void	load_texture(t_game *game, char *path, t_img *dest, char **map_lines, int num, char *line);
+void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx);
+void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg);
 
 #endif
