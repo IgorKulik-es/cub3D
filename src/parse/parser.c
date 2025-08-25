@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/24 21:46:30 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:36:55 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,42 +21,50 @@ void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg)
 	clean_exit(game, msg, MAP_ERROR);
 }
 
-void parse_map_lines(t_game *game, char **lines, int count)
+void parse_map_lines(t_game *game, t_parse_ctx *ctx)
 {
 	int width;
 	int i;
 	int x;
 	int y;
 	char c;
+	int		player_count;
 
 	width = 0;
 	i = 0;
-	while (i < count)
+	player_count = 0;
+	while (i < ctx->map_count)
 	{
-		if ((int)ft_strlen(lines[i]) > width)
-			width = ft_strlen(lines[i]);
+		if ((int)ft_strlen(ctx->map_lines[i]) > width)
+			width = ft_strlen(ctx->map_lines[i]);
 		i++;
 	}
-	game->map.height = count;
+	game->map.height = ctx->map_count;
 	game->map.width = width;
-	game->map.map = malloc(sizeof(char *) * count);
+	game->map.map = malloc(sizeof(char *) * ctx->map_count);
 	if (!game->map.map)
-		clean_exit(game, "Malloc failed", MAP_ERROR);
+		parser_error(game, ctx, "Malloc failed");
+	i = 0;
+	while (i < ctx->map_count)
+		game->map.map[i++] = NULL;
 	y = 0;
-	while (y < count)
+	while (y < ctx->map_count)
 	{
 		game->map.map[y] = malloc(sizeof(char) * (width + 1));
 		if (!game->map.map[y])
-			clean_exit(game, "Malloc failed", MAP_ERROR);
+			parser_error(game, ctx, "Malloc failed");
 		x = 0;
 		while (x < width)
 		{
-			if (x < (int)ft_strlen(lines[y]))
-				c = lines[y][x];
+			if (x < (int)ft_strlen(ctx->map_lines[y]))
+				c = ctx->map_lines[y][x];
 			else
 				c = ' ';
 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 			{
+				player_count++;
+				if (player_count > 1)
+					parser_error(game, ctx, "Multiple player positions found");
 				set_player(&game->player, c, x, y);
 				c = '0';
 			}
@@ -77,18 +85,22 @@ char *skip_spaces(char *str)
 
 int count_map_lines(t_game *game, char *path)
 {
-	int fd;
-	int count;
-	char *line;
+	int	fd;
+	int	count;
+	char	*line;
+	int	in_map;
 
 	count = 0;
+	in_map = 0;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		clean_exit(game, "Cannot open .cub file", MAP_ERROR);
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (is_map_line(line))
+		if (!in_map && is_map_start(line))
+			in_map = 1;
+		if (in_map)
 			count++;
 		free(line);
 		line = get_next_line(fd);
@@ -104,8 +116,6 @@ void	validate_map(t_game *game, char **map_lines, int map_count)
 	char	c;
 
 	y = 0;
-	// for (int i = 0; i < game->map.height; i++)
-	// printf("'%s'\n", game->map.map[i]);
 	while ( y < game->map.height)
 	{
 		x = 0;
@@ -156,14 +166,11 @@ int parse_cub(t_game *game, char *path)
 	if (fd < 0)
 		parser_error(game, &ctx, "Cannot open .cub file");
 	ctx.line = get_next_line(fd);
-	while (ctx.line)
+	while (ctx.line && !is_map_start(ctx.line))
 	{
-		if (!is_map_line(ctx.line))
-		{
-			trimmed = ft_strtrim(ctx.line, " \n");
-			free(ctx.line);
-			ctx.line = trimmed;
-		}
+		trimmed = ft_strtrim(ctx.line, " \n");
+		free(ctx.line);
+		ctx.line = trimmed;
 		if (ctx.line[0] == '\0')
 		{
 			free(ctx.line);
@@ -180,19 +187,18 @@ int parse_cub(t_game *game, char *path)
 			load_texture(game, skip_spaces(ctx.line + 2), &game->texts.wall_e, &ctx);
 			else if (ft_strncmp(ctx.line, "F", 1) == 0 || ft_strncmp(ctx.line, "C", 1) == 0)
 			handle_color_line(game, ctx.line);
-		else if (is_map_line(ctx.line))
-		{
-			ctx.map_lines[ctx.map_count++] = ctx.line;
-			ctx.line = get_next_line(fd);
-			continue ;
-		}
 		else
 			parser_error(game, &ctx, "Invalid line in .cub");
 		free(ctx.line);
 		ctx.line = get_next_line(fd);
 	}
+	while (ctx.line)
+	{
+		ctx.map_lines[ctx.map_count++] = ctx.line;
+		ctx.line = get_next_line(fd);
+	}
 	close(fd);
-	parse_map_lines(game, ctx.map_lines, ctx.map_count);
+	parse_map_lines(game, &ctx);
 	validate_map(game, ctx.map_lines, ctx.map_count);
 	clean_double_array(ctx.map_lines, ctx.map_count);
 	return (0);

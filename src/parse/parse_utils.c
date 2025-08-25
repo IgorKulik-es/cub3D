@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/24 21:45:36 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:46:33 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	parse_rgb(t_game *game, char *str)
 	return ((r << 16) | (g << 8) | b);
 }
 
-int	is_map_line(char *line)
+int	is_map_start(char *line)
 {
 	int	i;
 	int	flag;
