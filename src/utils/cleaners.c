@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaners.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 15:30:00 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/23 17:14:10 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ int	close_game(t_game *data)
 		mlx_destroy_image(data->mlx, data->screen.img);
 	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
-	if (data->mlx)
-	{
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-	}
 	clean_exit(data, "OK", 0);
 	return (0);
 }
@@ -43,9 +38,14 @@ void	clean_exit(t_game *game, char *error, int exit_code)
 			write(2, error, ft_strlen(error));
 		write(2, "\n", 1);
 	}
+	free_textures(game);
 	if (game->map.map)
 		clean_double_array(game->map.map, game->map.height);
-	free_textures(game);
+	if (game->mlx)
+	{
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
 	exit(exit_code);
 }
 

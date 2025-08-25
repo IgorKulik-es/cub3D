@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/22 16:36:54 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 15:56:55 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ int	parse_rgb(t_game *game, char *str)
 	return ((r << 16) | (g << 8) | b);
 }
 
-int	is_map_line(char *line)
+int	is_map_start(char *line)
 {
 	int	i;
 	int	flag;
 
 	i = 0;
 	flag = 0;
-	while (line[i])
+	while (line[i] && line[i] != '\n')
 	{
 		if (line[i] != ' ' && line[i] != '0' && line[i] != '1' &&
 			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' &&
@@ -80,12 +80,12 @@ void	set_player(t_player *p, char c, int x, int y)
 		p->camera = (t_pos){0, -1};
 	}
 }
-void	load_texture(t_game *game, char *path, t_img *dest)
+void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx)
 {
 	dest->img = mlx_xpm_file_to_image(game->mlx, path,
 			&dest->width, &dest->height);
 	if (!dest->img)
-		clean_exit(game, "Texture load failed", MAP_ERROR);
+		parser_error(game, ctx, "Texture load failed");
 	dest->addr = (int *)mlx_get_data_addr(dest->img, &(dest->bpp),
 			&(dest->line_length), &(dest->endian));
 }
