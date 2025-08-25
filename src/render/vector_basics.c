@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basics.c                                           :+:      :+:    :+:   */
+/*   vector_basics.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:06:50 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/19 17:16:32 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 16:50:08 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,9 @@ t_pos	rotate_vector(t_pos vector, float angle)
 	result.x = m_cos * vector.x - m_sin * vector.y;
 	result.y = m_sin * vector.x + m_cos * vector.y;
 	return (result);
+}
+
+float	vector_length(t_pos vector)
+{
+	return (sqrtf(vector.x * vector.x + vector.y * vector.y));
 }

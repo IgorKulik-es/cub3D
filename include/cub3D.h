@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 15:56:02 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 20:02:13 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 
 # define TOTAL 1
 # define PARTIAL 0
+# define HIT 1
+# define MISS 0
+# define D_TYPE_VERT 1
+# define D_TYPE_HOR 0
 # define MAP_ERROR 2
 # define WALL '1'
 # define EMPTY '0'
@@ -128,6 +132,7 @@ typedef struct s_hit_parameters
 	float	dist;
 	char	type;
 	float	column;
+	t_pos	point;
 }			t_hit;
 
 typedef struct s_img
@@ -151,6 +156,16 @@ typedef struct s_textures
 	int		top_color;
 	int		wall_color;
 }			t_textures;
+
+typedef struct s_door_anim
+{
+	int		x;
+	int		y;
+	float	height;
+	int		state;
+	int		type;
+}			t_door;
+
 
 typedef struct s_screen_data
 {
@@ -194,10 +209,19 @@ t_pos	mult_scalar(t_pos vector, float mult);
 t_pos	add_vectors(t_pos a, t_pos b);
 t_pos	subtr_vectors(t_pos a, t_pos b);
 t_pos	rotate_vector(t_pos vector, float angle);
+float	vector_length(t_pos vector);
+float	tangent_known_length(t_pos a, t_pos b, float len_a, float len_b);
+
+//raycasting
+
+t_hit	cast_ray(t_game *data, float column);
+void	find_intersects(t_game *data, t_pos player, t_ray *ray);
+t_pos	find_collision_neg_x(t_game *data, t_ray *ray);
+t_pos	find_collision_pos_x(t_game *data, t_ray *ray);
+t_hit	check_visibility(t_game *game, t_pos start, t_pos end);
 
 //rendering
 
-t_hit	cast_ray(t_game *data, float column);
 int		render_frame(t_game *game);
 void	create_screen(t_game *game);
 void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
@@ -205,7 +229,7 @@ void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
 //gaming
 void	move_player(t_game *game, int key);
 void	rotate_player(t_game *game, int key);
-bool	check_wall_collision(t_game *game, t_pos new);
+bool	check_wall_collision(t_game *game, t_pos *new);
 
 //debug
 void	create_dummy_map(t_game *data);

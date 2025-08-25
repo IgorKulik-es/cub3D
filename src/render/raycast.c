@@ -6,16 +6,13 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 18:07:35 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 19:44:42 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3D.h"
 
-void	find_intersects(t_game *data, t_pos player, t_ray *ray);
 void	calculate_steps(t_game *data, t_ray *ray, float column);
-t_pos	find_collision_neg_x(t_game *data, t_ray *ray);
-t_pos	find_collision_pos_x(t_game *data, t_ray *ray);
 
 t_hit	cast_ray(t_game *data, float column)
 {
@@ -35,8 +32,6 @@ t_hit	cast_ray(t_game *data, float column)
 		hit.type = 'N' * (ray.view.x > 0) + 'S' * (ray.view.x <= 0);
 	hit.column = collision.x - floor(collision.x)
 		+ collision.y - floor(collision.y);
-/* 	if (hit.column < 0)
-		hit.column = hit.column + 1; */
 	collision = subtr_vectors(collision, data->player.pos);
 	if (fabs(ray.view.x - 0.0f) > __FLT_EPSILON__)
 		hit.dist = collision.x / ray.view.x;
@@ -88,7 +83,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray)
 	if (ray->start_x.x > ray->start_y.x)
 	{
 		if (data->map.map[(int)floor(ray->start_x.y)][(int)
-			roundf(ray->start_x.x) - 1] == '1')
+			roundf(ray->start_x.x) - 1] != '0')
 			return (ray->start_x);
 		else
 		{
@@ -99,7 +94,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray)
 	else
 	{
 		if (data->map.map[(int)roundf(ray->start_y.y) - (ray->step_y.y < 0)]
-			[(int)floor(ray->start_y.x)] == '1')
+			[(int)floor(ray->start_y.x)] != '0')
 			return (ray->start_y);
 		else
 		{
@@ -114,7 +109,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray)
 	if (ray->start_x.x < ray->start_y.x)
 	{
 		if (data->map.map[(int)floor(ray->start_x.y)][(int)
-			roundf(ray->start_x.x)] == '1')
+			roundf(ray->start_x.x)] != '0')
 			return (ray->start_x);
 		else
 		{
@@ -125,7 +120,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray)
 	else
 	{
 		if (data->map.map[(int)roundf(ray->start_y.y) - (ray->step_y.y < 0)]
-			[(int)floor(ray->start_y.x)] == '1')
+			[(int)floor(ray->start_y.x)] != '0')
 			return (ray->start_y);
 		else
 		{

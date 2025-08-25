@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 15:56:28 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 15:58:23 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ int	main(int argc, char **argv)
 	game.mlx = mlx_init();
 	if (parse_cub(&game, argv[1]))
 		return (1);
-	// create_screen(&game);
-	// mlx_do_key_autorepeatoff(game.mlx);
-	// printf("texture params: %d %d\n", game.texts.wall_n.width, game.texts.wall_n.height);
-	// game.player.camera = mult_scalar(game.player.camera, P_POV);
-	// mlx_hook(game.win, 2, 1L << 0, key_press, &game);
-	// mlx_hook(game.win, 3, 1L << 1, key_release, &game);
-	// mlx_hook(game.win, 17, 0L, close_game, &game);
-	// mlx_loop_hook(game.mlx, render_frame, &game);
-	// mlx_loop(game.mlx);
+	create_screen(&game);
+	mlx_do_key_autorepeatoff(game.mlx);
+	printf("texture params: %d %d\n", game.texts.wall_n.width, game.texts.wall_n.height);
+	game.player.camera = mult_scalar(game.player.camera, P_POV);
+	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
+	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
+	mlx_hook(game.win, 17, 0L, close_game, &game);
+	mlx_loop_hook(game.mlx, render_frame, &game);
+	mlx_loop(game.mlx);
 }
 
 static void	check_arguments(int argc)
