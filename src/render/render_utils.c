@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:31:15 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/23 15:31:15 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 13:06:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz)
 
 	trpz.top_pixel = trpz.y;
 	trpz.bot_pixel = trpz.y + trpz.left_height;
+	trpz.last_pxl_right = trpz.x + trpz.width;
 	trpz.step_screen = (trpz.right_height - trpz.left_height)
 		/ (float)(trpz.width);
 	trpz.i_screen = trpz.x;
-	trpz.i_texture = texture.width * trpz.edge_left;
+	trpz.x_texture = texture->width * trpz.edge_left;
 	trpz.step_width = (1.0f / trpz.width) * trpz.hor_portion * texture->width;
 	while (trpz.i_screen <= trpz.last_pxl_right)
 	{

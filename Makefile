@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/21 18:44:28 by vtrofyme         ###   ########.fr        #
+#    Updated: 2025/08/25 14:15:19 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c
 
 PARSE		= parser.c parse_utils.c
 
-CONTROLS	= gaming.c
+CONTROLS	= gaming.c colliders.c
 
-RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c
+RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils

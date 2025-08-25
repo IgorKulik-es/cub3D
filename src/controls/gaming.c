@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 18:47:08 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 14:47:25 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,15 @@ int	key_release(int key, t_game *game)
 void	move_player(t_game *game, int key)
 {
 	t_pos	new;
-	time_t	c_time;
 	float	mult;
-	int		column;
-	int		row;
 
-	c_time = get_time();
-	mult = (c_time - game->screen.last_frame_time) / (float)P_MOVE_SPEED;
+	mult = (get_time() - game->screen.last_frame_time) / (float)P_MOVE_SPEED;
 	if (key == S)
 		mult *= -1;
 	new = mult_scalar(game->player.facing, mult);
 	new = add_vectors(game->player.pos, new);
-	column = (int)(floor(new.x));
-	row = (int)(floor(new.y));
-	if (new.x < 1.0f || new.x > game->map.width - 1 || new.y < 0
-		|| new.y > game->map.height - 1)
-		return ;
-	if (new.x - column > 0.25f && new.y - row > 0.25f
-		&& game->map.map[row][column] == '0')
+	if (check_wall_collision(game, new))
 		game->player.pos = new;
-	// if (game->map.map[row][column] == '0' && key == W
-	// 		&& cast_ray(game, game->screen.win_w / 2).dist > 0.25f);
-	// 	game->player.pos = new;
-	// if (game->map.map[row][column] == '0' && key == S
-	// 		&& cast_ray(game, game->screen.win_w * (0.5f + M_PI / P_POV).dist > 0.25))
-	// 	game->player.pos = new;
 }
 
 void	rotate_player(t_game *game, int key)

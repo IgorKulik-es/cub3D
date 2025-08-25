@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 18:36:34 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 13:16:26 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	render_frame(t_game *game)
 	float	column;
 	t_hit	hit;
 	time_t	time;
+	t_trapz	trpz;
 	// time_t	fps;
 
 	column = 0;
@@ -49,6 +50,16 @@ int	render_frame(t_game *game)
 		put_vert_line(game, column, hit);
 		column += 1;
 	}
+	trpz.x = 600;
+	trpz.y = 600;
+	trpz.left_height = 300;
+	trpz.right_height = 500;
+	trpz.width = 500;
+	trpz.edge_left = 0.2f;
+	trpz.hor_portion = 0.5f;
+	trpz.edge_top = 0.2f;
+	trpz.vert_portion = 0.5f;
+	//put_tapezoid_to_img(&(game->screen), &(game->texts.wall_n), trpz);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
 	// printf("fps: %d\n", (int)fps);
 	return (0);

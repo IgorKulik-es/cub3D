@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/22 16:47:41 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/25 14:47:19 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define TEXTURE_SIZE 64
-# define P_POV 16 / 9.0f
+# define P_POV 1.7777777f
+# define P_WALL_LIMIT 0.25f
 # define W 119
 # define A 97
 # define S 115
@@ -192,10 +193,12 @@ t_pos	rotate_vector(t_pos vector, float angle);
 t_hit	cast_ray(t_game *data, float column);
 int		render_frame(t_game *game);
 void	create_screen(t_game *game);
+void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
 
 //gaming
 void	move_player(t_game *game, int key);
 void	rotate_player(t_game *game, int key);
+bool	check_wall_collision(t_game *game, t_pos new);
 
 //debug
 void	create_dummy_map(t_game *data);
