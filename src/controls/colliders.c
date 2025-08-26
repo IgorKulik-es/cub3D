@@ -42,7 +42,7 @@ bool	check_wall_collision(t_game *game, t_pos *new)
 		new->x = game->player.pos.x;
 	if (row != new_row && column != new_col && game->map.map[new_col][new_row] == '1')
 	{
-		if (fabsf(game->player.facing.x) > fabsf(game->player.facing.y))
+		if (wall_dist.x > wall_dist.y)
 			new->x = game->player.pos.x;
 		else
 			new->y = game->player.pos.y;
@@ -67,6 +67,7 @@ bool	check_wall_collision(t_game *game, t_pos *new)
 t_pos	find_first_collision(t_game *game, t_pos start, t_pos end)
 {
 	t_ray	ray;
+	t_hit	hit;
 	t_pos	collision;
 
 	ft_bzero(&ray, sizeof(t_ray));
@@ -77,9 +78,9 @@ t_pos	find_first_collision(t_game *game, t_pos start, t_pos end)
 	if (fabs(ray.view.y - 0.0f) > __FLT_EPSILON__)
 		ray.step_y = mult_scalar(ray.view, 1.0f / fabs(ray.view.y));
 	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)
-		collision = find_collision_neg_x(game, &ray);
+		collision = find_collision_neg_x(game, &ray, &hit);
 	else
-		collision = find_collision_pos_x(game, &ray);
+		collision = find_collision_pos_x(game, &ray, &hit);
 	start = subtr_vectors(collision, start);
 	if (fabs(start.x) > fabs(ray.view.x) || fabs(start.y) > fabs(ray.view.y))
 		return (end);
