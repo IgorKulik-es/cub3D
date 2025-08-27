@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:21:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 18:54:09 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 12:52:52 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	check_wall_collision(t_game *game, t_pos *new)
 		new->x = game->player.pos.x;
 	if (row != new_row && column != new_col && game->map.map[new_col][new_row] == '1')
 	{
-		if (wall_dist.x > wall_dist.y)
+		if (fabsf(roundf(game->player.pos.x) - game->player.pos.x) > fabsf(roundf(game->player.pos.y) - game->player.pos.y))
 			new->x = game->player.pos.x;
 		else
 			new->y = game->player.pos.y;

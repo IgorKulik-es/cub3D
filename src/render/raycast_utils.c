@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 13:12:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/26 13:12:00 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 12:48:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit)
 
 t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 {
-	if (ray->start_x.x > ray->start_y.x)
+	if (ray->start_x.x < ray->start_y.x)
 	{
 		hit->tile.y = (int)floor(ray->start_x.y);
 		hit->tile.x = (int)roundf(ray->start_x.x);
@@ -77,7 +77,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 		if (ray->obst != '0')
 			return (ray->start_x);
 		ray->start_x = add_vectors(ray->start_x, ray->step_x);
-		return (find_collision_neg_x(data, ray, hit));
+		return (find_collision_pos_x(data, ray, hit));
 	}
 	hit->tile.y = (int)roundf(ray->start_y.y) - (ray->step_y.y < 0);
 	hit->tile.x = (int)floor(ray->start_y.x);
@@ -88,7 +88,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 	if (ray->obst != '0')
 		return (ray->start_y);
 	ray->start_y = add_vectors(ray->start_y, ray->step_y);
-	return (find_collision_neg_x(data, ray, hit));
+	return (find_collision_pos_x(data, ray, hit));
 }
 
 void	check_door_hit(t_game *game, t_ray *ray, t_hit *hit)
@@ -117,7 +117,7 @@ void	check_door_hit(t_game *game, t_ray *ray, t_hit *hit)
 		visible_door = hit->point.x + ray->step_x.y - hit->tile.x;
 	if (visible_door > 1 || visible_door < 0)
 	{
-		hit->type = DOOR_WALL;
+		ray->obst = DOOR_WALL;
 		if (door->type == D_TYPE_VERT)
 			hit->column = modff(ray->start_x.x, &(float){0});
 		else

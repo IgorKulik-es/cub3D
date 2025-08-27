@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 19:44:42 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 12:45:14 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ t_hit	cast_ray(t_game *data, float column)
 		collision = find_collision_neg_x(data, &ray, &hit);
 	else
 		collision = find_collision_pos_x(data, &ray, &hit);
-	if (hit.type == '1')
+	hit.type = get_hit_type(&ray, collision);
+	if (ray.obst == '1')
 		hit.column = collision.x - floor(collision.x)
 			+ collision.y - floor(collision.y);
 	collision = subtr_vectors(collision, data->player.pos);
-	hit.type = get_hit_type(&ray, collision);
 	if (fabs(ray.view.x - 0.0f) > __FLT_EPSILON__)
 		hit.dist = collision.x / ray.view.x;
 	else
