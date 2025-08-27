@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 13:16:26 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 13:26:10 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int	get_wall_pixel(t_game *game, t_hit hit, float height)
 		return ((game->texts.wall_w.addr)[coord]);
 	else if (hit.type == 'E')
 		return ((game->texts.wall_e.addr)[coord]);
+	else if (hit.type == 'D')
+		return (((game->texts.wall_e.addr)[coord]));
 	else
 		return (0);
 }

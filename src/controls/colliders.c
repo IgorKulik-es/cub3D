@@ -6,11 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:21:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 12:52:52 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 13:23:57 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3D.h"
+#include "cub3D.h"
 
 bool	check_wall_collision(t_game *game, t_pos *new)
 {
@@ -47,21 +47,7 @@ bool	check_wall_collision(t_game *game, t_pos *new)
 		else
 			new->y = game->player.pos.y;
 	}
-	//printf("player %f %f new tile x %d %d, new tile y %d %d\n", game->player.pos.x, game->player.pos.y, column, new_row, new_col, row);
-/* 	printf("dist: %f %f, player: %f %f ", wall_dist.x, wall_dist.y, game->player.pos.x, game->player.pos.y);
-	if (wall_dist.x > P_WALL_LIMIT && wall_dist.y > P_WALL_LIMIT)
-		return (true);
-	new_row = row;
-	new_col = column;
-	if (wall_dist.x < P_WALL_LIMIT)
-		new_row += (roundf(new->x) - new->x > 0) - (roundf(new->x) - new->x < 0);
-	if (wall_dist.x < P_WALL_LIMIT)
-		new_col += (roundf(new->y) - new->y > 0) - (roundf(new->y) - new->y < 0);
-	if (wall_dist.x < P_WALL_LIMIT && (game->map.map[column][new_row] != '0'))
-		new->x = game->player.pos.x;
-	if (wall_dist.y < P_WALL_LIMIT && (game->map.map[new_col][row] != '0'))
-		new->y = game->player.pos.y;
- */	return (true);
+	return (true);
 }
 
 t_pos	find_first_collision(t_game *game, t_pos start, t_pos end)
