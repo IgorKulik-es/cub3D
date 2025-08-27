@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 15:58:23 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 16:20:17 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@ int	main(int argc, char **argv)
 	mlx_do_key_autorepeatoff(game.mlx);
 	printf("texture params: %d %d\n", game.texts.wall_n.width, game.texts.wall_n.height);
 	game.player.camera = mult_scalar(game.player.camera, P_POV);
+	game.debug_printed = 0;
+	game.num_doors = 1;
+	game.map.map[9][17] = 'D';
+	game.doors[0].y = 9;
+	game.doors[0].x = 17;
+	game.doors[0].width = 1;
+	game.doors[0].type = D_TYPE_VERT;
+	game.doors[0].moving = -1;
+	game.doors[0].state = 1;
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
 	mlx_hook(game.win, 17, 0L, close_game, &game);

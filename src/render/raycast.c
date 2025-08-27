@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 12:45:14 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 13:59:01 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@ t_hit	cast_ray(t_game *data, float column)
 {
 	t_ray	ray;
 	t_hit	hit;
-	t_pos	collision;
+	t_pos	vector;
 
 	calculate_steps(data, &ray, column);
 	find_intersects(data, data->player.pos, &ray);
 	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)
-		collision = find_collision_neg_x(data, &ray, &hit);
+		find_collision_neg_x(data, &ray, &hit);
 	else
-		collision = find_collision_pos_x(data, &ray, &hit);
-	hit.type = get_hit_type(&ray, collision);
+		find_collision_pos_x(data, &ray, &hit);
+	hit.type = get_hit_type(&ray, hit.point);
 	if (ray.obst == '1')
-		hit.column = collision.x - floor(collision.x)
-			+ collision.y - floor(collision.y);
-	collision = subtr_vectors(collision, data->player.pos);
+		hit.column = hit.point.x - floor(hit.point.x)
+			+ hit.point.y - floor(hit.point.y);
+	vector = subtr_vectors(hit.point, data->player.pos);
 	if (fabs(ray.view.x - 0.0f) > __FLT_EPSILON__)
-		hit.dist = collision.x / ray.view.x;
+		hit.dist = vector.x / ray.view.x;
 	else
-		hit.dist = collision.y / ray.view.y;
+		hit.dist = vector.y / ray.view.y;
 	return (hit);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:54:45 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 20:07:02 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 13:40:36 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_door	*find_door(t_game *game, t_coords wall)
 	index = 0;
 	while (index < game->num_doors)
 	{
-		if (game->doors[index].x == wall.x && game->doors[index].y == wall.y)
+		if ((game->doors[index]).x == wall.x && (game->doors[index]).y == wall.y)
 			return &(game->doors[index]);
 		index++;
 	}

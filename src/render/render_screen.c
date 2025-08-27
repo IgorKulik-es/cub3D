@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 13:26:10 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 16:39:06 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,17 @@ int	render_frame(t_game *game)
 	float	column;
 	t_hit	hit;
 	time_t	time;
-	// time_t	fps;
+	//time_t	fps;
 
 	column = 0;
 	if (game->player.moving)
 		move_player(game, game->player.moving);
 	if (game->player.rotating)
 		rotate_player(game, game->player.rotating);
+	move_door(game, &(game->doors[0]));
 	time = get_time();
-	// fps = T_MICROSEC / (time - game->screen.last_frame_time);
+	//fps = T_MICROSEC / (time - game->screen.last_frame_time);
+	//printf("fps: %d\n", (int)fps);
 	game->screen.last_frame_time = time;
 	while (column < game->screen.win_w)
 	{
@@ -49,8 +51,8 @@ int	render_frame(t_game *game)
 		put_vert_line(game, column, hit);
 		column += 1;
 	}
+	//printf("player: %f %f\n", game->player.pos.y, game->player.pos.x);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
-	// printf("fps: %d\n", (int)fps);
 	return (0);
 }
 
@@ -100,7 +102,9 @@ int	get_wall_pixel(t_game *game, t_hit hit, float height)
 	else if (hit.type == 'E')
 		return ((game->texts.wall_e.addr)[coord]);
 	else if (hit.type == 'D')
-		return (((game->texts.wall_e.addr)[coord]));
+		return ((game->texts.wall_e.addr)[coord]);
+	else if (hit.type == DOOR_WALL)
+		return ((game->texts.wall_e.addr)[coord]);
 	else
 		return (0);
 }

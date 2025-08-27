@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 11:06:24 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:56:42 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define MISS 0
 # define D_TYPE_VERT 1
 # define D_TYPE_HOR 0
+# define D_STATE_CLOSED 1
+# define D_STATE_OPEN 0
 # define DOOR_WALL 'F'
 # define MAP_ERROR 2
 # define WALL '1'
@@ -43,6 +45,7 @@
 # define ESC XK_Escape
 # define T_MICROSEC 1000000
 # define P_MOVE_SPEED 500000
+# define P_DOOR_SPEED 2000000
 # define P_ROTATE_SPEED 500000
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
@@ -171,8 +174,9 @@ typedef struct s_door_anim
 {
 	int		x;
 	int		y;
-	float	height;
-	int		state;
+	float	width;
+	bool	state;
+	int		moving;
 	int		type;
 }			t_door;
 
@@ -192,13 +196,14 @@ typedef struct s_game_data
 	void		*mlx;
 	void		*win;
 	int			game_over;
+	int			debug_printed;
 	int			num_doors;
 	int			dist[WIN_WIDTH];
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
-	t_textures	texts;	
-	t_door		*doors;
+	t_textures	texts;
+	t_door		doors[5];
 }			t_game;
 
 typedef struct s_parse_ctx
@@ -243,6 +248,7 @@ void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
 //gaming
 void	move_player(t_game *game, int key);
 void	rotate_player(t_game *game, int key);
+void	move_door(t_game *game, t_door *door);
 bool	check_wall_collision(t_game *game, t_pos *new);
 
 //debug

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 13:12:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 12:48:34 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 16:04:40 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,33 +94,45 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 void	check_door_hit(t_game *game, t_ray *ray, t_hit *hit)
 {
 	t_door	*door;
+	t_pos	door_hit;
 	float	visible_door;
 
 	door = find_door(game, hit->tile);
-	if (door == NULL)
+	if (door->type == D_TYPE_VERT)
 	{
-		ray->obst = EMPTY;
+		door_hit = add_vectors(hit->point, mult_scalar(ray->step_x, 0.5f));
+		visible_door = door_hit.y - hit->tile.y;
+	}
+	else
+	{
+		door_hit = add_vectors(hit->point, mult_scalar(ray->step_y, 0.5f));
+		visible_door = door_hit.x - hit->tile.x;
+	}
+	if (door->width > visible_door && visible_door > 0)
+	{
+		hit->column = door->width - visible_door;
+		hit->point = door_hit;
 		return ;
 	}
+	ray->obst = '0';
 	if (door->type == D_TYPE_VERT)
-		visible_door = hit->point.y + 0.5f * ray->step_y.x;
-	else
-		visible_door = hit->point.x + 0.5f * ray->step_x.y;
-	if (door->state > visible_door && visible_door > 0)
 	{
-		hit->column = visible_door / door->state;
-		return ;
+		door_hit = ray->start_y;
+		visible_door = door_hit.x - hit->tile.x;
 	}
-	if (door->type == D_TYPE_VERT)
-		visible_door = hit->point.y + ray->step_y.x - hit->tile.y;
 	else
-		visible_door = hit->point.x + ray->step_x.y - hit->tile.x;
-	if (visible_door > 1 || visible_door < 0)
+	{
+		door_hit = ray->start_x;
+		visible_door = door_hit.y - hit->tile.y;
+	}
+	if (game->debug_printed == 0)
+		printf("visible wall %f\n", visible_door);
+	game->debug_printed = 1;
+	if (0 < visible_door && visible_door < 1)
 	{
 		ray->obst = DOOR_WALL;
-		if (door->type == D_TYPE_VERT)
-			hit->column = modff(ray->start_x.x, &(float){0});
-		else
-			hit->column = modff(ray->start_y.y, &(float){0});
+		hit->type = DOOR_WALL;
+		hit->point = door_hit;
+		hit->column = visible_door;
 	}
 }
