@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 09:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/27 11:45:17 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:59:32 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ static void	validate_cell(t_game *game, t_parse_ctx *ctx, int x, int y)
 
 	c = game->map.map[y][x];
 	if (c != '1' && c != '0' && c != 'N' && c != 'S'
-		&& c != 'E' && c != 'W' && c != ' ' && c != '\n')
+		&& c != 'E' && c != 'W' && c != ' ' && c != '\n' && c != 'D')
 	{
 		clean_double_array(ctx->map_lines, ctx->map_count);
 		clean_exit(game, "Invalid character in map", MAP_ERROR);
 	}
-	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D')
 	{
 		if (y == 0 || x == 0 || y == game->map.height - 1
 			|| x == game->map.width - 1)

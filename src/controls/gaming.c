@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 17:13:13 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 19:28:38 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	key_press(int key, t_game *game)
 		game->player.moving = key;
 	if (key == A || key == D)
 		game->player.rotating = key;
+	if (key == SPACE)
+		open_door(game);
 	return (0);
 }
 
@@ -46,7 +48,7 @@ void	move_player(t_game *game, int key)
 		mult *= -1;
 	new = mult_scalar(game->player.facing, mult);
 	new = add_vectors(game->player.pos, new);
-	if (check_wall_collision(game, &new))
+	if (check_collision(game, &new))
 		game->player.pos = new;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaners.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 10:19:18 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:12:06 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	clean_exit(t_game *game, char *error, int exit_code)
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
+	if (game->doors)
+		free(game->doors);
 	exit(exit_code);
 }
 
@@ -78,4 +80,5 @@ static void	free_textures(t_game *game)
 	free_texture(game->mlx, &(game->texts.wall_s));
 	free_texture(game->mlx, &(game->texts.wall_w));
 	free_texture(game->mlx, &(game->texts.wall_e));
+	free_texture(game->mlx, &(game->texts.door));
 }

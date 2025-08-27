@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 16:56:42 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 20:14:25 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define T_MICROSEC 1000000
 # define P_MOVE_SPEED 500000
 # define P_DOOR_SPEED 2000000
+# define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 500000
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
@@ -53,11 +54,12 @@
 # define WIN_HEIGHT 1080
 # define TEXTURE_SIZE 64
 # define P_POV 1.7777777f
-# define P_WALL_LIMIT 0.25f
+# define P_WALL_D 0.25f
 # define W 119
 # define A 97
 # define S 115
 # define D 100
+# define SPACE 32
 # define C_RED "\001\x1B[31m\002"
 # define C_GRN "\001\x1B[32m\002"
 # define C_YELLOW "\001\x1B[33m\002"
@@ -165,6 +167,7 @@ typedef struct s_textures
 	t_img	wall_s;
 	t_img	wall_w;
 	t_img	wall_e;
+	t_img	door;
 	int		bot_color;
 	int		top_color;
 	int		wall_color;
@@ -178,6 +181,7 @@ typedef struct s_door_anim
 	bool	state;
 	int		moving;
 	int		type;
+	time_t	last_open;
 }			t_door;
 
 
@@ -203,7 +207,7 @@ typedef struct s_game_data
 	t_map_data	map;
 	t_player	player;
 	t_textures	texts;
-	t_door		doors[5];
+	t_door		*doors;
 }			t_game;
 
 typedef struct s_parse_ctx
@@ -237,7 +241,7 @@ void	find_intersects(t_game *data, t_pos player, t_ray *ray);
 t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit);
 t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit);
 t_hit	check_visibility(t_game *game, t_pos start, t_pos end);
-t_door	*find_door(t_game *game, t_coords wall);
+t_door	*find_door(t_game *game, int x, int y);
 
 //rendering
 
@@ -249,14 +253,15 @@ void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
 void	move_player(t_game *game, int key);
 void	rotate_player(t_game *game, int key);
 void	move_door(t_game *game, t_door *door);
-bool	check_wall_collision(t_game *game, t_pos *new);
+bool	check_collision(t_game *game, t_pos *new);
+void	open_door(t_game *game);
 
 //debug
 void	create_dummy_map(t_game *data);
 
 //parse
 int		parse_cub(t_game *game, char *path);
-int		parse_rgb(t_game *game,t_parse_ctx *ctx);
+int		parse_rgb(t_game *game, t_parse_ctx *ctx);
 int		is_map_start(char *line);
 void	set_player(t_player *p, char c, int x, int y);
 void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx);
@@ -266,5 +271,7 @@ void	parse_map_lines(t_game *game, t_parse_ctx *ctx);
 int		count_map_lines(t_game *game, char *path);
 char	*skip_spaces(char *str);
 void	validate_map(t_game *game, t_parse_ctx *ctx);
+void	count_doors(t_game *game);
+void	add_doors(t_game *game);
 
 #endif

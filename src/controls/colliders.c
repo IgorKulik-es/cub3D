@@ -6,47 +6,29 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:21:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 13:23:57 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 20:06:20 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-bool	check_wall_collision(t_game *game, t_pos *new)
-{
-	int		row;
-	int		column;
-	int		new_row;
-	int		new_col;
-	t_pos	wall_dist;
+void	check_next_tile(t_game *game, t_pos *new, t_coords old_tile,
+		t_coords new_tile);
 
-	row = floor(new->x);
-	column = floor(new->y);
-	new_row = row;
-	new_col = column;
-	if (game->map.map[column][row] != '0')
-		return (false);
-	wall_dist.x = new->x - row;
-	wall_dist.y = new->y - column;
-	if (wall_dist.x < P_WALL_LIMIT)
-		new_row--;
-	if (wall_dist.x > 1.0f - P_WALL_LIMIT)
-		new_row++;
-	if (wall_dist.y < P_WALL_LIMIT)
-		new_col--;
-	if (wall_dist.y > 1.0f - P_WALL_LIMIT)
-		new_col++;
-	if (game->map.map[new_col][row] == '1')
-		new->y = game->player.pos.y;
-	if (game->map.map[column][new_row] == '1')
-		new->x = game->player.pos.x;
-	if (row != new_row && column != new_col && game->map.map[new_col][new_row] == '1')
-	{
-		if (fabsf(roundf(game->player.pos.x) - game->player.pos.x) > fabsf(roundf(game->player.pos.y) - game->player.pos.y))
-			new->x = game->player.pos.x;
-		else
-			new->y = game->player.pos.y;
-	}
+bool	check_collision(t_game *game, t_pos *new)
+{
+	t_coords	old_tile;
+	t_coords	new_tile;
+	t_pos		wall_dist;
+
+	old_tile.x = floor(new->x);
+	old_tile.y = floor(new->y);
+	new_tile = old_tile;
+	wall_dist.x = new->x - old_tile.x;
+	wall_dist.y = new->y - old_tile.y;
+	new_tile.x += -(wall_dist.x < P_WALL_D) + (wall_dist.x > 1.0f - P_WALL_D);
+	new_tile.y += -(wall_dist.y < P_WALL_D) + (wall_dist.y > 1.0f - P_WALL_D);
+	check_next_tile(game, new, old_tile, new_tile);
 	return (true);
 }
 
@@ -86,4 +68,30 @@ t_hit	check_visibility(t_game *game, t_pos start, t_pos end)
 	if (hit.type == 1)
 		hit.dist = vector_length(subtr_vectors(end, start));
 	return (hit);
+}
+
+void	check_next_tile(t_game *game, t_pos *new, t_coords old_tile,
+	t_coords new_tile)
+{
+	if (game->map.map[new_tile.y][old_tile.x] == '1')
+		new->y = game->player.pos.y;
+	else if (game->map.map[new_tile.y][old_tile.x] == 'D'
+		&& find_door(game, old_tile.x, new_tile.y)->state == D_STATE_CLOSED)
+		new->y = game->player.pos.y;
+	if (game->map.map[old_tile.y][new_tile.x] == '1')
+		new->x = game->player.pos.x;
+	else if (game->map.map[old_tile.y][new_tile.x] == 'D'
+		&& find_door(game, new_tile.x, old_tile.y)->state == D_STATE_CLOSED)
+		new->x = game->player.pos.x;
+	if (old_tile.x != new_tile.x && old_tile.y != new_tile.y && (game->map
+			.map[new_tile.y][new_tile.x] == '1' || (game->map.map[new_tile.y]
+			[new_tile.x] == 'D' && find_door(game, new_tile.x, new_tile.y)
+			->state == D_STATE_CLOSED)))
+	{
+		if (fabsf(game->player.pos.x - new_tile.x)
+			> fabsf(game->player.pos.y - new_tile.y))
+			new->x = game->player.pos.x;
+		else
+			new->y = game->player.pos.y;
+	}
 }

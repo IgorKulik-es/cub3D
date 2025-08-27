@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 13:12:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 16:04:40 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 20:15:01 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	check_door_hit(t_game *game, t_ray *ray, t_hit *hit)
 	t_pos	door_hit;
 	float	visible_door;
 
-	door = find_door(game, hit->tile);
+	door = find_door(game, hit->tile.x, hit->tile.y);
 	if (door->type == D_TYPE_VERT)
 	{
 		door_hit = add_vectors(hit->point, mult_scalar(ray->step_x, 0.5f));
@@ -125,9 +125,6 @@ void	check_door_hit(t_game *game, t_ray *ray, t_hit *hit)
 		door_hit = ray->start_x;
 		visible_door = door_hit.y - hit->tile.y;
 	}
-	if (game->debug_printed == 0)
-		printf("visible wall %f\n", visible_door);
-	game->debug_printed = 1;
 	if (0 < visible_door && visible_door < 1)
 	{
 		ray->obst = DOOR_WALL;

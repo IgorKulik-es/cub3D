@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 16:39:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 20:13:55 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	create_screen(t_game *game)
 	int			dummy;
 
 	screen = &(game->screen);
-	game->win = mlx_new_window(game->mlx, screen->win_w
-			, screen->win_h, "cub3D");
+	game->win = mlx_new_window(game->mlx, screen->win_w,
+			screen->win_h, "cub3D");
 	screen->img = mlx_new_image(game->mlx, screen->win_w, screen->win_h);
 	screen->pixels = (int *)mlx_get_data_addr(screen->img,
 			&dummy, &dummy, &dummy);
