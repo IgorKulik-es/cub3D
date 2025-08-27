@@ -24,9 +24,9 @@ UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c
 
 PARSE		= parser.c parse_utils.c map_parser.c map_utils.c
 
-CONTROLS	= gaming.c colliders.c
+CONTROLS	= gaming.c colliders.c doors.c
 
-RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c
+RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils

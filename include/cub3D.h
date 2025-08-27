@@ -31,9 +31,11 @@
 # define MISS 0
 # define D_TYPE_VERT 1
 # define D_TYPE_HOR 0
+# define DOOR_WALL 'F'
 # define MAP_ERROR 2
 # define WALL '1'
 # define EMPTY '0'
+# define MAX_DOORS 10
 # define UP 'w'
 # define DOWN 's'
 # define LEFT 'a'
@@ -68,6 +70,12 @@ typedef struct s_float_coordinates
 	float	x;
 	float	y;
 }		t_pos;
+
+typedef struct s_int_coordinates
+{
+	int	x;
+	int	y;
+}			t_coords;
 
 typedef struct d_list
 {
@@ -125,14 +133,16 @@ typedef struct s_ray_params
 	t_pos	start_y;
 	t_pos	step_x;
 	t_pos	step_y;
+	char	obst;
 }			t_ray;
 
 typedef struct s_hit_parameters
 {
-	float	dist;
-	char	type;
-	float	column;
-	t_pos	point;
+	float		dist;
+	char		type;
+	float		column;
+	t_pos		point;
+	t_coords	tile;
 }			t_hit;
 
 typedef struct s_img
@@ -182,10 +192,13 @@ typedef struct s_game_data
 	void		*mlx;
 	void		*win;
 	int			game_over;
+	int			num_doors;
+	int			dist[WIN_WIDTH];
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
-	t_textures	texts;
+	t_textures	texts;	
+	t_door		*doors;
 }			t_game;
 
 typedef struct s_parse_ctx
@@ -216,9 +229,10 @@ float	tangent_known_length(t_pos a, t_pos b, float len_a, float len_b);
 
 t_hit	cast_ray(t_game *data, float column);
 void	find_intersects(t_game *data, t_pos player, t_ray *ray);
-t_pos	find_collision_neg_x(t_game *data, t_ray *ray);
-t_pos	find_collision_pos_x(t_game *data, t_ray *ray);
+t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit);
+t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit);
 t_hit	check_visibility(t_game *game, t_pos start, t_pos end);
+t_door	*find_door(t_game *game, t_coords wall);
 
 //rendering
 
