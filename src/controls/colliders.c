@@ -83,10 +83,11 @@ void	check_next_tile(t_game *game, t_pos *new, t_coords old_tile,
 	else if (game->map.map[old_tile.y][new_tile.x] == 'D'
 		&& find_door(game, new_tile.x, old_tile.y)->state == D_STATE_CLOSED)
 		new->x = game->player.pos.x;
-	if (old_tile.x != new_tile.x && old_tile.y != new_tile.y && (game->map
-			.map[new_tile.y][new_tile.x] == '1' || (game->map.map[new_tile.y]
-			[new_tile.x] == 'D' && find_door(game, new_tile.x, new_tile.y)
-			->state == D_STATE_CLOSED)))
+	if (old_tile.x != new_tile.x && old_tile.y != new_tile.y
+		&& game->player.pos.x != new->x && game->player.pos.y != new->y
+		&& (game->map.map[new_tile.y][new_tile.x] == '1'
+		|| (game->map.map[new_tile.y][new_tile.x] == 'D'
+		&& find_door(game, new_tile.x, new_tile.y)->state == D_STATE_CLOSED)))
 	{
 		if (fabsf(game->player.pos.x - new_tile.x)
 			> fabsf(game->player.pos.y - new_tile.y))
