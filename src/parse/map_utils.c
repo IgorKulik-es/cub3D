@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 09:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/27 10:03:33 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:22:23 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx)
 			&(dest->line_length), &(dest->endian));
 }
 
-void	handle_color_line(t_game *game, char *line)
+void	handle_color_line(t_game *game, t_parse_ctx *ctx)
 {
-	if (ft_strncmp(line, "F", 1) == 0)
-		game->texts.bot_color = parse_rgb(game, skip_spaces(line + 1));
-	else if (ft_strncmp(line, "C", 1) == 0)
-		game->texts.top_color = parse_rgb(game, skip_spaces(line + 1));
+	if (ft_strncmp(ctx->line, "F", 1) == 0)
+		game->texts.bot_color = parse_rgb(game, ctx);
+	else if (ft_strncmp(ctx->line, "C", 1) == 0)
+		game->texts.top_color = parse_rgb(game, ctx);
 }
 
 static void	validate_cell(t_game *game, t_parse_ctx *ctx, int x, int y)
@@ -42,10 +42,15 @@ static void	validate_cell(t_game *game, t_parse_ctx *ctx, int x, int y)
 	char	c;
 
 	c = game->map.map[y][x];
+	if (c != '1' && c != '0' && c != 'N' && c != 'S'
+		&& c != 'E' && c != 'W' && c != ' ')
+	{
+		clean_double_array(ctx->map_lines, ctx->map_count);
+		clean_exit(game, "Invalid character in map", MAP_ERROR);
+	}
 	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
-		if (y == 0 || x == 0
-			|| y == game->map.height - 1
+		if (y == 0 || x == 0 || y == game->map.height - 1
 			|| x == game->map.width - 1)
 		{
 			clean_double_array(ctx->map_lines, ctx->map_count);

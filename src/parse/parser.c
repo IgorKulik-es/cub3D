@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/27 10:13:45 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:03:44 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	handle_line(t_game *game, t_parse_ctx *ctx)
 			&game->texts.wall_e, ctx);
 	else if (ft_strncmp(ctx->line, "F", 1) == 0
 		|| ft_strncmp(ctx->line, "C", 1) == 0)
-		handle_color_line(game, ctx->line);
+		handle_color_line(game, ctx);
 	else
 		parser_error(game, ctx, "Invalid line in .cub");
 }

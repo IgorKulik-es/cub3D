@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/27 09:54:21 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:12:47 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,40 @@ void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg)
 	clean_exit(game, msg, MAP_ERROR);
 }
 
-int	parse_rgb(t_game *game, char *str)
+static void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+}
+
+int	parse_rgb(t_game *game, t_parse_ctx *ctx)
 {
 	int		r;
 	int		g;
 	int		b;
 	char	**split;
-	int		i;
 
-	split = ft_split(str, ',');
-	if (!split || !split[0] || !split[1] || !split[2])
-		clean_exit(game, "Invalid RGB format", MAP_ERROR);
+	split = ft_split(skip_spaces(ctx->line + 1), ',');
+	if (!split || !split[0] || !split[1] || !split[2] || split[3])
+	{
+		free_split(split);
+		parser_error(game, ctx, "Invalid RGB format");
+	}
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-		clean_exit(game, "RGB out of range", MAP_ERROR);
-	i = 0;
-	while (i < 3)
-		free(split[i++]);
-	free(split);
+	{
+		free_split(split);
+		parser_error(game, ctx, "RGB out of range");
+	}
+	free_split(split);
 	return ((r << 16) | (g << 8) | b);
 }
 
