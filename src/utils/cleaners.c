@@ -6,11 +6,11 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/23 17:14:10 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/27 10:19:18 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3D.h"
+#include "cub3D.h"
 
 static void	free_texture(void *mlx, t_img *tex);
 static void	free_textures(t_game *game);

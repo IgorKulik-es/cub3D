@@ -3,35 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/25 15:56:55 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 11:12:47 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	parse_rgb(t_game *game, char *str)
+void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg)
+{
+	if (ctx && ctx->line)
+		free(ctx->line);
+	if (ctx && ctx->map_lines)
+		clean_double_array(ctx->map_lines, ctx->map_count);
+	clean_exit(game, msg, MAP_ERROR);
+}
+
+static void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+}
+
+int	parse_rgb(t_game *game, t_parse_ctx *ctx)
 {
 	int		r;
 	int		g;
 	int		b;
 	char	**split;
-	int		i;
 
-	split = ft_split(str, ',');
-	if (!split || !split[0] || !split[1] || !split[2])
-		clean_exit(game, "Invalid RGB format", MAP_ERROR);
+	split = ft_split(skip_spaces(ctx->line + 1), ',');
+	if (!split || !split[0] || !split[1] || !split[2] || split[3])
+	{
+		free_split(split);
+		parser_error(game, ctx, "Invalid RGB format");
+	}
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-		clean_exit(game, "RGB out of range", MAP_ERROR);
-	i = 0;
-	while (i < 3)
-		free(split[i++]);
-	free(split);
+	{
+		free_split(split);
+		parser_error(game, ctx, "RGB out of range");
+	}
+	free_split(split);
 	return ((r << 16) | (g << 8) | b);
 }
 
@@ -44,9 +67,9 @@ int	is_map_start(char *line)
 	flag = 0;
 	while (line[i] && line[i] != '\n')
 	{
-		if (line[i] != ' ' && line[i] != '0' && line[i] != '1' &&
-			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' &&
-			line[i] != 'W')
+		if (line[i] != ' ' && line[i] != '0' && line[i] != '1'
+			&& line[i] != 'N' && line[i] != 'S' && line[i] != 'E'
+			&& line[i] != 'W')
 			return (0);
 		if (line[i] != ' ')
 			flag = 1;
@@ -79,13 +102,4 @@ void	set_player(t_player *p, char c, int x, int y)
 		p->facing = (t_pos){-1, 0};
 		p->camera = (t_pos){0, -1};
 	}
-}
-void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx)
-{
-	dest->img = mlx_xpm_file_to_image(game->mlx, path,
-			&dest->width, &dest->height);
-	if (!dest->img)
-		parser_error(game, ctx, "Texture load failed");
-	dest->addr = (int *)mlx_get_data_addr(dest->img, &(dest->bpp),
-			&(dest->line_length), &(dest->endian));
 }

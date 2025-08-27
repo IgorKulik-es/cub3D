@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 20:02:13 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 11:06:24 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,10 +250,15 @@ void	create_dummy_map(t_game *data);
 
 //parse
 int		parse_cub(t_game *game, char *path);
-int		parse_rgb(t_game *game, char *str);
+int		parse_rgb(t_game *game,t_parse_ctx *ctx);
 int		is_map_start(char *line);
 void	set_player(t_player *p, char c, int x, int y);
 void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx);
+void	handle_color_line(t_game *game, t_parse_ctx *ctx);
 void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg);
+void	parse_map_lines(t_game *game, t_parse_ctx *ctx);
+int		count_map_lines(t_game *game, char *path);
+char	*skip_spaces(char *str);
+void	validate_map(t_game *game, t_parse_ctx *ctx);
 
 #endif

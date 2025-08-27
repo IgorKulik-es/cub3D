@@ -3,203 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/25 15:57:11 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 11:03:44 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg)
+static void	handle_line(t_game *game, t_parse_ctx *ctx)
 {
-	if (ctx && ctx->line)
+	if (ft_strncmp(ctx->line, "NO", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->texts.wall_n, ctx);
+	else if (ft_strncmp(ctx->line, "SO", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->texts.wall_s, ctx);
+	else if (ft_strncmp(ctx->line, "WE", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->texts.wall_w, ctx);
+	else if (ft_strncmp(ctx->line, "EA", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->texts.wall_e, ctx);
+	else if (ft_strncmp(ctx->line, "F", 1) == 0
+		|| ft_strncmp(ctx->line, "C", 1) == 0)
+		handle_color_line(game, ctx);
+	else
+		parser_error(game, ctx, "Invalid line in .cub");
+}
+
+static void	parse_textures_and_colors(t_game *game, int fd, t_parse_ctx *ctx)
+{
+	char	*trimmed;
+
+	ctx->line = get_next_line(fd);
+	while (ctx->line && !is_map_start(ctx->line))
+	{
+		trimmed = ft_strtrim(ctx->line, " \n");
 		free(ctx->line);
-	if (ctx && ctx->map_lines)
-		clean_double_array(ctx->map_lines, ctx->map_count);
-	clean_exit(game, msg, MAP_ERROR);
-}
-
-void parse_map_lines(t_game *game, t_parse_ctx *ctx)
-{
-	int width;
-	int i;
-	int x;
-	int y;
-	char c;
-	int		player_count;
-
-	width = 0;
-	i = 0;
-	player_count = 0;
-	while (i < ctx->map_count)
-	{
-		if ((int)ft_strlen(ctx->map_lines[i]) > width)
-			width = ft_strlen(ctx->map_lines[i]);
-		i++;
-	}
-	game->map.height = ctx->map_count;
-	game->map.width = width;
-	game->map.map = malloc(sizeof(char *) * ctx->map_count);
-	if (!game->map.map)
-		parser_error(game, ctx, "Malloc failed");
-	i = 0;
-	while (i < ctx->map_count)
-		game->map.map[i++] = NULL;
-	y = 0;
-	while (y < ctx->map_count)
-	{
-		game->map.map[y] = malloc(sizeof(char) * (width + 1));
-		if (!game->map.map[y])
-			parser_error(game, ctx, "Malloc failed");
-		x = 0;
-		while (x < width)
+		ctx->line = trimmed;
+		if (ctx->line[0] == '\0')
 		{
-			if (x < (int)ft_strlen(ctx->map_lines[y]))
-				c = ctx->map_lines[y][x];
-			else
-				c = ' ';
-			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-			{
-				player_count++;
-				if (player_count > 1)
-					parser_error(game, ctx, "Multiple player positions found");
-				set_player(&game->player, c, x, y);
-				c = '0';
-			}
-			game->map.map[y][x] = c;
-			x++;
+			free(ctx->line);
+			ctx->line = get_next_line(fd);
+			continue ;
 		}
-		game->map.map[y][width] = '\0';
-		y++;
+		handle_line(game, ctx);
+		free(ctx->line);
+		ctx->line = get_next_line(fd);
 	}
 }
 
-char *skip_spaces(char *str)
+static void	read_map_lines(int fd, t_parse_ctx *ctx)
 {
-	while (*str && (*str == ' ' || (*str >= 9 && *str <= 13)))
-		str++;
-	return (str);
-}
-
-int count_map_lines(t_game *game, char *path)
-{
-	int	fd;
-	int	count;
-	char	*line;
-	int	in_map;
-
-	count = 0;
-	in_map = 0;
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		clean_exit(game, "Cannot open .cub file", MAP_ERROR);
-	line = get_next_line(fd);
-	while (line)
+	while (ctx->line)
 	{
-		if (!in_map && is_map_start(line))
-			in_map = 1;
-		if (in_map)
-			count++;
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	return (count);
-}
-
-void	validate_map(t_game *game, char **map_lines, int map_count)
-{
-	int		y;
-	int		x;
-	char	c;
-
-	y = 0;
-	while ( y < game->map.height)
-	{
-		x = 0;
-		while (x < game->map.width)
-		{
-			c = game->map.map[y][x];
-			if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
-			{
-				if (y == 0 || x == 0 || y == game->map.height - 1 || x == game->map.width - 1)
-				{
-					clean_double_array(map_lines, map_count);
-					clean_exit(game, "Map not closed at border", MAP_ERROR);
-				}
-				if (game->map.map[y-1][x] == ' ' || game->map.map[y+1][x] == ' ' ||
-					game->map.map[y][x-1] == ' ' || game->map.map[y][x+1] == ' ')
-				{
-					printf("x = %d, y = %d\n", x, y);
-					clean_double_array(map_lines, map_count);
-					clean_exit(game, "Map not closed near space", MAP_ERROR);
-				}
-			}
-			x++;
-		}
-		y++;
+		ctx->map_lines[ctx->map_count++] = ctx->line;
+		ctx->line = get_next_line(fd);
 	}
 }
-static void	handle_color_line(t_game *game, char *line)
-{
-	if (ft_strncmp(line, "F", 1) == 0)
-		game->texts.bot_color = parse_rgb(game, skip_spaces(line + 1));
-	else if (ft_strncmp(line, "C", 1) == 0)
-		game->texts.top_color = parse_rgb(game, skip_spaces(line + 1));
-}
 
-int parse_cub(t_game *game, char *path)
+int	parse_cub(t_game *game, char *path)
 {
 	t_parse_ctx	ctx;
 	int			fd;
 	int			total_map_lines;
-	char		*trimmed;
 
 	ctx.map_count = 0;
 	total_map_lines = count_map_lines(game, path);
-	ctx.map_lines = malloc(sizeof(char *) * (total_map_lines));
+	ctx.map_lines = malloc(sizeof(char *) * total_map_lines);
 	if (!ctx.map_lines)
 		clean_exit(game, "Malloc failed", MAP_ERROR);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		parser_error(game, &ctx, "Cannot open .cub file");
-	ctx.line = get_next_line(fd);
-	while (ctx.line && !is_map_start(ctx.line))
-	{
-		trimmed = ft_strtrim(ctx.line, " \n");
-		free(ctx.line);
-		ctx.line = trimmed;
-		if (ctx.line[0] == '\0')
-		{
-			free(ctx.line);
-			ctx.line = get_next_line(fd);
-			continue ;
-		}
-		if (ft_strncmp(ctx.line, "NO", 2) == 0)
-			load_texture(game, skip_spaces(ctx.line + 2), &game->texts.wall_n, &ctx);
-		else if (ft_strncmp(ctx.line, "SO", 2) == 0)
-			load_texture(game, skip_spaces(ctx.line + 2), &game->texts.wall_s, &ctx);
-		else if (ft_strncmp(ctx.line, "WE", 2) == 0)
-			load_texture(game, skip_spaces(ctx.line + 2), &game->texts.wall_w, &ctx);
-		else if (ft_strncmp(ctx.line, "EA", 2) == 0)
-			load_texture(game, skip_spaces(ctx.line + 2), &game->texts.wall_e, &ctx);
-			else if (ft_strncmp(ctx.line, "F", 1) == 0 || ft_strncmp(ctx.line, "C", 1) == 0)
-			handle_color_line(game, ctx.line);
-		else
-			parser_error(game, &ctx, "Invalid line in .cub");
-		free(ctx.line);
-		ctx.line = get_next_line(fd);
-	}
-	while (ctx.line)
-	{
-		ctx.map_lines[ctx.map_count++] = ctx.line;
-		ctx.line = get_next_line(fd);
-	}
+	parse_textures_and_colors(game, fd, &ctx);
+	read_map_lines(fd, &ctx);
 	close(fd);
 	parse_map_lines(game, &ctx);
-	validate_map(game, ctx.map_lines, ctx.map_count);
+	validate_map(game, &ctx);
 	clean_double_array(ctx.map_lines, ctx.map_count);
 	return (0);
 }
