@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/25 15:56:55 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/27 09:54:21 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg)
+{
+	if (ctx && ctx->line)
+		free(ctx->line);
+	if (ctx && ctx->map_lines)
+		clean_double_array(ctx->map_lines, ctx->map_count);
+	clean_exit(game, msg, MAP_ERROR);
+}
 
 int	parse_rgb(t_game *game, char *str)
 {
@@ -44,9 +53,9 @@ int	is_map_start(char *line)
 	flag = 0;
 	while (line[i] && line[i] != '\n')
 	{
-		if (line[i] != ' ' && line[i] != '0' && line[i] != '1' &&
-			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' &&
-			line[i] != 'W')
+		if (line[i] != ' ' && line[i] != '0' && line[i] != '1'
+			&& line[i] != 'N' && line[i] != 'S' && line[i] != 'E'
+			&& line[i] != 'W')
 			return (0);
 		if (line[i] != ' ')
 			flag = 1;
@@ -79,13 +88,4 @@ void	set_player(t_player *p, char c, int x, int y)
 		p->facing = (t_pos){-1, 0};
 		p->camera = (t_pos){0, -1};
 	}
-}
-void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx)
-{
-	dest->img = mlx_xpm_file_to_image(game->mlx, path,
-			&dest->width, &dest->height);
-	if (!dest->img)
-		parser_error(game, ctx, "Texture load failed");
-	dest->addr = (int *)mlx_get_data_addr(dest->img, &(dest->bpp),
-			&(dest->line_length), &(dest->endian));
 }

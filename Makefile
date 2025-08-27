@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/25 14:15:19 by ikulik           ###   ########.fr        #
+#    Updated: 2025/08/27 10:14:42 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ MAIN		= main_cub3D.c
 
 UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c
 
-PARSE		= parser.c parse_utils.c
+PARSE		= parser.c parse_utils.c map_parser.c map_utils.c
 
 CONTROLS	= gaming.c colliders.c
 
@@ -93,6 +93,7 @@ clean:
 
 fclean: clean
 	@$(MAKE) -C libft fclean > /dev/null 2>&1
+	@$(RM) minilibx-linux
 	@$(RM) $(NAME)
 
 re: fclean all
