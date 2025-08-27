@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/27 10:14:42 by vtrofyme         ###   ########.fr        #
+#    Updated: 2025/08/27 16:21:59 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,16 +28,20 @@ CONTROLS	= gaming.c colliders.c doors.c
 
 RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c
 
+ANIMATION	= door.c
+
 PARSEDIR	= src/parse
 UTILDIR		= src/utils
 MAINDIR		= src/main
 CONTROLSDIR	= src/controls
 RENDERDIR	= src/render
+ANIMDIR		= src/animation
 MAINSRC		= $(addprefix $(MAINDIR)/, $(MAIN))
 UTILSRC		= $(addprefix $(UTILDIR)/, $(UTIL))
 PARSESRC	= $(addprefix $(PARSEDIR)/, $(PARSE))
 CONTROLSSRC	= $(addprefix $(CONTROLSDIR)/, $(CONTROLS))
 RENDERSRC	= $(addprefix $(RENDERDIR)/, $(RENDER))
+ANIMSRC		= $(addprefix $(ANIMDIR)/, $(ANIMATION))
 SRCSDIR		= src
 OBJDIR		= obj
 INCLUDE		= include
@@ -45,7 +49,7 @@ INCLUDE		= include
 LIBRARY = minilibx-linux/libmlx_Linux.a
 LIBGIT = https://github.com/42paris/minilibx-linux.git
 
-SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC)
+SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC)
 
 OBJS		= $(SRCS:src/%.c=obj/%.o)
 
