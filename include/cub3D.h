@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 14:02:46 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 19:30:19 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,15 @@
 # define RIGHT 'd'
 # define ESC XK_Escape
 # define T_MICROSEC 1000000
+# define P_ANIM_SPEED 1000000
 # define P_MOVE_SPEED 500000
 # define P_DOOR_SPEED 2000000
 # define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 500000
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
+# define WIN_WIDTH 2560
+# define WIN_HEIGHT 1440
 # define TEXTURE_SIZE 64
 # define P_POV 1.7777777f
 # define P_WALL_D 0.27f
@@ -73,6 +74,14 @@
 # define MINIMAP_SCALE 15
 # define MINIMAP_OFFSET_X 10
 # define MINIMAP_OFFSET_Y 10
+
+typedef enum e_modes
+{
+	ACTION,
+	WALK_FRONT,
+	WALK_BACK,
+	NONE
+}			t_mode;
 
 typedef struct s_float_coordinates
 {
@@ -109,6 +118,7 @@ typedef struct s_player
 	t_pos	pos;
 	t_pos	facing;
 	t_pos	camera;
+	float	inv_det;
 	char	moving;
 	char	rotating;
 }			t_player;
@@ -188,6 +198,26 @@ typedef struct s_door_anim
 	time_t	last_open;
 }			t_door;
 
+typedef struct s_anim_data
+{
+	t_img	img;
+	time_t	last_frame;
+	t_img	*frames;
+	int		c_frame;
+	int		num_fr;
+	bool	active;
+}			t_anim;
+
+typedef struct s_entity_data
+{
+	t_anim	anims[NONE];
+	t_pos	pos;
+	int		state;
+	t_pos	trans;
+	t_pos	face;
+	t_mode	mode;
+}				t_entity;
+
 
 typedef struct s_screen_data
 {
@@ -199,6 +229,8 @@ typedef struct s_screen_data
 	time_t	last_frame_time;
 }			t_screen;
 
+
+
 typedef struct s_game_data
 {
 	void		*mlx;
@@ -207,10 +239,12 @@ typedef struct s_game_data
 	int			debug_printed;
 	int			num_doors;
 	t_pos		hits[WIN_WIDTH];
+	float		dists[WIN_WIDTH];
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
 	t_textures	texts;
+	t_entity	test;
 	t_door		*doors;
 }			t_game;
 
@@ -264,6 +298,9 @@ void	open_door(t_game *game);
 
 //animation
 void	animate_all(t_game *game);
+void	update_animation(t_game *game, t_anim *anim);
+void	set_anim_frames(t_game *game, t_anim *anim);
+void	put_entity(t_game *game, t_entity *guy);
 
 //debug
 void	create_dummy_map(t_game *data);

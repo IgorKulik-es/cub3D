@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 14:00:46 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 20:04:19 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	check_arguments(int argc);
 int	main(int argc, char **argv)
 {
 	t_game	game;
+	int		dummy;
 
 	check_arguments(argc);
 	initialize_data(&game);
@@ -28,6 +29,14 @@ int	main(int argc, char **argv)
 	create_screen(&game);
 	mlx_do_key_autorepeatoff(game.mlx);
 	game.player.camera = mult_scalar(game.player.camera, P_POV);
+	ft_bzero(&(game.test), sizeof(t_entity));
+	game.test.anims[0].img.img = mlx_xpm_file_to_image(game.mlx, "./textures/boss_walk_front.xpm", &(game.test.anims[0].img.width), &(game.test.anims[0].img.height));
+	game.test.anims[0].img.addr = (int *)mlx_get_data_addr(game.test.anims[0].img.img, &(game.test.anims[0].img.bpp), &(dummy), &(game.test.anims[0].img.endian));
+	game.test.pos.x = 19;
+	game.test.pos.y = 9;
+	game.test.mode = ACTION;
+	set_anim_frames(&game, &(game.test.anims[0]));
+	game.test.anims[0].c_frame = 0;
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
 	mlx_hook(game.win, 17, 0L, close_game, &game);
@@ -50,19 +59,3 @@ static void	check_arguments(int argc)
 	else
 		return ;
 }
-//for map viewing and debug purposes
-//
-/* void	print_map(char **arr, int height)
-{
-	int	index;
-
-	index = 0;
-	if (arr == NULL)
-		return ;
-	while (index < height)
-	{
-		write(1, arr[index], ft_strlen(arr[index]));
-		write(1, "\n", 1);
-		index++;
-	}
-} */

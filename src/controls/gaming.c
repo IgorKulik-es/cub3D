@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 19:28:38 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 20:19:43 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,17 @@ void	move_player(t_game *game, int key)
 
 void	rotate_player(t_game *game, int key)
 {
-	time_t	c_time;
-	float	angle;
+	time_t		c_time;
+	t_player	*player;
+	float		angle;
 
+	player = &(game->player);
 	c_time = get_time();
 	angle = (c_time - game->screen.last_frame_time) / (float)P_ROTATE_SPEED;
 	if (key == A)
 		angle *= -1;
 	game->player.facing = rotate_vector(game->player.facing, angle);
 	game->player.camera = rotate_vector(game->player.camera, angle);
+	game->player.inv_det = 1.0f / (player->facing.y * player->camera.x
+			- player->facing.x * player->camera.y);
 }

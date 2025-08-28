@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 14:03:39 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 20:14:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	render_frame(t_game *game)
 	int		column;
 	t_hit	hit;
 	char	*str_fps;
+	void	*img;
 
 	column = 0;
 	animate_all(game);
@@ -46,8 +47,12 @@ int	render_frame(t_game *game)
 		column++;
 	}
 	draw_minimap(game);
+	img = mlx_new_image(game->mlx, 50, 20);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win, img,  WIN_WIDTH - 55, 15);
 	mlx_string_put(game->mlx, game->win, WIN_WIDTH - 50, 30, C_PURE_WHITE, str_fps);
+	mlx_destroy_image(game->mlx, img);
+	put_entity(game, &(game->test));
 	free(str_fps);
 	return (0);
 }

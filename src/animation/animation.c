@@ -6,11 +6,14 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 12:51:41 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 20:21:09 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	overlay_entity(t_game *game, t_entity *guy, t_coords pos, int height);
+void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars);
 
 void	animate_all(t_game *game)
 {
@@ -25,5 +28,105 @@ void	animate_all(t_game *game)
 	{
 		move_door(game, &(game->doors[index]));
 		index++;
+	}
+}
+
+void	update_animation(t_game *game, t_anim *anim)
+{
+	time_t	time;
+
+	if (anim->active == false)
+		return ;
+	time = get_time();
+	if (time - game->screen.last_frame_time > P_ANIM_SPEED / anim->num_fr)
+		(anim->c_frame)++;
+	anim->last_frame = time;
+	if (anim->c_frame >= anim->num_fr)
+	{
+		anim->active = false;
+		anim->c_frame = 0;
+	}
+}
+
+t_pos	dist_to_entity(t_game *game, t_entity *guy)
+{
+	t_pos		view;
+	t_pos		transform;
+	t_pos		result;
+	float		mult;
+	t_player	*player;
+
+	player = &(game->player);
+	result.x = 0;
+	result.y = 0;
+	view = subtr_vectors(guy->pos, player->pos);
+	transform.y = player->inv_det
+		* (view.x * player->camera.y - view.y * player->camera.x);
+	transform.x = player->inv_det
+		* (view.x * player->facing.y - view.y * player->facing.x);
+	mult = transform.x / transform.y;
+	if (mult <= -1 || mult >= 1)
+		return ((t_pos){0, 0});
+	result.x = (game->screen.win_w / 2) * (1 + mult);
+	result.y = transform.x;
+	guy->trans = transform;
+	if (game->dists[(int)(result.x)] > result.y)
+		return (result);
+	return ((t_pos){0, 0});
+}
+
+void	put_entity(t_game *game, t_entity *guy)
+{
+	t_coords	first_pixel;
+	t_pos		params;
+	int			height;
+
+	params = dist_to_entity(game, guy);
+	if (params.y == 0)
+		return ;
+	height = game->screen.win_h / params.y;
+	first_pixel.x = params.x - height / 2;
+	first_pixel.y = (game->screen.win_h - height) / 2;
+	overlay_entity(game, guy, first_pixel, height);
+}
+
+void	overlay_entity(t_game *game, t_entity *guy, t_coords pos, int height)
+{
+	int			last_px_on_scr;
+	t_coords	params;
+	t_img		*frame;
+
+	frame = &(guy->anims[guy->mode].frames[guy->anims[guy->mode].c_frame]);
+	last_px_on_scr = pos.x + height;
+	params.x = pos.x;
+	params.y = height;
+	while (params.x < last_px_on_scr)
+	{
+		if (guy->trans.x < game->dists[params.x])
+			put_anim_line(game, frame, pos, params);
+		(params.x)++;
+	}
+}
+
+void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars)
+{
+	t_pos	step;
+	int		fr_width;
+	int		pixel;
+	int		last_pixel;
+	int		color;
+
+	pixel = pars.x + pos.y * game->screen.win_w;
+	step.y = 0;
+	step.x = (float)pars.y / frame->height;
+	fr_width = ((pos.x - pars.x) / (float)pars.y) * frame->width;
+	last_pixel = (pos.y + pars.y) * game->screen.win_w + pars.x;
+	while (pixel <= last_pixel)
+	{
+		color = frame->addr[fr_width + ((int)step.y) * frame->height];
+		if (color != 0)
+			game->screen.pixels[pixel] = color;
+		pixel += game->screen.win_w;
+		step.y += step.x;
 	}
 }
