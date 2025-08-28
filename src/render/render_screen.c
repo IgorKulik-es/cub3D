@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 20:13:55 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 12:55:07 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,13 @@ void	create_screen(t_game *game)
 
 int	render_frame(t_game *game)
 {
-	float	column;
+	int		column;
 	t_hit	hit;
 	time_t	time;
 	//time_t	fps;
 
 	column = 0;
-	if (game->player.moving)
-		move_player(game, game->player.moving);
-	if (game->player.rotating)
-		rotate_player(game, game->player.rotating);
-	move_door(game, &(game->doors[0]));
+	animate_all(game);
 	time = get_time();
 	//fps = T_MICROSEC / (time - game->screen.last_frame_time);
 	//printf("fps: %d\n", (int)fps);
@@ -48,8 +44,9 @@ int	render_frame(t_game *game)
 	while (column < game->screen.win_w)
 	{
 		hit = cast_ray(game, column);
+		game->hits[column] = hit.point;
 		put_vert_line(game, column, hit);
-		column += 1;
+		column++;
 	}
 	//printf("player: %f %f\n", game->player.pos.y, game->player.pos.x);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
