@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 09:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/27 17:59:32 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 13:51:38 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static void	validate_cell(t_game *game, t_parse_ctx *ctx, int x, int y)
 			clean_exit(game, "Map not closed at border", MAP_ERROR);
 		}
 		if (game->map.map[y - 1][x] == ' ' || game->map.map[y + 1][x] == ' '
-			|| game->map.map[y][x - 1] == ' ' || game->map.map[y][x + 1] == ' ')
+			|| game->map.map[y][x - 1] == ' ' || game->map.map[y][x + 1] == ' '
+			|| game->map.map[y - 1][x] == '\n' || game->map.map[y + 1][x] == '\n')
 		{
 			clean_double_array(ctx->map_lines, ctx->map_count);
 			clean_exit(game, "Map not closed near space", MAP_ERROR);

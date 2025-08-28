@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/28 12:53:18 by ikulik           ###   ########.fr        #
+#    Updated: 2025/08/28 13:06:15 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ PARSE		= parser.c parse_utils.c map_parser.c map_utils.c parse_special.c
 
 CONTROLS	= gaming.c colliders.c doors.c
 
-RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c
+RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c draw_minimap.c
 
 ANIMATION	= door.c animation.c
 
@@ -56,7 +56,7 @@ OBJS		= $(SRCS:src/%.c=obj/%.o)
 CFLAGS		= -Wall -Wextra -Werror -g3
 MFLAGS		= -L libft -lft -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm
 INCLUDES	= -I$(INCLUDE)
-TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC))
+TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC))
 SRC_NUM		= 0
 
 RM = rm -rf
