@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 12:43:23 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:06:50 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@
 # define WIN_HEIGHT 1080
 # define TEXTURE_SIZE 64
 # define P_POV 1.7777777f
-# define P_WALL_D 0.25f
+# define P_WALL_D 0.27f
 # define W 119
 # define A 97
 # define S 115
@@ -205,7 +205,7 @@ typedef struct s_game_data
 	int			game_over;
 	int			debug_printed;
 	int			num_doors;
-	int			dist[WIN_WIDTH];
+	t_pos		hits[WIN_WIDTH];
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
@@ -259,6 +259,9 @@ void	rotate_player(t_game *game, int key);
 void	move_door(t_game *game, t_door *door);
 bool	check_collision(t_game *game, t_pos *new);
 void	open_door(t_game *game);
+
+//animation
+void	animate_all(t_game *game);
 
 //debug
 void	create_dummy_map(t_game *data);

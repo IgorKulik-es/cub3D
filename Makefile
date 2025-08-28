@@ -6,7 +6,7 @@
 #    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/28 11:48:12 by vtrofyme         ###   ########.fr        #
+#    Updated: 2025/08/28 13:06:15 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CONTROLS	= gaming.c colliders.c doors.c
 
 RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c draw_minimap.c
 
-ANIMATION	= door.c
+ANIMATION	= door.c animation.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils

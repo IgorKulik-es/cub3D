@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:21:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 20:06:20 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 12:48:30 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	check_next_tile(t_game *game, t_pos *new, t_coords old_tile,
 		|| (game->map.map[new_tile.y][new_tile.x] == 'D'
 		&& find_door(game, new_tile.x, new_tile.y)->state == D_STATE_CLOSED)))
 	{
-		if (fabsf(game->player.pos.x - new_tile.x)
-			> fabsf(game->player.pos.y - new_tile.y))
+		if (fabsf(game->player.pos.x - roundf(game->player.pos.x))
+			> fabsf(game->player.pos.y - roundf(game->player.pos.y)))
 			new->x = game->player.pos.x;
 		else
 			new->y = game->player.pos.y;
