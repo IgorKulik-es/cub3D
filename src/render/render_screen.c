@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_screen.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 20:13:55 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 12:16:06 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	render_frame(t_game *game)
 		put_vert_line(game, column, hit);
 		column += 1;
 	}
+	draw_minimap(game);
 	//printf("player: %f %f\n", game->player.pos.y, game->player.pos.x);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
 	return (0);

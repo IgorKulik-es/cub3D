@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 20:14:25 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 12:43:23 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@
 # define C_SKY_BLUE 0xa3e0e5
 # define C_WALL_BROWN 0x47281b
 # define C_FLOOR_SAND 0xeda85b
+# define MINIMAP_SCALE 15
+# define MINIMAP_OFFSET_X 10
+# define MINIMAP_OFFSET_Y 10
 
 typedef struct s_float_coordinates
 {
@@ -248,6 +251,7 @@ t_door	*find_door(t_game *game, int x, int y);
 int		render_frame(t_game *game);
 void	create_screen(t_game *game);
 void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
+void	draw_minimap(t_game *game);
 
 //gaming
 void	move_player(t_game *game, int key);
