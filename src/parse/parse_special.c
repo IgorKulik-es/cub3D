@@ -6,11 +6,13 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:40:16 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 20:15:37 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 13:59:59 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+bool	initialize_door(t_game *game, int row, int column, int ind_door);
 
 void	count_doors(t_game *game)
 {
@@ -45,25 +47,42 @@ void	add_doors(t_game *game)
 	int	ind_col;
 	int	ind_door;
 
-	ind_line = 0;
+	ind_line = 1;
 	ind_door = 0;
-	while (++ind_line < game->map.height)
+	while (ind_line < game->map.height)
 	{
 		ind_col = 0;
-		while (ind_col < game->map.width)
+		while (ind_col < game->map.width - 1)
 		{
 			if (game->map.map[ind_line][ind_col] == 'D')
 			{
-				game->doors[ind_door].x = ind_col;
-				game->doors[ind_door].y = ind_line;
-				if (game->map.map[ind_line - 1][ind_col] == '1')
-					game->doors[ind_door].type = D_TYPE_VERT;
-				game->doors[ind_door].state = 1;
-				game->doors[ind_door].width = 1;
-				game->doors[ind_door].last_open = game->screen.last_frame_time;
-				ind_door++;
+				if (initialize_door(game, ind_line, ind_col, ind_door))
+					ind_door++;
 			}
 			ind_col++;
 		}
+		ind_line++;
 	}
+}
+
+bool	initialize_door(t_game *game, int row, int column, int ind_door)
+{
+	if (game->map.map[row - 1][column] == '1'
+		&& game->map.map[row + 1][column] == '1')
+		game->doors[ind_door].type = D_TYPE_VERT;
+	else if (game->map.map[row][column - 1] == '1'
+		&& game->map.map[row][column + 1] == '1')
+		game->doors[ind_door].type = D_TYPE_HOR;
+	else
+	{
+		game->map.map[row][column] = '1';
+		(game->num_doors)--;
+		return (false);
+	}
+	game->doors[ind_door].x = column;
+	game->doors[ind_door].y = row;
+	game->doors[ind_door].state = D_STATE_CLOSED;
+	game->doors[ind_door].width = 1;
+	game->doors[ind_door].last_open = game->screen.last_frame_time;
+	return (true);
 }

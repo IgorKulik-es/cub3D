@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:31:15 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/25 13:06:34 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 13:20:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,23 @@ void	put_trapezoid_pixel(t_screen *screen, t_img *texture, t_trapz *trpz,
 		+ ((int)trpz->y_texture) * texture->width];
 	*index_vert += screen->win_w;
 	trpz->y_texture += trpz->step_height;
+}
+
+char	*get_fps_string(t_game *game)
+{
+	time_t	time;
+	int		fps;
+	char	*str_time;
+	char	*result;
+
+	time = get_time();
+	fps = T_MICROSEC / (time - game->screen.last_frame_time);
+	str_time = ft_itoa(fps);
+	if (str_time == NULL)
+		close_game(game);
+	result = ft_strjoin("FPS: ", str_time);
+	free(str_time);
+	if (result == NULL)
+		close_game(game);
+	return (result);
 }

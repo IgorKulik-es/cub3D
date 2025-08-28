@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 12:53:04 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 13:12:00 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@
 # define C_RESET "\001\x1B[0m\002"
 # define C_SKY_BLUE 0xa3e0e5
 # define C_WALL_BROWN 0x47281b
+# define C_PURE_WHITE 0xffffff
 # define C_FLOOR_SAND 0xeda85b
 
 typedef struct s_float_coordinates
@@ -248,6 +249,7 @@ t_door	*find_door(t_game *game, int x, int y);
 int		render_frame(t_game *game);
 void	create_screen(t_game *game);
 void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
+char	*get_fps_string(t_game *game);
 
 //gaming
 void	move_player(t_game *game, int key);

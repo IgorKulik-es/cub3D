@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 12:55:07 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/28 13:21:57 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,12 @@ int	render_frame(t_game *game)
 {
 	int		column;
 	t_hit	hit;
-	time_t	time;
-	//time_t	fps;
+	char	*str_fps;
 
 	column = 0;
 	animate_all(game);
-	time = get_time();
-	//fps = T_MICROSEC / (time - game->screen.last_frame_time);
-	//printf("fps: %d\n", (int)fps);
-	game->screen.last_frame_time = time;
+	str_fps = get_fps_string(game);
+	game->screen.last_frame_time = get_time();
 	while (column < game->screen.win_w)
 	{
 		hit = cast_ray(game, column);
@@ -48,8 +45,9 @@ int	render_frame(t_game *game)
 		put_vert_line(game, column, hit);
 		column++;
 	}
-	//printf("player: %f %f\n", game->player.pos.y, game->player.pos.x);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
+	mlx_string_put(game->mlx, game->win, WIN_WIDTH - 50, 30, C_PURE_WHITE, str_fps);
+	free(str_fps);
 	return (0);
 }
 
