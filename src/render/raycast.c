@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 13:59:01 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 13:39:57 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ t_hit	cast_ray(t_game *data, float column)
 
 void	calculate_steps(t_game *data, t_ray *ray, float column)
 {
-	ray->view = mult_scalar(data->player.camera, (column - data->screen.half_w)
-			/ data->screen.win_w);
+	ray->view = mult_scalar(data->player.camera, 2 * column
+			/ data->screen.win_w - 1.0f);
 	ray->view = add_vectors(ray->view, data->player.facing);
 	ray->step_x.y = 0;
 	ray->step_x.x = 0;

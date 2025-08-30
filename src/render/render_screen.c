@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 20:14:34 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 13:13:32 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	render_frame(t_game *game)
 	{
 		hit = cast_ray(game, column);
 		game->hits[column] = hit.point;
+		game->dists[column] = hit.dist;
 		put_vert_line(game, column, hit);
 		column++;
 	}

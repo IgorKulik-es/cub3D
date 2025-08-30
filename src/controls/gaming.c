@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 20:19:43 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 13:54:12 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	key_press(int key, t_game *game)
 		game->player.rotating = key;
 	if (key == SPACE)
 		open_door(game);
+	if (key == XK_f)
+		game->debug_printed = 0;
 	return (0);
 }
 

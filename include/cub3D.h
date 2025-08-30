@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 19:30:19 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 16:23:43 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@
 # define RIGHT 'd'
 # define ESC XK_Escape
 # define T_MICROSEC 1000000
-# define P_ANIM_SPEED 1000000
-# define P_MOVE_SPEED 500000
+# define P_ANIM_SPEED 500000
+# define P_MOVE_SPEED 300000
 # define P_DOOR_SPEED 2000000
 # define P_DOOR_CL_TIME 2000000
-# define P_ROTATE_SPEED 500000
+# define P_ROTATE_SPEED 300000
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
 # define WIN_WIDTH 2560
 # define WIN_HEIGHT 1440
 # define TEXTURE_SIZE 64
-# define P_POV 1.7777777f
+# define P_POV 1.0f
 # define P_WALL_D 0.27f
 # define W 119
 # define A 97
@@ -67,6 +67,7 @@
 # define C_BLU "\001\x1B[34m\002"
 # define C_MAG "\001\x1B[35m\002"
 # define C_RESET "\001\x1B[0m\002"
+# define C_BLANK -0x1000000
 # define C_SKY_BLUE 0xa3e0e5
 # define C_WALL_BROWN 0x47281b
 # define C_PURE_WHITE 0xffffff
@@ -198,11 +199,24 @@ typedef struct s_door_anim
 	time_t	last_open;
 }			t_door;
 
-typedef struct s_anim_data
+typedef struct s_anim_prototype
 {
 	t_img	img;
-	time_t	last_frame;
 	t_img	*frames;
+	int		num_fr;
+}				t_anim_p;
+
+typedef struct s_anim_prots_enemy
+{
+	t_anim_p	walk_front;
+	t_anim_p	walk_back;
+	t_anim_p	action;
+}			t_anim_en;
+
+typedef struct s_anim_data
+{
+	t_img	**frames;
+	time_t	last_frame;
 	int		c_frame;
 	int		num_fr;
 	bool	active;
@@ -238,13 +252,15 @@ typedef struct s_game_data
 	int			game_over;
 	int			debug_printed;
 	int			num_doors;
+	int			num_enemies;
 	t_pos		hits[WIN_WIDTH];
 	float		dists[WIN_WIDTH];
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
 	t_textures	texts;
-	t_entity	test;
+	t_anim_en	enemy_prot;
+	t_entity	*enemies;
 	t_door		*doors;
 }			t_game;
 
@@ -299,7 +315,8 @@ void	open_door(t_game *game);
 //animation
 void	animate_all(t_game *game);
 void	update_animation(t_game *game, t_anim *anim);
-void	set_anim_frames(t_game *game, t_anim *anim);
+void	set_anim_frames(t_game *game, t_anim_p *anim);
+void	copy_anim(t_game *game, t_anim_p *proto, t_anim *copy);
 void	put_entity(t_game *game, t_entity *guy);
 
 //debug
@@ -317,7 +334,7 @@ void	parse_map_lines(t_game *game, t_parse_ctx *ctx);
 int		count_map_lines(t_game *game, char *path);
 char	*skip_spaces(char *str);
 void	validate_map(t_game *game, t_parse_ctx *ctx);
-void	count_doors(t_game *game);
+int		count_items(t_game *game, char item);
 void	add_doors(t_game *game);
 
 #endif

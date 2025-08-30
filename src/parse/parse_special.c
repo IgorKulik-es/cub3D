@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:40:16 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 20:20:17 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 15:11:53 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,26 @@
 
 bool	initialize_door(t_game *game, int row, int column, int ind_door);
 
-void	count_doors(t_game *game)
+int	count_items(t_game *game, char item)
 {
 	int	ind_line;
 	int	ind_col;
+	int	result;
 
 	ind_line = 1;
-	game->num_doors = 0;
+	result = 0;
 	while (ind_line < game->map.height)
 	{
 		ind_col = 0;
 		while (ind_col < game->map.width)
 		{
-			if (game->map.map[ind_line][ind_col] == 'D')
-				(game->num_doors)++;
+			if (game->map.map[ind_line][ind_col] == item)
+				result++;
 			ind_col++;
 		}
 		ind_line++;
 	}
-	if (game->num_doors > 0)
-	{
-		game->doors = malloc (game->num_doors * sizeof(t_door));
-		if (game->doors == NULL)
-			close_game(game);
-		ft_bzero(game->doors, game->num_doors * sizeof (t_door));
-	}
+	return (result);
 }
 
 void	add_doors(t_game *game)
@@ -47,9 +42,15 @@ void	add_doors(t_game *game)
 	int	ind_col;
 	int	ind_door;
 
-	ind_line = 1;
+	ind_line = 0;
 	ind_door = 0;
-	while (ind_line < game->map.height)
+	game->num_doors = count_items(game, 'D');
+	if (game->num_doors == 0)
+		return ;
+	game->doors = ft_calloc(game->num_doors, sizeof(t_door));
+	if (game->doors == NULL)
+		close_game(game);
+	while (++ind_line < game->map.height)
 	{
 		ind_col = 0;
 		while (ind_col < game->map.width - 1)
@@ -61,7 +62,6 @@ void	add_doors(t_game *game)
 			}
 			ind_col++;
 		}
-		ind_line++;
 	}
 }
 

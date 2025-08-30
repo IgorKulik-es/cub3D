@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 20:04:19 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 14:26:19 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv)
 	game.test.pos.x = 19;
 	game.test.pos.y = 9;
 	game.test.mode = ACTION;
+	game.test.anims[0].active = 1;
 	set_anim_frames(&game, &(game.test.anims[0]));
 	game.test.anims[0].c_frame = 0;
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
