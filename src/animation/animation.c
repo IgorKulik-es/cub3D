@@ -62,14 +62,13 @@ t_pos	dist_to_entity(t_game *game, t_entity *guy)
 	view = subtr_vectors(guy->pos, player->pos);
 	transform.y = player->inv_det
 		* (view.x * player->camera.y - view.y * player->camera.x);
-	transform.x = player->inv_det
+	transform.x = -player->inv_det
 		* (view.x * player->facing.y - view.y * player->facing.x);
 	mult = transform.x / transform.y;
 	if (mult <= -1 || mult >= 1)
 		return ((t_pos){0, 0});
 	result.x = (game->screen.win_w / 2) * (1 + mult);
-	result.y = transform.x;
-	guy->trans = transform;
+	result.y = transform.y;
 	if (game->dists[(int)(result.x)] > result.y)
 		return (result);
 	return ((t_pos){0, 0});
@@ -78,14 +77,13 @@ t_pos	dist_to_entity(t_game *game, t_entity *guy)
 void	put_entity(t_game *game, t_entity *guy)
 {
 	t_coords	first_pixel;
-	t_pos		params;
 	int			height;
 
-	params = dist_to_entity(game, guy);
-	if (params.y == 0)
+	guy->trans = dist_to_entity(game, guy);
+	if (guy->trans.y == 0)
 		return ;
-	height = game->screen.win_h / params.y;
-	first_pixel.x = params.x - height / 2;
+	height = game->screen.win_h / guy->trans.y;
+	first_pixel.x = guy->trans.x - height / 2;
 	first_pixel.y = (game->screen.win_h - height) / 2;
 	overlay_entity(game, guy, first_pixel, height);
 }
@@ -98,7 +96,11 @@ void	overlay_entity(t_game *game, t_entity *guy, t_coords pos, int height)
 
 	frame = &(guy->anims[guy->mode].frames[guy->anims[guy->mode].c_frame]);
 	last_px_on_scr = pos.x + height;
+	if (last_px_on_scr >= game->screen.win_w)
+		last_px_on_scr = game->screen.win_w - 1;
 	params.x = pos.x;
+	if (params.x < 0)
+		params.x = 0;
 	params.y = height;
 	while (params.x < last_px_on_scr)
 	{
@@ -116,10 +118,14 @@ void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars)
 	int		last_pixel;
 	int		color;
 
-	pixel = pars.x + pos.y * game->screen.win_w;
+	pixel = pars.x;
+	if (pos.y > 0)
+		pixel += pos.y * game->screen.win_w;
 	step.y = 0;
-	step.x = (float)pars.y / frame->height;
-	fr_width = ((pos.x - pars.x) / (float)pars.y) * frame->width;
+	if (pos.y < 0)
+		step.y = ((float)pars.y / game->screen.win_h) / 2;
+	step.x = frame->height / (float)pars.y;
+	fr_width = ((pars.x - pos.x) / (float)pars.y) * frame->height;
 	last_pixel = (pos.y + pars.y) * game->screen.win_w + pars.x;
 	while (pixel <= last_pixel)
 	{

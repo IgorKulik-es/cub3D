@@ -21,4 +21,5 @@ void	initialize_data(t_game *data)
 	data->screen.last_frame_time = get_time();
 	data->player.moving = 0;
 	data->player.rotating = 0;
+	data->player.inv_det = 1.0f / P_POV;
 }

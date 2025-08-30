@@ -39,8 +39,6 @@ void	count_doors(t_game *game)
 			close_game(game);
 		ft_bzero(game->doors, game->num_doors * sizeof (t_door));
 	}
-	game->player.inv_det = 1.0f / (game->player.facing.y * game->player.camera.x
-			- game->player.facing.x * game->player.camera.y);
 }
 
 void	add_doors(t_game *game)
