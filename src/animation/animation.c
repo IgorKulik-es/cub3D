@@ -6,34 +6,37 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 18:09:38 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/01 20:05:10 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	overlay_entity(t_game *game, t_entity *guy, t_coords pos, int height);
+void	render_entity(t_game *game, t_entity *guy, t_coords pos, int height);
 void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars);
 
-void	animate_all(t_game *game)
+void	update_all_positions(t_game *game)
 {
 	int	index;
 
-	index = 0;
+	index = -1;
 	if (game->player.moving)
 		move_player(game, game->player.moving);
 	if (game->player.rotating)
 		rotate_player(game, game->player.rotating);
-	while (index < game->num_doors)
-	{
+	while (++index < game->num_doors)
 		move_door(game, &(game->doors[index]));
-		index++;
+	index = -1;
+	while (++index < game->num_enemies)
+	{
+		move_enemy(game, &(game->enemies[index]));
+		update_anim_frame(game, &(game->enemies[index]), &(game->enemies[index]
+				.anims[game->enemies[index].mode]), game->enemies[index].mode);
 	}
-	update_animation(game, &(game->enemies[0].anims[game->enemies[0].mode]));
-	game->enemies[0].anims[game->enemies[0].mode].active = 1;
 }
 
-void	update_animation(t_game *game, t_anim *anim)
+void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
+	t_mode mode)
 {
 	time_t	time;
 
@@ -48,31 +51,14 @@ void	update_animation(t_game *game, t_anim *anim)
 	}
 	if (anim->c_frame >= anim->num_fr)
 	{
-		anim->active = false;
 		anim->c_frame = 0;
+		if (mode == ACTION)
+		{
+			anim->active = false;
+			if (guy->dist < E_DAM_RADIUS)
+				damage_player(game);
+		}
 	}
-}
-
-t_pos	dist_to_entity(t_game *game, t_entity *guy)
-{
-	t_pos		view;
-	t_pos		transform;
-	t_pos		result;
-	float		mult;
-	t_player	*player;
-
-	player = &(game->player);
-	result.x = 0;
-	result.y = 0;
-	view = subtr_vectors(guy->pos, player->pos);
-	transform.y = player->inv_det
-		* (view.x * player->camera.y - view.y * player->camera.x);
-	transform.x = -player->inv_det
-		* (view.x * player->facing.y - view.y * player->facing.x);
-	mult = (transform.x / transform.y);
-	result.x = (game->screen.win_w / 2) * (1 + mult);
-	result.y = transform.y;
-	return (result);
 }
 
 void	put_entity(t_game *game, t_entity *guy)
@@ -82,25 +68,21 @@ void	put_entity(t_game *game, t_entity *guy)
 	int			left_side;
 	int			right_side;
 
-	guy->trans = dist_to_entity(game, guy);
 	height = game->screen.win_h / guy->trans.y;
 	first_pixel.x = guy->trans.x - height / 2;
 	first_pixel.y = (game->screen.win_h - height) / 2;
 	left_side = first_pixel.x;
-	if (left_side < 0)
-		left_side = 0;
-	right_side = first_pixel.x - height;
-	if (right_side > game->screen.win_w)
-		right_side = game->screen.win_w - 1;
-	if (guy->trans.x < 0 || guy->trans.x >= game->screen.win_w)
-		return ;
+	right_side = first_pixel.x + height;
+	correct_pixel(game, &left_side);
+	correct_pixel(game, &right_side);
 	if (game->dists[left_side] > guy->trans.y
-		|| game->dists[(int)guy->trans.x] > guy->trans.y
-		|| game->dists[right_side] > guy->trans.y)
-		overlay_entity(game, guy, first_pixel, height);
+		|| game->dists[right_side] > guy->trans.y
+		|| ((int)guy->trans.x >= 0 && guy->trans.x < (int)game->screen.win_w
+			&& game->dists[(int)guy->trans.x] > guy->trans.y))
+		render_entity(game, guy, first_pixel, height);
 }
 
-void	overlay_entity(t_game *game, t_entity *guy, t_coords pos, int height)
+void	render_entity(t_game *game, t_entity *guy, t_coords pos, int height)
 {
 	int			last_px_on_scr;
 	t_coords	params;
@@ -108,6 +90,7 @@ void	overlay_entity(t_game *game, t_entity *guy, t_coords pos, int height)
 
 	frame = guy->anims[guy->mode].frames[guy->anims[guy->mode].c_frame];
 	last_px_on_scr = pos.x + height;
+	determine_animation(guy);
 	if (last_px_on_scr >= game->screen.win_w)
 		last_px_on_scr = game->screen.win_w - 1;
 	params.x = pos.x;

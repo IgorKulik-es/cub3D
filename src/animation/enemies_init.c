@@ -6,13 +6,13 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 16:07:13 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 17:55:49 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/01 16:37:45 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	initialize_enemy(t_game *game, int row, int column, int index);
+void	initialize_enemy(t_game *game, int row, int column, int *index);
 
 void	load_enemies(t_game *game)
 {
@@ -31,30 +31,34 @@ void	load_enemies(t_game *game)
 	set_anim_frames(game, &(game->enemy_prot.walk_front));
 	set_anim_frames(game, &(game->enemy_prot.walk_back));
 	set_anim_frames(game, &(game->enemy_prot.action));
-	while (ind_row < game->map.height)
+	while (++ind_row < game->map.height)
 	{
 		ind_column = 1;
 		while (ind_column < game->map.width)
 		{
 			if (game->map.map[ind_row][ind_column] == 'Q')
-				initialize_enemy(game, ind_row, ind_column, ind_enemy);
+				initialize_enemy(game, ind_row, ind_column, &ind_enemy);
 			ind_column++;
 		}
-		ind_row++;
 	}
 }
 
-void	initialize_enemy(t_game *game, int row, int column, int index)
+void	initialize_enemy(t_game *game, int row, int column, int *index)
 {
 	copy_anim(game, &(game->enemy_prot.walk_front),
-		&(game->enemies[index].anims[WALK_FRONT]));
+		&(game->enemies[*index].anims[WALK_FRONT]));
 	copy_anim(game, &(game->enemy_prot.walk_back),
-		&(game->enemies[index].anims[WALK_BACK]));
+		&(game->enemies[*index].anims[WALK_BACK]));
 	copy_anim(game, &(game->enemy_prot.action),
-		&(game->enemies[index].anims[ACTION]));
-	game->enemies[index].face.x = (row + column) % 2;
-	game->enemies[index].face.y = (row + column + 1) % 2;
-	game->enemies[index].mode = WALK_FRONT;
-	game->enemies[index].pos.x = column + 0.5f;
-	game->enemies[index].pos.y = row + 0.5f;
+		&(game->enemies[*index].anims[ACTION]));
+	game->enemies[*index].face.x
+		= ((row + column) % 4 == 0) - ((row + column) % 4 == 1);
+	game->enemies[*index].face.y
+		= ((row + column) % 4 == 2) - ((row + column) % 4 == 3);
+	game->enemies[*index].mode = WALK_FRONT;
+	game->enemies[*index].state = E_STATE_CALM;
+	game->enemies[*index].pos.x = column + 0.5f;
+	game->enemies[*index].pos.y = row + 0.5f;
+	game->map.map[row][column] = '0';
+	(*index)++;
 }

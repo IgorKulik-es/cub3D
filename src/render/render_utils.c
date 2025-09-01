@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:31:15 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/28 13:20:34 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/01 13:37:32 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,27 @@ void	put_trapezoid_pixel(t_screen *screen, t_img *texture, t_trapz *trpz,
 	trpz->y_texture += trpz->step_height;
 }
 
-char	*get_fps_string(t_game *game)
+void	put_fps_counter(t_game *game, time_t time)
 {
-	time_t	time;
+	void	*background;
 	int		fps;
 	char	*str_time;
-	char	*result;
+	char	*str_fps;
 
-	time = get_time();
 	fps = T_MICROSEC / (time - game->screen.last_frame_time);
 	str_time = ft_itoa(fps);
 	if (str_time == NULL)
 		close_game(game);
-	result = ft_strjoin("FPS: ", str_time);
+	str_fps = ft_strjoin("FPS: ", str_time);
 	free(str_time);
-	if (result == NULL)
+	if (str_fps == NULL)
 		close_game(game);
-	return (result);
+	background = mlx_new_image(game->mlx, 50, 20);
+	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win,
+		background,  WIN_WIDTH - 55, 15);
+	mlx_string_put(game->mlx, game->win, WIN_WIDTH - 50, 30,
+		C_PURE_WHITE, str_fps);
+	free(str_fps);
+	mlx_destroy_image(game->mlx, background);
 }

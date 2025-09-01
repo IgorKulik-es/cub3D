@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 17:54:52 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/01 19:42:04 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,19 @@
 # define P_ANIM_SPEED 500000
 # define P_MOVE_SPEED 300000
 # define P_DOOR_SPEED 2000000
+# define P_ENEMY_SPEED 1400000
 # define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 300000
+# define P_BASE_HP 5
+# define E_STATE_CALM 1
+# define E_STATE_ANGRY 2
+# define E_DET_RADIUS 3
+# define E_MIN_DIST 1.10f
+# define E_DAM_RADIUS 1.30f
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
-# define WIN_WIDTH 2560
-# define WIN_HEIGHT 1440
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define TEXTURE_SIZE 64
 # define P_POV 1.0f
 # define P_WALL_D 0.27f
@@ -81,7 +88,7 @@ typedef enum e_modes
 	ACTION,
 	WALK_FRONT,
 	WALK_BACK,
-	NONE
+	NUM_ANIM
 }			t_mode;
 
 typedef struct s_float_coordinates
@@ -119,6 +126,7 @@ typedef struct s_player
 	t_pos	pos;
 	t_pos	facing;
 	t_pos	camera;
+	int		hp;
 	float	inv_det;
 	char	moving;
 	char	rotating;
@@ -224,10 +232,12 @@ typedef struct s_anim_data
 
 typedef struct s_entity_data
 {
-	t_anim	anims[NONE];
+	t_anim	anims[NUM_ANIM];
 	t_pos	pos;
 	int		state;
 	t_pos	trans;
+	t_pos	view;
+	float	dist;
 	t_pos	face;
 	t_mode	mode;
 }				t_entity;
@@ -275,10 +285,11 @@ typedef struct s_parse_ctx
 void	clean_exit(t_game *map, char *error, int exit_code);
 int		close_game(t_game *data);
 void	initialize_data( t_game *data);
-int		key_press(int key, t_game *data);
-int		key_release(int key, t_game *game);
 time_t	get_time(void);
 void	clean_double_array(char **arr, int n);
+void	safe_free(void **ptr);
+void	free_texture(void *mlx, t_img *tex);
+void	correct_pixel(t_game *game, int	*pixel);
 
 //maths
 t_pos	mult_scalar(t_pos vector, float mult);
@@ -296,6 +307,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit);
 t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit);
 t_hit	check_visibility(t_game *game, t_pos start, t_pos end);
 t_door	*find_door(t_game *game, int x, int y);
+t_pos	dist_to_entity(t_game *game, t_entity *guy);
 
 //rendering
 
@@ -303,21 +315,27 @@ int		render_frame(t_game *game);
 void	create_screen(t_game *game);
 void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
 void	draw_minimap(t_game *game);
-char	*get_fps_string(t_game *game);
+void	put_fps_counter(t_game *game, time_t time);
 
 //gaming
+int		key_press(int key, t_game *data);
+int		key_release(int key, t_game *game);
 void	move_player(t_game *game, int key);
 void	rotate_player(t_game *game, int key);
 void	move_door(t_game *game, t_door *door);
-bool	check_collision(t_game *game, t_pos *new);
+void	move_enemy(t_game *game, t_entity *guy);
+t_pos	smooth_collision(t_game *game, t_pos old, t_pos new);
 void	open_door(t_game *game);
+void	damage_player(t_game *game);
 
 //animation
-void	animate_all(t_game *game);
-void	update_animation(t_game *game, t_anim *anim);
+void	update_all_positions(t_game *game);
+void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
+			t_mode mode);
 void	set_anim_frames(t_game *game, t_anim_p *anim);
 void	copy_anim(t_game *game, t_anim_p *proto, t_anim *copy);
 void	put_entity(t_game *game, t_entity *guy);
+void	determine_animation(t_entity *guy);
 
 //debug
 void	create_dummy_map(t_game *data);

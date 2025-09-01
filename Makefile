@@ -6,7 +6,7 @@
 #    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/30 17:45:40 by ikulik           ###   ########.fr        #
+#    Updated: 2025/09/01 14:50:12 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,16 @@ NAME		= cub3D
 
 MAIN		= main_cub3D.c
 
-UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c
+UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c\
+			cleaners_utils.c
 
 PARSE		= parser.c parse_utils.c map_parser.c map_utils.c parse_special.c
 
-CONTROLS	= gaming.c colliders.c doors.c
+CONTROLS	= gaming.c colliders.c doors.c enemy_moves.c
 
 RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c draw_minimap.c
 
-ANIMATION	= door.c animation.c frames.c enemies_init.c
+ANIMATION	= door.c animation.c frames.c enemies_init.c animation_utils.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils

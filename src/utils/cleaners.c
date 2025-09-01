@@ -6,13 +6,13 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 18:12:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/01 20:01:57 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	free_texture(void *mlx, t_img *tex);
+static void	free_entities(t_game *game);
 static void	free_textures(t_game *game);
 
 int	close_game(t_game *data)
@@ -39,6 +39,7 @@ void	clean_exit(t_game *game, char *error, int exit_code)
 		write(2, "\n", 1);
 	}
 	free_textures(game);
+	free_entities(game);
 	if (game->map.map)
 		clean_double_array(game->map.map, game->map.height);
 	if (game->mlx)
@@ -51,34 +52,54 @@ void	clean_exit(t_game *game, char *error, int exit_code)
 	exit(exit_code);
 }
 
-void	clean_double_array(char **arr, int n)
+static void	free_textures(t_game *game)
 {
 	int	index;
 
-	index = 0;
-	while (index < n)
-	{
-		if (arr[index] != NULL)
-			free(arr[index]);
-		index++;
-	}
-	free(arr);
-}
-
-static void	free_texture(void *mlx, t_img *tex)
-{
-	if (tex->img)
-	{
-		mlx_destroy_image(mlx, tex->img);
-		tex->img = NULL;
-	}
-}
-
-static void	free_textures(t_game *game)
-{
+	index = -1;
 	free_texture(game->mlx, &(game->texts.wall_n));
 	free_texture(game->mlx, &(game->texts.wall_s));
 	free_texture(game->mlx, &(game->texts.wall_w));
 	free_texture(game->mlx, &(game->texts.wall_e));
 	free_texture(game->mlx, &(game->texts.door));
+	free_texture(game->mlx, &(game->enemy_prot.action.img));
+	free_texture(game->mlx, &(game->enemy_prot.walk_back.img));
+	free_texture(game->mlx, &(game->enemy_prot.walk_front.img));
+	while (++index < game->enemy_prot.action.num_fr
+		&& game->enemy_prot.action.frames != NULL)
+		free_texture(game->mlx, &(game->enemy_prot.action.frames[index]));
+	index = -1;
+	while (++index < game->enemy_prot.action.num_fr
+		&& game->enemy_prot.walk_back.frames != NULL)
+		free_texture(game->mlx, &(game->enemy_prot
+				.walk_back.frames[index]));
+	index = -1;
+	while (++index < game->enemy_prot.action.num_fr
+		&& game->enemy_prot.walk_front.frames != NULL)
+		free_texture(game->mlx, &(game->enemy_prot
+				.walk_front.frames[index]));
+}
+
+static void	free_entities(t_game *game)
+{
+	int	ind_ent;
+	int	ind_anim;
+
+	ind_ent = 0;
+	if (game->enemies == NULL)
+		return ;
+	while (ind_ent < game->num_enemies)
+	{
+		ind_anim = 0;
+		while (ind_anim < NUM_ANIM)
+		{
+			safe_free((void **)&game->enemies[ind_ent].anims[ind_anim].frames);
+			ind_anim++;
+		}
+		ind_ent++;
+	}
+	safe_free((void **)&game->enemy_prot.action.frames);
+	safe_free((void **)&game->enemy_prot.walk_back.frames);
+	safe_free((void **)&game->enemy_prot.walk_front.frames);
+	safe_free((void **)&(game->enemies));
 }

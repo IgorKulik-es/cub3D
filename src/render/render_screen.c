@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 18:00:48 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/01 20:07:03 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int		get_wall_pixel(t_game *game, t_hit hit, float height);
 void	put_vert_line(t_game *game, float x, t_hit hit);
+void	put_sprites_on_screen(t_game *game);
 
 void	create_screen(t_game *game)
 {
@@ -32,12 +33,11 @@ int	render_frame(t_game *game)
 {
 	int		column;
 	t_hit	hit;
-	char	*str_fps;
-	void	*img;
+	time_t	start_time;
 
 	column = 0;
-	animate_all(game);
-	str_fps = get_fps_string(game);
+	start_time = get_time();
+	put_fps_counter(game, start_time);
 	game->screen.last_frame_time = get_time();
 	while (column < game->screen.win_w)
 	{
@@ -47,15 +47,22 @@ int	render_frame(t_game *game)
 		put_vert_line(game, column, hit);
 		column++;
 	}
+	update_all_positions(game);
+	put_sprites_on_screen(game);
 	draw_minimap(game);
-	img = mlx_new_image(game->mlx, 50, 20);
-	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
-	mlx_put_image_to_window(game->mlx, game->win, img,  WIN_WIDTH - 55, 15);
-	mlx_string_put(game->mlx, game->win, WIN_WIDTH - 50, 30, C_PURE_WHITE, str_fps);
-	mlx_destroy_image(game->mlx, img);
-	put_entity(game, &(game->enemies[0]));
-	free(str_fps);
 	return (0);
+}
+
+void	put_sprites_on_screen(t_game *game)
+{
+	int	index;
+
+	index = 0;
+	while (index < game->num_enemies)
+	{
+		put_entity(game, &game->enemies[index]);
+		index++;
+	}
 }
 
 void	put_vert_line(t_game *game, float x, t_hit hit)
