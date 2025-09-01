@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 13:12:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 20:15:01 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 18:10:55 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit)
 		ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 		if (ray->obst == 'D')
 			check_door_hit(data, ray, hit);
-		if (ray->obst != '0')
+		if (ray->obst == '1' || ray->obst == 'D')
 			return (ray->start_x);
 		ray->start_x = add_vectors(ray->start_x, ray->step_x);
 		return (find_collision_neg_x(data, ray, hit));
@@ -58,7 +58,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit)
 	ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 	if (ray->obst == 'D')
 		check_door_hit(data, ray, hit);
-	if (ray->obst != '0')
+	if (ray->obst == '1' || ray->obst == 'D')
 		return (ray->start_y);
 	ray->start_y = add_vectors(ray->start_y, ray->step_y);
 	return (find_collision_neg_x(data, ray, hit));
@@ -74,7 +74,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 		ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 		if (ray->obst == 'D')
 			check_door_hit(data, ray, hit);
-		if (ray->obst != '0')
+		if (ray->obst == '1' || ray->obst == 'D')
 			return (ray->start_x);
 		ray->start_x = add_vectors(ray->start_x, ray->step_x);
 		return (find_collision_pos_x(data, ray, hit));
@@ -85,7 +85,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 	ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 	if (ray->obst == 'D')
 		check_door_hit(data, ray, hit);
-	if (ray->obst != '0')
+	if (ray->obst == '1' || ray->obst == 'D')
 		return (ray->start_y);
 	ray->start_y = add_vectors(ray->start_y, ray->step_y);
 	return (find_collision_pos_x(data, ray, hit));

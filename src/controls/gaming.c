@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 13:54:12 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 18:12:55 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ int	key_press(int key, t_game *game)
 		open_door(game);
 	if (key == XK_f)
 		game->debug_printed = 0;
+	if (key == XK_r && game->num_enemies > 0)
+	{
+		(game->enemies[0].mode)++;
+		if (game->enemies[0].mode == NONE)
+			game->enemies[0].mode = ACTION;
+	}
 	return (0);
 }
 

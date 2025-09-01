@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 13:13:32 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 18:00:48 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	render_frame(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, img,  WIN_WIDTH - 55, 15);
 	mlx_string_put(game->mlx, game->win, WIN_WIDTH - 50, 30, C_PURE_WHITE, str_fps);
 	mlx_destroy_image(game->mlx, img);
-	put_entity(game, &(game->test));
+	put_entity(game, &(game->enemies[0]));
 	free(str_fps);
 	return (0);
 }

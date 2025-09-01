@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:40:16 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 15:11:53 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 17:27:49 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	count_items(t_game *game, char item)
 	return (result);
 }
 
-void	add_doors(t_game *game)
+void	load_doors(t_game *game)
 {
 	int	ind_line;
 	int	ind_col;

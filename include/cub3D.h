@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 16:23:43 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 17:54:52 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,6 +335,7 @@ int		count_map_lines(t_game *game, char *path);
 char	*skip_spaces(char *str);
 void	validate_map(t_game *game, t_parse_ctx *ctx);
 int		count_items(t_game *game, char item);
-void	add_doors(t_game *game);
+void	load_doors(t_game *game);
+void	load_enemies(t_game *game);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 16:07:13 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 16:29:58 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 17:55:49 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ void	load_enemies(t_game *game)
 	int	ind_enemy;
 
 	ind_row = 0;
+	ind_enemy = 0;
 	game->num_enemies = count_items(game, 'Q');
 	if (game->num_enemies == 0)
 		return ;
 	game->enemies = ft_calloc(game->num_enemies, sizeof(t_entity));
 	if (game->enemies == NULL)
 		close_game(game);
-	set_anim_frames(game, &(game->enemy_prot));
+	set_anim_frames(game, &(game->enemy_prot.walk_front));
+	set_anim_frames(game, &(game->enemy_prot.walk_back));
+	set_anim_frames(game, &(game->enemy_prot.action));
 	while (ind_row < game->map.height)
 	{
 		ind_column = 1;

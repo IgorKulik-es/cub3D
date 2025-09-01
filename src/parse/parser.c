@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/08/27 17:19:16 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 17:49:46 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ static void	handle_line(t_game *game, t_parse_ctx *ctx)
 	else if (ft_strncmp(ctx->line, "DR", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
 			&game->texts.door, ctx);
+	else if (ft_strncmp(ctx->line, "QF", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->enemy_prot.walk_front.img, ctx);
+	else if (ft_strncmp(ctx->line, "QB", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->enemy_prot.walk_back.img, ctx);
+	else if (ft_strncmp(ctx->line, "QA", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->enemy_prot.action.img, ctx);
 	else if (ft_strncmp(ctx->line, "F", 1) == 0
 		|| ft_strncmp(ctx->line, "C", 1) == 0)
 		handle_color_line(game, ctx);

@@ -6,7 +6,7 @@
 #    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/08/28 19:32:31 by ikulik           ###   ########.fr        #
+#    Updated: 2025/08/30 17:45:40 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CONTROLS	= gaming.c colliders.c doors.c
 
 RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c draw_minimap.c
 
-ANIMATION	= door.c animation.c frames.c
+ANIMATION	= door.c animation.c frames.c enemies_init.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils

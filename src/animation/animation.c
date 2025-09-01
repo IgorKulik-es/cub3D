@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 15:03:44 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/08/30 18:09:38 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	animate_all(t_game *game)
 		move_door(game, &(game->doors[index]));
 		index++;
 	}
-	update_animation(game, &(game->test.anims[0]));
-	game->test.anims[0].active = 1;
+	update_animation(game, &(game->enemies[0].anims[game->enemies[0].mode]));
+	game->enemies[0].anims[game->enemies[0].mode].active = 1;
 }
 
 void	update_animation(t_game *game, t_anim *anim)
@@ -92,6 +92,8 @@ void	put_entity(t_game *game, t_entity *guy)
 	right_side = first_pixel.x - height;
 	if (right_side > game->screen.win_w)
 		right_side = game->screen.win_w - 1;
+	if (guy->trans.x < 0 || guy->trans.x >= game->screen.win_w)
+		return ;
 	if (game->dists[left_side] > guy->trans.y
 		|| game->dists[(int)guy->trans.x] > guy->trans.y
 		|| game->dists[right_side] > guy->trans.y)
@@ -104,7 +106,7 @@ void	overlay_entity(t_game *game, t_entity *guy, t_coords pos, int height)
 	t_coords	params;
 	t_img		*frame;
 
-	frame = &(guy->anims[guy->mode].frames[guy->anims[guy->mode].c_frame]);
+	frame = guy->anims[guy->mode].frames[guy->anims[guy->mode].c_frame];
 	last_px_on_scr = pos.x + height;
 	if (last_px_on_scr >= game->screen.win_w)
 		last_px_on_scr = game->screen.win_w - 1;
