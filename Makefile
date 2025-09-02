@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/09/01 14:50:12 by ikulik           ###   ########.fr        #
+#    Updated: 2025/09/02 11:25:18 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,11 @@ PARSE		= parser.c parse_utils.c map_parser.c map_utils.c parse_special.c
 
 CONTROLS	= gaming.c colliders.c doors.c enemy_moves.c
 
-RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c draw_minimap.c
+RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c
 
 ANIMATION	= door.c animation.c frames.c enemies_init.c animation_utils.c
+
+MINIMAP		= draw_minimap.c minimap_utils.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils
@@ -37,12 +39,14 @@ MAINDIR		= src/main
 CONTROLSDIR	= src/controls
 RENDERDIR	= src/render
 ANIMDIR		= src/animation
+MINIMAPDIR	= src/minimap
 MAINSRC		= $(addprefix $(MAINDIR)/, $(MAIN))
 UTILSRC		= $(addprefix $(UTILDIR)/, $(UTIL))
 PARSESRC	= $(addprefix $(PARSEDIR)/, $(PARSE))
 CONTROLSSRC	= $(addprefix $(CONTROLSDIR)/, $(CONTROLS))
 RENDERSRC	= $(addprefix $(RENDERDIR)/, $(RENDER))
 ANIMSRC		= $(addprefix $(ANIMDIR)/, $(ANIMATION))
+MINIMAPSRC	= $(addprefix $(MINIMAPDIR)/, $(MINIMAP))
 SRCSDIR		= src
 OBJDIR		= obj
 INCLUDE		= include
@@ -50,14 +54,14 @@ INCLUDE		= include
 LIBRARY = minilibx-linux/libmlx_Linux.a
 LIBGIT = https://github.com/42paris/minilibx-linux.git
 
-SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC)
+SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC) $(MINIMAPSRC)
 
 OBJS		= $(SRCS:src/%.c=obj/%.o)
 
 CFLAGS		= -Wall -Wextra -Werror -g3
 MFLAGS		= -L libft -lft -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm
 INCLUDES	= -I$(INCLUDE)
-TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC))
+TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC) $(MINIMAPSRC))
 SRC_NUM		= 0
 
 RM = rm -rf

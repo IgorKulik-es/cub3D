@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 19:42:04 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/02 12:05:27 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@
 # define C_WALL_BROWN 0x47281b
 # define C_PURE_WHITE 0xffffff
 # define C_FLOOR_SAND 0xeda85b
-# define MINIMAP_SCALE 15
-# define MINIMAP_OFFSET_X 10
-# define MINIMAP_OFFSET_Y 10
 
 typedef enum e_modes
 {
@@ -242,6 +239,12 @@ typedef struct s_entity_data
 	t_mode	mode;
 }				t_entity;
 
+typedef struct s_minimap
+{
+	int	scale;
+	int	offset_x;
+	int	offset_y;
+}	t_minimap;
 
 typedef struct s_screen_data
 {
@@ -251,9 +254,8 @@ typedef struct s_screen_data
 	float	half_w;
 	int		win_h;
 	time_t	last_frame_time;
+	int		minimap_scale;
 }			t_screen;
-
-
 
 typedef struct s_game_data
 {
@@ -282,78 +284,83 @@ typedef struct s_parse_ctx
 }	t_parse_ctx;
 
 //utils
-void	clean_exit(t_game *map, char *error, int exit_code);
-int		close_game(t_game *data);
-void	initialize_data( t_game *data);
-time_t	get_time(void);
-void	clean_double_array(char **arr, int n);
-void	safe_free(void **ptr);
-void	free_texture(void *mlx, t_img *tex);
-void	correct_pixel(t_game *game, int	*pixel);
+void		clean_exit(t_game *map, char *error, int exit_code);
+int			close_game(t_game *data);
+void		initialize_data( t_game *data);
+time_t		get_time(void);
+void		clean_double_array(char **arr, int n);
+void		safe_free(void **ptr);
+void		free_texture(void *mlx, t_img *tex);
+void		correct_pixel(t_game *game, int	*pixel);
 
 //maths
-t_pos	mult_scalar(t_pos vector, float mult);
-t_pos	add_vectors(t_pos a, t_pos b);
-t_pos	subtr_vectors(t_pos a, t_pos b);
-t_pos	rotate_vector(t_pos vector, float angle);
-float	vector_length(t_pos vector);
-float	tangent_known_length(t_pos a, t_pos b, float len_a, float len_b);
+t_pos		mult_scalar(t_pos vector, float mult);
+t_pos		add_vectors(t_pos a, t_pos b);
+t_pos		subtr_vectors(t_pos a, t_pos b);
+t_pos		rotate_vector(t_pos vector, float angle);
+float		vector_length(t_pos vector);
+float		tangent_known_length(t_pos a, t_pos b, float len_a, float len_b);
 
 //raycasting
-
-t_hit	cast_ray(t_game *data, float column);
-void	find_intersects(t_game *data, t_pos player, t_ray *ray);
-t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit);
-t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit);
-t_hit	check_visibility(t_game *game, t_pos start, t_pos end);
-t_door	*find_door(t_game *game, int x, int y);
-t_pos	dist_to_entity(t_game *game, t_entity *guy);
+t_hit		cast_ray(t_game *data, float column);
+void		find_intersects(t_game *data, t_pos player, t_ray *ray);
+t_pos		find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit);
+t_pos		find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit);
+t_hit		check_visibility(t_game *game, t_pos start, t_pos end);
+t_door		*find_door(t_game *game, int x, int y);
+t_pos		dist_to_entity(t_game *game, t_entity *guy);
 
 //rendering
-
-int		render_frame(t_game *game);
-void	create_screen(t_game *game);
-void	put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
-void	draw_minimap(t_game *game);
-void	put_fps_counter(t_game *game, time_t time);
+int			render_frame(t_game *game);
+void		create_screen(t_game *game);
+void		put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
+void		put_fps_counter(t_game *game, time_t time);
 
 //gaming
-int		key_press(int key, t_game *data);
-int		key_release(int key, t_game *game);
-void	move_player(t_game *game, int key);
-void	rotate_player(t_game *game, int key);
-void	move_door(t_game *game, t_door *door);
-void	move_enemy(t_game *game, t_entity *guy);
-t_pos	smooth_collision(t_game *game, t_pos old, t_pos new);
-void	open_door(t_game *game);
-void	damage_player(t_game *game);
+int			key_press(int key, t_game *data);
+int			key_release(int key, t_game *game);
+void		move_player(t_game *game, int key);
+void		rotate_player(t_game *game, int key);
+void		move_door(t_game *game, t_door *door);
+void		move_enemy(t_game *game, t_entity *guy);
+t_pos		smooth_collision(t_game *game, t_pos old, t_pos new);
+void		open_door(t_game *game);
+void		damage_player(t_game *game);
+
+//minimap
+void		draw_minimap(t_game *game);
+void		put_pixel(t_screen *screen, int x, int y, int color);
+void		draw_line(t_screen *screen, t_coords p, t_coords h, int color);
+void		draw_square(t_screen *screen, int x, int y, int color);
+t_minimap	get_minimap_params(t_game *game);
+
 
 //animation
-void	update_all_positions(t_game *game);
-void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
-			t_mode mode);
-void	set_anim_frames(t_game *game, t_anim_p *anim);
-void	copy_anim(t_game *game, t_anim_p *proto, t_anim *copy);
-void	put_entity(t_game *game, t_entity *guy);
-void	determine_animation(t_entity *guy);
+void		update_all_positions(t_game *game);
+void		update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
+				t_mode mode);
+void		set_anim_frames(t_game *game, t_anim_p *anim);
+void		copy_anim(t_game *game, t_anim_p *proto, t_anim *copy);
+void		put_entity(t_game *game, t_entity *guy);
+void		determine_animation(t_entity *guy);
 
 //debug
-void	create_dummy_map(t_game *data);
+void		create_dummy_map(t_game *data);
 
 //parse
-int		parse_cub(t_game *game, char *path);
-int		parse_rgb(t_game *game, t_parse_ctx *ctx);
-int		is_map_start(char *line);
-void	set_player(t_player *p, char c, int x, int y);
-void	load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx);
-void	handle_color_line(t_game *game, t_parse_ctx *ctx);
-void	parser_error(t_game *game, t_parse_ctx *ctx, char *msg);
-void	parse_map_lines(t_game *game, t_parse_ctx *ctx);
-int		count_map_lines(t_game *game, char *path);
-char	*skip_spaces(char *str);
-void	validate_map(t_game *game, t_parse_ctx *ctx);
-int		count_items(t_game *game, char item);
-void	load_doors(t_game *game);
-void	load_enemies(t_game *game);
+int			parse_cub(t_game *game, char *path);
+int			parse_rgb(t_game *game, t_parse_ctx *ctx);
+int			is_map_start(char *line);
+void		set_player(t_player *p, char c, int x, int y);
+void		load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx);
+void		handle_color_line(t_game *game, t_parse_ctx *ctx);
+void		parser_error(t_game *game, t_parse_ctx *ctx, char *msg);
+void		parse_map_lines(t_game *game, t_parse_ctx *ctx);
+int			count_map_lines(t_game *game, char *path);
+char		*skip_spaces(char *str);
+void		validate_map(t_game *game, t_parse_ctx *ctx);
+int			count_items(t_game *game, char item);
+void		load_doors(t_game *game);
+void		load_enemies(t_game *game);
 
 #endif
