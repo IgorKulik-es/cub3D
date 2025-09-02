@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cub3D.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 17:45:30 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/02 13:40:18 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	main(int argc, char **argv)
 	create_screen(&game);
 	mlx_do_key_autorepeatoff(game.mlx);
 	game.player.camera = mult_scalar(game.player.camera, P_POV);
-	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
-	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
-	mlx_hook(game.win, 17, 0L, close_game, &game);
+	mlx_hook(game.win, KeyPress, KeyPressMask, key_press, &game);
+	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_release, &game);
+	mlx_hook(game.win, DestroyNotify, NoEventMask, close_game, &game);
 	mlx_loop_hook(game.mlx, render_frame, &game);
 	mlx_loop(game.mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/02 12:57:05 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/02 13:37:42 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "get_next_line.h"
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
+#include <X11/X.h>
 
 # define TOTAL 1
 # define PARTIAL 0
