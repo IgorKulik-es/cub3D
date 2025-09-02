@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 11:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/02 12:03:47 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:53:27 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@ static void	draw_minimap_rays(t_game *game, t_minimap *m, t_coords p)
 	}
 }
 
+static void draw_minimap_enemies(t_game *game, t_minimap *m)
+{
+	int			k;
+	int			x;
+	int			y;
+	t_entity	enemy;
+
+	k = 0;
+	while (k < game->num_enemies)
+	{
+		enemy = game->enemies[k];
+		x = m->offset_x + (int)(enemy.pos.x * m->scale);
+		y = m->offset_y + (int)(enemy.pos.y * m->scale);
+		draw_square(&game->screen, x - m->scale / 4, y - m->scale / 4, 0xFF0000);
+		k++;
+	}
+}
+
 void	draw_minimap(t_game *game)
 {
 	int			i;
@@ -66,5 +84,6 @@ void	draw_minimap(t_game *game)
 	p.x = m.offset_x + (int)(game->player.pos.x * m.scale);
 	p.y = m.offset_y + (int)(game->player.pos.y * m.scale);
 	draw_square(&game->screen, p.x - m.scale / 2, p.y - m.scale / 2, 0x0000FF);
+	draw_minimap_enemies(game, &m);
 	draw_minimap_rays(game, &m, p);
 }
