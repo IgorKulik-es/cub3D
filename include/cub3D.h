@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/02 12:05:27 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:57:05 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,6 +282,13 @@ typedef struct s_parse_ctx
 	char	**map_lines;
 	int		map_count;
 }	t_parse_ctx;
+
+typedef struct s_line
+{
+	t_coords	d;
+	t_coords	s;
+	int			err;
+}	t_line;
 
 //utils
 void		clean_exit(t_game *map, char *error, int exit_code);

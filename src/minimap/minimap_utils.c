@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:17:45 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/02 12:30:19 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/02 13:00:36 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_minimap	get_minimap_params(t_game *game)
 {
 	t_minimap	m;
 	t_coords	minimap_max;
-	t_pos	scale;
+	t_pos		scale;
 
 	minimap_max.x = game->screen.win_w / 4;
 	minimap_max.y = game->screen.win_h / 4;
@@ -38,39 +38,45 @@ void	put_pixel(t_screen *screen, int x, int y, int color)
 	screen->pixels[y * screen->win_w + x] = color;
 }
 
+static t_line	init_line_params(t_coords p, t_coords h)
+{
+	t_line	line;
+
+	line.d.x = abs(h.x - p.x);
+	line.d.y = -abs(h.y - p.y);
+	if (p.x < h.x)
+		line.s.x = 1;
+	else
+		line.s.x = -1;
+	if (p.y < h.y)
+		line.s.y = 1;
+	else
+		line.s.y = -1;
+	line.err = line.d.x + line.d.y;
+	return (line);
+}
+
 void	draw_line(t_screen *screen, t_coords p, t_coords h, int color)
 {
-	t_coords	d;
-	t_coords	s;
-	int			err;
-	int			e2;
+	t_line	line;
+	int		e2;
 
-	d.x = abs(h.x - p.x);
-	d.y = -abs(h.y - p.y);
-	if (p.x < h.x)
-		s.x = 1;
-	else
-		s.x = -1;
-	if (p.y < h.y)
-		s.y = 1;
-	else
-		s.y = -1;
-	err = d.x + d.y;
+	line = init_line_params(p, h);
 	while (1)
 	{
 		put_pixel(screen, p.x, p.y, color);
 		if (p.x == h.x && p.y == h.y)
 			break ;
-		e2 = 2 * err;
-		if (e2 >= d.y)
+		e2 = 2 * line.err;
+		if (e2 >= line.d.y)
 		{
-			err += d.y;
-			p.x += s.x;
+			line.err += line.d.y;
+			p.x += line.s.x;
 		}
-		if (e2 <= d.x)
+		if (e2 <= line.d.x)
 		{
-			err += d.x;
-			p.y += s.y;
+			line.err += line.d.x;
+			p.y += line.s.y;
 		}
 	}
 }
