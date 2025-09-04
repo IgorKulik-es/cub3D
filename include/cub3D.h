@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 15:54:48 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 20:06:46 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define T_MICROSEC 1000000
 # define P_ANIM_SPEED 500000
 # define P_MOVE_SPEED 300000
-# define P_DOOR_SPEED 2000000
+# define P_DOOR_SPEED 1000000
 # define P_ENEMY_SPEED 1400000
 # define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 300000
@@ -59,6 +59,7 @@
 # define E_DAM_RADIUS 1.30f
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
+# define WIN_UPSC_FACTOR 1.5f
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define TEXTURE_SIZE 64
@@ -192,6 +193,7 @@ typedef struct s_textures
 	t_img	wall_w;
 	t_img	wall_e;
 	t_img	door;
+	t_img	door_w;
 	t_img	floor;
 	t_img	ceiling;
 	int		bot_color;
@@ -272,8 +274,9 @@ typedef struct s_game_data
 	int			debug_printed;
 	int			num_doors;
 	int			num_enemies;
-	t_pos		hits[WIN_WIDTH];
-	float		dists[WIN_WIDTH];
+	t_hit		hits[WIN_WIDTH];
+	float		d_max;
+	t_img		src_upscaled;
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
@@ -330,6 +333,7 @@ void		create_screen(t_game *game);
 void		put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
 void		put_fps_counter(t_game *game, time_t time);
 void		draw_floors(t_game *game, t_player *player);
+void		upscale_screen(t_game *game);
 
 //gaming
 int			key_press(int key, t_game *data);

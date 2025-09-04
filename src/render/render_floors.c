@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:53:53 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 17:02:46 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 17:16:44 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	draw_floors(t_game *game, t_player *player)
 	float	dist;
 	int		half_h;
 
+	if (game->texts.draw_mode == M_NO_TEXTURE)
+		return ;
 	height = 0;
 	half_h = game->screen.win_h / 2;
 	while (height < half_h)
@@ -32,12 +34,6 @@ void	draw_floors(t_game *game, t_player *player)
 		start = mult_scalar (start, dist);
 		start = add_vectors(start, player->pos);
 		step = mult_scalar(player->camera, dist / game->screen.half_w);
-		if (game->debug_printed == 0 && height == 1)
-		{
-			printf("player: %f %f\n", player->pos.x, player->pos.y);
-			printf("start: %f %f, step: %f %f, dist: %f\n", start.x, start.y, step.x, step.y, dist);
-			game->debug_printed = 1;
-		}
 		draw_hor_line(game, height, start, step);
 		height++;
 	}
@@ -57,7 +53,7 @@ void	draw_hor_line(t_game *game, int height, t_pos start, t_pos step)
 	{
 		pos_on_tile.x = start.x - floorf(start.x);
 		pos_on_tile.y = start.y - floorf(start.y);
-		text_pixel = ((int)(pos_on_tile.x * TEXTURE_SIZE / 4))
+		text_pixel = ((int)(pos_on_tile.x * TEXTURE_SIZE))
 			* TEXTURE_SIZE + (int)(pos_on_tile.y * TEXTURE_SIZE);
 		if (game->texts.draw_mode & M_FL_TEXTURE)
 			game->screen.pixels[width.x] = game->texts.floor.addr[text_pixel];

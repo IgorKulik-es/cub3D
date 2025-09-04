@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:31:15 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 13:37:32 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 17:58:25 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	put_fps_counter(t_game *game, time_t time)
 	if (str_fps == NULL)
 		close_game(game);
 	background = mlx_new_image(game->mlx, 50, 20);
-	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
 	mlx_put_image_to_window(game->mlx, game->win,
 		background,  WIN_WIDTH - 55, 15);
 	mlx_string_put(game->mlx, game->win, WIN_WIDTH - 50, 30,

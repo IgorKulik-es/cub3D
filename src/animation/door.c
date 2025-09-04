@@ -6,25 +6,26 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:04:58 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/27 19:46:41 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 19:39:45 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+int	find_closest_entity(t_game *game, t_door *door);
+
 void	move_door(t_game *game, t_door *door)
 {
 	float	incr;
 	time_t	time;
-	int		dist_to_player;
+	int		dist;
 
 	time = get_time();
-	dist_to_player = abs(door->x - (int)floor(game->player.pos.x))
-		+ abs(door->y - (int)floor(game->player.pos.y));
-	if (dist_to_player <= 1)
+	dist = find_closest_entity(game, door);
+	if (dist <= 1)
 		door->last_open = time;
 	if (door->state == D_STATE_OPEN && time - door->last_open > P_DOOR_CL_TIME
-		&& dist_to_player > 1)
+		&& dist > 1)
 		door->moving = 1;
 	if (door->moving == 0)
 		return ;
@@ -59,4 +60,25 @@ void	open_door(t_game *game)
 		}
 		ind_door++;
 	}
+}
+
+int	find_closest_entity(t_game *game, t_door *door)
+{
+	int	dist_to_ent;
+	int	min_dist;
+	int	index;
+
+	index = 0;
+	min_dist = abs(door->x - (int)floor(game->player.pos.x))
+		+ abs(door->y - (int)floor(game->player.pos.y));
+	while (index < game->num_enemies)
+	{
+		dist_to_ent = abs(door->x - (int)floor(game->enemies[index].pos.x))
+			+ abs(door->y - (int)floor(game->enemies[index].pos.y));
+		if (min_dist > dist_to_ent)
+			min_dist = dist_to_ent;
+		index++;
+	}
+	return (min_dist);
+
 }

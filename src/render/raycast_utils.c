@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 13:12:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 18:10:55 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 20:00:29 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit)
 		ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 		if (ray->obst == 'D')
 			check_door_hit(data, ray, hit);
-		if (ray->obst == '1' || ray->obst == 'D')
+		if (ray->obst != '0')
 			return (ray->start_x);
 		ray->start_x = add_vectors(ray->start_x, ray->step_x);
 		return (find_collision_neg_x(data, ray, hit));
@@ -58,7 +58,7 @@ t_pos	find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit)
 	ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 	if (ray->obst == 'D')
 		check_door_hit(data, ray, hit);
-	if (ray->obst == '1' || ray->obst == 'D')
+	if (ray->obst != '0')
 		return (ray->start_y);
 	ray->start_y = add_vectors(ray->start_y, ray->step_y);
 	return (find_collision_neg_x(data, ray, hit));
@@ -74,7 +74,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 		ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 		if (ray->obst == 'D')
 			check_door_hit(data, ray, hit);
-		if (ray->obst == '1' || ray->obst == 'D')
+		if (ray->obst != '0')
 			return (ray->start_x);
 		ray->start_x = add_vectors(ray->start_x, ray->step_x);
 		return (find_collision_pos_x(data, ray, hit));
@@ -85,7 +85,7 @@ t_pos	find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit)
 	ray->obst = data->map.map[hit->tile.y][hit->tile.x];
 	if (ray->obst == 'D')
 		check_door_hit(data, ray, hit);
-	if (ray->obst == '1' || ray->obst == 'D')
+	if (ray->obst != '0')
 		return (ray->start_y);
 	ray->start_y = add_vectors(ray->start_y, ray->step_y);
 	return (find_collision_pos_x(data, ray, hit));
@@ -96,6 +96,7 @@ void	check_door_hit(t_game *game, t_ray *ray, t_hit *hit)
 	t_door	*door;
 	t_pos	door_hit;
 	float	visible_door;
+	float	half_width;
 
 	door = find_door(game, hit->tile.x, hit->tile.y);
 	if (door->type == D_TYPE_VERT)
@@ -108,9 +109,16 @@ void	check_door_hit(t_game *game, t_ray *ray, t_hit *hit)
 		door_hit = add_vectors(hit->point, mult_scalar(ray->step_y, 0.5f));
 		visible_door = door_hit.x - hit->tile.x;
 	}
-	if (door->width > visible_door && visible_door > 0)
+	half_width = door->width / 2;
+	if (visible_door > 0 && visible_door < half_width)
 	{
-		hit->column = door->width - visible_door;
+		hit->column = 0.5f - half_width + visible_door;
+		hit->point = door_hit;
+		return ;
+	}
+	if (visible_door < 1 && visible_door >= 1 - half_width)
+	{
+		hit->column = -0.5f + half_width + visible_door;
 		hit->point = door_hit;
 		return ;
 	}

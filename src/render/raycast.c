@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 16:32:01 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 20:01:02 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_hit	cast_ray(t_game *data, float column)
 		hit.column = hit.point.x - floor(hit.point.x)
 			+ hit.point.y - floor(hit.point.y);
 	vector = subtr_vectors(hit.point, data->player.pos);
-	if (fabs(ray.view.x - 0.0f) > __FLT_EPSILON__)
+	if (fabsf(ray.view.x - 0.0f) > __FLT_EPSILON__)
 		hit.dist = vector.x / ray.view.x;
 	else
 		hit.dist = vector.y / ray.view.y;
@@ -48,9 +48,9 @@ void	calculate_steps(t_game *data, t_ray *ray, float column)
 	ray->step_x.x = 0;
 	ray->step_y.x = 0;
 	ray->step_y.y = 0;
-	if (fabs(ray->view.x - 0.0f) > __FLT_EPSILON__)
+	if (fabsf(ray->view.x - 0.0f) > __FLT_EPSILON__)
 		ray->step_x = mult_scalar(ray->view, 1.0f / fabsf(ray->view.x));
-	if (fabs(ray->view.y - 0.0f) > __FLT_EPSILON__)
+	if (fabsf(ray->view.y - 0.0f) > __FLT_EPSILON__)
 		ray->step_y = mult_scalar(ray->view, 1.0f / fabsf(ray->view.y));
 }
 
@@ -58,7 +58,7 @@ char	get_hit_type(t_ray *ray, t_pos point)
 {
 	if (ray->obst != '1')
 		return (ray->obst);
-	if (fabs(point.y - roundf(point.y)) < __FLT_EPSILON__)
+	if (fabsf(point.y - roundf(point.y)) < __FLT_EPSILON__)
 	{
 		if (ray->view.y > 0)
 			return ('N');

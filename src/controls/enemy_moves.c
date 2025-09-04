@@ -6,13 +6,13 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 20:11:48 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 19:31:06 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-bool	check_entity_collision(t_game *game, t_pos face, t_pos new);
+bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new);
 void	detect_player(t_game *game, t_entity *guy);
 
 void	move_enemy(t_game *game, t_entity *guy)
@@ -29,42 +29,31 @@ void	move_enemy(t_game *game, t_entity *guy)
 		return ;
 	if (guy->state == E_STATE_ANGRY)
 		guy->pos = smooth_collision(game, guy->pos, new);
-	else if (check_entity_collision(game, guy->face, new))
+	else if (check_entity_collision(game, guy, new))
 		guy->pos = new;
-	else if (guy->face.x)
+}
+
+bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new)
+{
+	t_pos	new_pos;
+	t_pos	view;
+
+	new_pos = smooth_collision(game, guy->pos, new);
+	if (new_pos.x == new.x && new_pos.y == new.y)
+		return (true);
+	view = subtr_vectors(new, guy->pos);
+	if (fabsf(view.x) > 0)
 	{
-		guy->face.y = (guy->face.x > 0) - (guy->face.x < 0);
-		guy->face.x = 0;
+		view.y = (view.x < 0) - (view.x >= 0);
+		view.x = 0;
 	}
 	else
 	{
-		guy->face.x = (guy->face.y < 0) - (guy->face.y > 0);
-		guy->face.y = 0;
+		view.x = (view.y > 0) - (view.y <= 0);
+		view.y = 0;
 	}
-}
-
-bool	check_entity_collision(t_game *game, t_pos face, t_pos new)
-{
-	t_coords	tile;
-	t_coords	new_tile;
-	float		dist;
-
-	tile.x = floor(new.x);
-	tile.y = floor(new.y);
-	if (game->map.map[tile.y][tile.x] == '1'
-		|| (game->map.map[tile.y][tile.x] == 'D'
-			&& find_door(game, tile.x, tile.y)->state == D_STATE_CLOSED))
-		return (false);
-	new_tile.x = tile.x + face.x;
-	new_tile.y = tile.y + face.y;
-	if (game->map.map[new_tile.y][new_tile.x] == '0'
-		|| (game->map.map[new_tile.y][new_tile.x] == 'D'
-			&& find_door(game, new_tile.x, new_tile.y)->state == D_STATE_OPEN))
-		return (true);
-	dist = (roundf(new.x) - new.x) * face.x + (roundf(new.y) - new.y) * face.y;
-	if (dist > 0 && dist < P_WALL_D)
-		return (false);
-	return (true);
+	guy->face = view;
+	return (false);
 }
 
 void	detect_player(t_game *game, t_entity *guy)

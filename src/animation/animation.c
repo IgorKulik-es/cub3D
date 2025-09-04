@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 20:05:10 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 18:30:53 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void	put_entity(t_game *game, t_entity *guy)
 	right_side = first_pixel.x + height;
 	correct_pixel(game, &left_side);
 	correct_pixel(game, &right_side);
-	if (game->dists[left_side] > guy->trans.y
-		|| game->dists[right_side] > guy->trans.y
+	if (game->hits[left_side].dist > guy->trans.y
+		|| game->hits[right_side].dist > guy->trans.y
 		|| ((int)guy->trans.x >= 0 && guy->trans.x < (int)game->screen.win_w
-			&& game->dists[(int)guy->trans.x] > guy->trans.y))
+			&& game->hits[(int)guy->trans.x].dist > guy->trans.y))
 		render_entity(game, guy, first_pixel, height);
 }
 
@@ -99,7 +99,7 @@ void	render_entity(t_game *game, t_entity *guy, t_coords pos, int height)
 	params.y = height;
 	while (params.x < last_px_on_scr)
 	{
-		if (guy->trans.y < game->dists[params.x])
+		if (guy->trans.y < game->hits[params.x].dist)
 			put_anim_line(game, frame, pos, params);
 		(params.x)++;
 	}

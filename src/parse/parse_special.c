@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:40:16 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 17:27:49 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 20:15:35 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	load_doors(t_game *game)
 	game->num_doors = count_items(game, 'D');
 	if (game->num_doors == 0)
 		return ;
+	if (game->texts.door.img == NULL || game->texts.door_w.img == NULL)
+		close_game(game);
 	game->doors = ft_calloc(game->num_doors, sizeof(t_door));
 	if (game->doors == NULL)
 		close_game(game);

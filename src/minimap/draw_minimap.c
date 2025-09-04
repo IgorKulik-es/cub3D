@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 11:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/04 13:52:39 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 17:46:03 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	draw_minimap_rays(t_game *game, t_minimap *m, t_coords p)
 	col = 0;
 	while (col < game->screen.win_w)
 	{
-		hit = game->hits[col];
+		hit = game->hits[col].point;
 		h.x = m->offset_x + (int)(hit.x * m->scale);
 		h.y = m->offset_y + (int)(hit.y * m->scale);
 		draw_line(&game->screen, p, h, 0x00FF00);
