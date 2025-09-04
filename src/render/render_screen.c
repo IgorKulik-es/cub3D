@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 20:07:03 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/04 16:54:22 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	render_frame(t_game *game)
 	start_time = get_time();
 	put_fps_counter(game, start_time);
 	game->screen.last_frame_time = get_time();
+	draw_floors(game, &game->player);
 	while (column < game->screen.win_w)
 	{
 		hit = cast_ray(game, column);
@@ -48,7 +49,7 @@ int	render_frame(t_game *game)
 		column++;
 	}
 	update_all_positions(game);
-	put_sprites_on_screen(game);
+	//put_sprites_on_screen(game);
 	draw_minimap(game);
 	return (0);
 }
@@ -82,13 +83,14 @@ void	put_vert_line(t_game *game, float x, t_hit hit)
 		bot = 0;
 	while (index > 0)
 	{
-		if (index > top)
-			(game->screen.pixels)[pixel] = C_SKY_BLUE;
-		else if (index >= bot)
+		if (index >= bot && index <= top)
 			(game->screen.pixels)[pixel] = get_wall_pixel
 				(game, hit, (float)(top - index) / (float)(top - bot + 1));
+/* 		if (index > top)
+			(game->screen.pixels)[pixel] = C_SKY_BLUE;
 		else
-			(game->screen.pixels)[pixel] = C_FLOOR_SAND;
+		else
+			(game->screen.pixels)[pixel] = C_FLOOR_SAND; */
 		pixel += game->screen.win_w;
 		index--;
 	}

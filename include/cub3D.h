@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/02 13:37:42 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/04 15:54:48 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@
 # define TEXTURE_SIZE 64
 # define P_POV 1.0f
 # define P_WALL_D 0.27f
+# define M_NO_TEXTURE 0
+# define M_FL_TEXTURE 1
+# define M_CEIL_TEXTURE 2
 # define W 119
 # define A 97
 # define S 115
@@ -189,8 +192,11 @@ typedef struct s_textures
 	t_img	wall_w;
 	t_img	wall_e;
 	t_img	door;
+	t_img	floor;
+	t_img	ceiling;
 	int		bot_color;
 	int		top_color;
+	int		draw_mode;
 	int		wall_color;
 }			t_textures;
 
@@ -323,6 +329,7 @@ int			render_frame(t_game *game);
 void		create_screen(t_game *game);
 void		put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
 void		put_fps_counter(t_game *game, time_t time);
+void		draw_floors(t_game *game, t_player *player);
 
 //gaming
 int			key_press(int key, t_game *data);

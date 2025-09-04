@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_minimap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 11:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/02 13:10:51 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:52:39 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	draw_minimap_cell(t_game *game, t_minimap *m, int i, int j)
 
 	x = m->offset_x + j * m->scale;
 	y = m->offset_y + i * m->scale;
-	if (game->map.map[i][j] == '1')
-		draw_square(&game->screen, x, y, 0x333333);
-	else if (game->map.map[i][j] == '0')
+	if (game->map.map[i][j] == '0')
 		draw_square(&game->screen, x, y, 0xFFFFFF);
 	else if (game->map.map[i][j] == 'D')
 		draw_square(&game->screen, x, y, 0x996633);
+	else
+		draw_square(&game->screen, x, y, 0x333333);
 }
 
 static void	draw_minimap_rays(t_game *game, t_minimap *m, t_coords p)

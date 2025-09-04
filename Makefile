@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/09/02 13:37:31 by vtrofyme         ###   ########.fr        #
+#    Updated: 2025/09/04 15:56:51 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ PARSE		= parser.c parse_utils.c map_parser.c map_utils.c parse_special.c
 
 CONTROLS	= gaming.c colliders.c doors.c enemy_moves.c
 
-RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c raycast_utils.c
+RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c\
+			raycast_utils.c render_floors.c
 
 ANIMATION	= door.c animation.c frames.c enemies_init.c animation_utils.c
 
