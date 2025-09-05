@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 16:07:13 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 16:37:45 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 19:58:53 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	load_enemies(t_game *game)
 		return ;
 	game->enemies = ft_calloc(game->num_enemies, sizeof(t_entity));
 	if (game->enemies == NULL)
-		close_game(game);
+		clean_exit(game, "malloc", 1);
 	set_anim_frames(game, &(game->enemy_prot.walk_front));
 	set_anim_frames(game, &(game->enemy_prot.walk_back));
 	set_anim_frames(game, &(game->enemy_prot.action));

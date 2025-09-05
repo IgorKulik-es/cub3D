@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 20:18:56 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:03:41 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ int	main(int argc, char **argv)
 	game.mlx = mlx_init();
 	if (parse_cub(&game, argv[1]))
 		return (1);
-	game.texts.door = game.texts.wall_n;
-	game.texts.door_w = game.texts.wall_n;
 	load_doors(&game);
 	load_enemies(&game);
 	create_screen(&game);
+	setup_textures(&game);
 	mlx_do_key_autorepeatoff(game.mlx);
 	game.player.camera = mult_scalar(game.player.camera, P_POV);
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_press, &game);

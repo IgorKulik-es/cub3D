@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 18:30:53 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:11:25 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 
 void	render_entity(t_game *game, t_entity *guy, t_coords pos, int height);
 void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars);
-
-void	update_all_positions(t_game *game)
-{
-	int	index;
-
-	index = -1;
-	if (game->player.moving)
-		move_player(game, game->player.moving);
-	if (game->player.rotating)
-		rotate_player(game, game->player.rotating);
-	while (++index < game->num_doors)
-		move_door(game, &(game->doors[index]));
-	index = -1;
-	while (++index < game->num_enemies)
-	{
-		move_enemy(game, &(game->enemies[index]));
-		update_anim_frame(game, &(game->enemies[index]), &(game->enemies[index]
-				.anims[game->enemies[index].mode]), game->enemies[index].mode);
-	}
-}
 
 void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
 	t_mode mode)

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:18:34 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/04 16:39:00 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 19:14:22 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	set_player(t_player *p, char c, int x, int y)
 {
 	p->pos.x = x + 0.5f;
 	p->pos.y = y + 0.5f;
+	p->tile.x = x;
+	p->tile.y = y;
 	if (c == 'N')
 	{
 		p->facing = (t_pos){0, -1};

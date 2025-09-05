@@ -6,7 +6,7 @@
 #    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/09/04 18:31:10 by ikulik           ###   ########.fr        #
+#    Updated: 2025/09/05 20:12:43 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,18 +21,18 @@ NAME		= cub3D
 MAIN		= main_cub3D.c
 
 UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c\
-			cleaners_utils.c
+			cleaners_utils.c frames_init.c texture_scaling.c
 
 PARSE		= parser.c parse_utils.c map_parser.c map_utils.c parse_special.c
 
-CONTROLS	= gaming.c colliders.c doors.c enemy_moves.c
+CONTROLS	= gaming.c colliders.c enemy_moves.c effects.c player_moves.c
 
-RENDER		= placeholder.c raycast.c vector_basics.c render_screen.c render_utils.c\
-			raycast_utils.c render_floors.c upscaler.c
+RENDER		= raycast.c raycast_utils.c vector_basics.c render_frame.c\
+			render_utils.c render_floors.c post_processing.c render_walls.c
 
-ANIMATION	= door.c animation.c frames.c enemies_init.c animation_utils.c
+ANIMATION	= door.c animation.c enemies_init.c animation_utils.c
 
-MINIMAP		= draw_minimap.c minimap_utils.c
+INTERFACE	= draw_minimap.c minimap_utils.c fps_counter.c hit_points.c
 
 PARSEDIR	= src/parse
 UTILDIR		= src/utils
@@ -40,14 +40,14 @@ MAINDIR		= src/main
 CONTROLSDIR	= src/controls
 RENDERDIR	= src/render
 ANIMDIR		= src/animation
-MINIMAPDIR	= src/minimap
+INTERFDIR	= src/interface
 MAINSRC		= $(addprefix $(MAINDIR)/, $(MAIN))
 UTILSRC		= $(addprefix $(UTILDIR)/, $(UTIL))
 PARSESRC	= $(addprefix $(PARSEDIR)/, $(PARSE))
 CONTROLSSRC	= $(addprefix $(CONTROLSDIR)/, $(CONTROLS))
 RENDERSRC	= $(addprefix $(RENDERDIR)/, $(RENDER))
 ANIMSRC		= $(addprefix $(ANIMDIR)/, $(ANIMATION))
-MINIMAPSRC	= $(addprefix $(MINIMAPDIR)/, $(MINIMAP))
+INTERFSRC	= $(addprefix $(INTERFDIR)/, $(INTERFACE))
 SRCSDIR		= src
 OBJDIR		= obj
 INCLUDE		= include
@@ -55,14 +55,14 @@ INCLUDE		= include
 LIBRARY = minilibx-linux/libmlx_Linux.a
 LIBGIT = https://github.com/42paris/minilibx-linux.git
 
-SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC) $(MINIMAPSRC)
+SRCS		= $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC) $(INTERFSRC)
 
 OBJS		= $(SRCS:src/%.c=obj/%.o)
 
 CFLAGS		= -Wall -Wextra -Werror -g3
 MFLAGS		= -L libft -lft -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm
 INCLUDES	= -I$(INCLUDE)
-TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC) $(MINIMAPSRC))
+TOTAL_SRCS	= $(words $(MAINSRC) $(PARSESRC) $(UTILSRC) $(CONTROLSSRC) $(RENDERSRC) $(ANIMSRC) $(INTERFSRC))
 SRC_NUM		= 0
 
 RM = rm -rf
@@ -103,7 +103,6 @@ clean:
 
 fclean: clean
 	@$(MAKE) -C libft fclean > /dev/null 2>&1
-	@$(RM) minilibx-linux
 	@$(RM) $(NAME)
 
 re: fclean all
