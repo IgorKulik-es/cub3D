@@ -1,0 +1,9 @@
+
+DR ./textures/door_64.xpm
+DW ./textures/door_wall_64.xpm
+FL ./textures/floor_bloody_64.xpm
+CE ./textures/ceiling_grill_64.xpm
+
+
+door https://little-martian.itch.io/retro-texture-pack/devlog/636462/version-13-big-doors
+door skull https://www.doomworld.com/forum/topic/90900-post-your-doom-textures-%F0%9F%9A%ABno-genai/?page=86
