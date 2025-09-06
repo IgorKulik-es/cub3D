@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_special.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:40:16 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 20:15:35 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/06 16:21:16 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,8 @@ int	count_items(t_game *game, char item)
 	return (result);
 }
 
-void	load_doors(t_game *game)
+static void	init_doors_array(t_game *game)
 {
-	int	ind_line;
-	int	ind_col;
-	int	ind_door;
-
-	ind_line = 0;
-	ind_door = 0;
 	game->num_doors = count_items(game, 'D');
 	if (game->num_doors == 0)
 		return ;
@@ -52,6 +46,17 @@ void	load_doors(t_game *game)
 	game->doors = ft_calloc(game->num_doors, sizeof(t_door));
 	if (game->doors == NULL)
 		close_game(game);
+}
+
+void	load_doors(t_game *game)
+{
+	int	ind_line;
+	int	ind_col;
+	int	ind_door;
+
+	ind_line = 0;
+	ind_door = 0;
+	init_doors_array(game);
 	while (++ind_line < game->map.height)
 	{
 		ind_col = 0;
@@ -62,7 +67,6 @@ void	load_doors(t_game *game)
 				if (initialize_door(game, ind_line, ind_col, ind_door))
 					ind_door++;
 			}
-			ind_col++;
 		}
 	}
 }
