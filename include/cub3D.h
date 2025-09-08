@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:41:41 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 16:50:13 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@
 # define M_FL_TEXTURE 1
 # define M_CEIL_TEXTURE 2
 # define M_VISIBLE_HP 4
+# define M_GAME_OVER_PL 8
+# define M_VICTORY_PL 16
+# define M_
 # define W 119
 # define A 97
 # define S 115
@@ -188,7 +191,8 @@ typedef struct s_textures
 	t_img	floor;
 	t_img	ceiling;
 	t_img	hp;
-	t_img	hp_resized;
+	t_img	go_plaque;
+	t_img	vic_plaque;
 	int		bot_color;
 	int		top_color;
 	int		draw_mode;
@@ -240,7 +244,7 @@ typedef struct s_entity_data
 	t_pos	face;
 	t_mode	mode;
 }				t_entity;
-#define SENSITIVITY 0.005
+
 typedef struct s_minimap
 {
 	int	scale;
@@ -305,8 +309,10 @@ void		safe_free(void **ptr);
 void		error_message(char *error, int exit_code);
 void		free_texture(void *mlx, t_img *tex);
 void		correct_pixel(t_game *game, int	*pixel);
-t_img		resize_texture(t_game *game, t_img *img, int new_size);
+void		resize_texture(t_game *game, t_img *img, int new_width,
+				int new_height);
 void		setup_textures(t_game *game);
+void		stretch_to_screen_width(t_game *game, t_img *img);
 
 //maths
 t_pos		mult_scalar(t_pos vector, float mult);

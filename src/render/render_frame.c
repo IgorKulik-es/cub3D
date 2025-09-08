@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:24:46 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 16:57:11 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	render_frame(t_game *game)
 	draw_minimap(game);
 	upscale_screen(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->scr_upscaled.img, 0, 0);
+	//mlx_put_image_to_window(game->mlx, game->win, game->texts.go_plaque.img, 0, 0);
 	put_fps_counter(game, get_time());
 	return (0);
 }
@@ -47,10 +48,10 @@ void	put_sprites_on_screen(t_game *game)
 	ind_to_put = -1;
 	last_max_dist = game->map.width;
 	find = 0;
-	curr_max_dist = 0;
 	while (++ind_to_put < game->num_enemies)
 	{
 		ind_find = -1;
+		curr_max_dist = 0;
 		while (++ind_find < game->num_enemies)
 		{
 			if (game->enemies[ind_find].dist > curr_max_dist

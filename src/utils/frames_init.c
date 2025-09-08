@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frames_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:42:01 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 16:56:19 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,24 @@ void	copy_anim(t_game *game, t_anim_p *proto, t_anim *copy)
 
 void	setup_textures(t_game *game)
 {
-	int	size;
+	int		size;
 
 	size = game->screen.win_w / WIN_UI_SCALE;
 	if (game->texts.hp.img != NULL)
-	{
-		game->texts.hp_resized = resize_texture(game, &game->texts.hp, size);
-		game->texts.draw_mode |= M_VISIBLE_HP;
-	}
+		resize_texture(game,
+				&game->texts.hp, size, size);
+	if (game->texts.go_plaque.img)
+		stretch_to_screen_width(game, &game->texts.go_plaque);
+	if (game->texts.vic_plaque.img)
+		stretch_to_screen_width(game, &game->texts.vic_plaque);
+	if (game->texts.go_plaque.img != NULL)
+		game->texts.draw_mode |= M_GAME_OVER_PL;
+	if (game->texts.vic_plaque.img != NULL)
+		game->texts.draw_mode |= M_VICTORY_PL;
 	if (game->texts.ceiling.img != NULL)
 		game->texts.draw_mode += M_CEIL_TEXTURE;
 	if (game->texts.floor.img != NULL)
 		game->texts.draw_mode += M_FL_TEXTURE;
+	if (game->texts.hp.img != NULL)
+		game->texts.draw_mode |= M_VISIBLE_HP;
 }

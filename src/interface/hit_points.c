@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_points.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:13:38 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:38:54 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 16:51:41 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ void	put_hp_on_screen(t_game *game)
 	if ((game->texts.draw_mode & M_VISIBLE_HP) && game->game_over == 0)
 	{
 		side_offset = game->screen.win_w - (WIN_UI_OFFSET + game->texts
-				.hp_resized.width * game->player.hp);
+				.hp.width * game->player.hp);
 		top_offset = game->screen.win_h
-			- WIN_UI_OFFSET - game->texts.hp_resized.width;
+			- WIN_UI_OFFSET - game->texts.hp.width;
 		counter = 0;
 		while (counter < game->player.hp)
 		{
-			put_img_to_srceen(game, &game->texts.hp_resized,
+			put_img_to_srceen(game, &game->texts.hp,
 				side_offset, top_offset);
 			counter++;
-			side_offset += game->texts.hp_resized.width;
+			side_offset += game->texts.hp.width;
 		}
 	}
 }
