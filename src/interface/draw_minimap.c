@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_minimap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 11:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/04 17:46:03 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 12:38:13 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static void	draw_minimap_cell(t_game *game, t_minimap *m, int i, int j)
 	x = m->offset_x + j * m->scale;
 	y = m->offset_y + i * m->scale;
 	if (game->map.map[i][j] == '0')
-		draw_square(&game->screen, x, y, 0xFFFFFF);
+		draw_square(&game->screen, x, y, 0xf0bb8d);
 	else if (game->map.map[i][j] == 'D')
-		draw_square(&game->screen, x, y, 0x996633);
+		draw_square(&game->screen, x, y, 0x4a301a);
 	else
-		draw_square(&game->screen, x, y, 0x333333);
+		draw_square(&game->screen, x, y, 0x69625c);
 }
 
 static void	draw_minimap_rays(t_game *game, t_minimap *m, t_coords p)
@@ -39,7 +39,7 @@ static void	draw_minimap_rays(t_game *game, t_minimap *m, t_coords p)
 		hit = game->hits[col].point;
 		h.x = m->offset_x + (int)(hit.x * m->scale);
 		h.y = m->offset_y + (int)(hit.y * m->scale);
-		draw_line(&game->screen, p, h, 0x00FF00);
+		draw_line(&game->screen, p, h, 0xf28d35);
 		col += 1;
 	}
 }
@@ -58,7 +58,7 @@ static void	draw_minimap_enemies(t_game *game, t_minimap *m)
 		x = m->offset_x + (int)(enemy.pos.x * m->scale);
 		y = m->offset_y + (int)(enemy.pos.y * m->scale);
 		draw_square(&game->screen, x - m->scale / 4,
-			y - m->scale / 4, 0xFF0000);
+			y - m->scale / 4, 0xf26161);
 		k++;
 	}
 }
@@ -84,7 +84,7 @@ void	draw_minimap(t_game *game)
 	}
 	p.x = m.offset_x + (int)(game->player.pos.x * m.scale);
 	p.y = m.offset_y + (int)(game->player.pos.y * m.scale);
-	draw_square(&game->screen, p.x - m.scale / 2, p.y - m.scale / 2, 0x0000FF);
+	draw_square(&game->screen, p.x - m.scale / 2, p.y - m.scale / 2, 0x3afc61);
 	draw_minimap_rays(game, &m, p);
 	draw_minimap_enemies(game, &m);
 }
