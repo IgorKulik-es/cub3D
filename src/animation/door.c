@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:04:58 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 16:45:28 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:27:40 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,4 @@ int	find_closest_entity(t_game *game, t_door *door)
 		index++;
 	}
 	return (min_dist);
-
 }

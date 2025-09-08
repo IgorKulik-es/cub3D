@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:21:27 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:24:46 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	put_sprites_on_screen(t_game *game)
 	float	curr_max_dist;
 	float	last_max_dist;
 
-	ind_to_put = 0;
+	ind_to_put = -1;
 	last_max_dist = game->map.width;
 	find = 0;
 	curr_max_dist = 0;
-	while (ind_to_put < game->num_enemies)
+	while (++ind_to_put < game->num_enemies)
 	{
-		ind_find = 0;
-		while (ind_find < game->num_enemies)
+		ind_find = -1;
+		while (++ind_find < game->num_enemies)
 		{
 			if (game->enemies[ind_find].dist > curr_max_dist
 				&& game->enemies[ind_find].dist < last_max_dist)
@@ -59,11 +59,9 @@ void	put_sprites_on_screen(t_game *game)
 				find = ind_find;
 				curr_max_dist = game->enemies[ind_find].dist;
 			}
-			ind_find++;
 		}
 		last_max_dist = curr_max_dist;
 		put_entity(game, &(game->enemies[find]));
-		ind_to_put++;
 	}
 }
 
@@ -83,4 +81,3 @@ void	cast_all_rays(t_game *game)
 		column++;
 	}
 }
-

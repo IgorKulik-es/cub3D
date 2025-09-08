@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_floors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:53:53 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 17:16:44 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:23:37 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,3 @@ void	draw_hor_line(t_game *game, int height, t_pos start, t_pos step)
 		(width.y)++;
 	}
 }
-
-

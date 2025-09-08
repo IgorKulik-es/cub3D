@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:01:40 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:23:46 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	calculate_steps(t_game *game, t_ray *ray, float column)
 
 static void	find_intersects(t_game *game, t_pos player, t_ray *ray)
 {
-
 	ray->start_x.x = floor(player.x) + (ray->view.x > 0);
 	ray->start_y.y = floor(player.y) + (ray->view.y > 0);
 	if (fabs(ray->view.x - 0.0f) > __FLT_EPSILON__)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fps_counter.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:31:15 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 19:59:45 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:29:08 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	put_fps_counter(t_game *game, time_t time)
 		clean_exit(game, "malloc", EXIT_FAILURE);
 	background = mlx_new_image(game->mlx, 50, 20);
 	mlx_put_image_to_window(game->mlx, game->win,
-		background,  WIN_WIDTH - 55, 15);
+		background, WIN_WIDTH - 55, 15);
 	mlx_string_put(game->mlx, game->win, WIN_WIDTH - 50, 30,
 		C_PURE_WHITE, str_fps);
 	free(str_fps);

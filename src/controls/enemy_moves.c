@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy_moves.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 19:31:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:21:59 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,3 @@ void	detect_player(t_game *game, t_entity *guy)
 	if (guy->state == E_STATE_ANGRY)
 		guy->face = mult_scalar(guy->view, -1 / guy->dist);
 }
-

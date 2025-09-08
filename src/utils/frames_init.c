@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frames_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:02:53 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:22:57 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	get_frame(t_game *game, t_anim_p *anim, int ind_frame)
 	int		column;
 	int		row;
 	t_img	*frame;
-
 
 	row = -1;
 	frame = &(anim->frames[ind_frame]);

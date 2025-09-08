@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:40:16 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:06:38 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 11:15:37 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	load_doors(t_game *game)
 				if (initialize_door(game, ind_line, ind_col, ind_door))
 					ind_door++;
 			}
+			ind_col++;
 		}
 	}
 }

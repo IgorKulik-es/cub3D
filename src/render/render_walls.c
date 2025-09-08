@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_walls.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 17:22:04 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 17:22:50 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 11:24:58 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,3 @@ static int	get_wall_pixel(t_game *game, t_hit hit, float height)
 	else
 		return (0);
 }
-
