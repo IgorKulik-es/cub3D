@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:59:05 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 19:53:31 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 12:14:37 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	determine_animation(t_entity *guy)
 	int		index;
 
 	index = -1;
-	if ((guy->state == E_STATE_ANGRY && guy->dist < E_DET_RADIUS / 2.0f)
+	if ((guy->state == E_STATE_ANGRY && guy->dist < E_DAM_RADIUS)
 		|| (guy->mode == ACTION && guy->anims[ACTION].active))
 		guy->mode = ACTION;
 	else

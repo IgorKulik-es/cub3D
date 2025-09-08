@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 20:07:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:07:16 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:36:11 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	move_player(t_game *game, int key)
 	t_pos	new;
 	float	mult;
 
+	if (game->game_over)
+		return ;
 	mult = (get_time() - game->screen.last_frame_time) / (float)P_MOVE_SPEED;
 	if (key == S)
 		mult *= -1;
@@ -32,6 +34,8 @@ void	rotate_player(t_game *game, int key)
 	time_t		c_time;
 	float		angle;
 
+	if (game->game_over)
+		return ;
 	c_time = get_time();
 	angle = (c_time - game->screen.last_frame_time) / (float)P_ROTATE_SPEED;
 	if (key == A)
@@ -40,17 +44,24 @@ void	rotate_player(t_game *game, int key)
 	game->player.camera = rotate_vector(game->player.camera, angle);
 }
 
-void	damage_player(t_game *game)
+void	damage_player(t_game *game, t_entity *guy)
 {
 	blood_effect(game, P_RED_SHIFT);
 	if (game->player.hp > 0)
 		(game->player.hp)--;
 	if (game->player.hp == 0)
-	{
-		if (game->game_over == false)
-			printf("GAME OVER!\n");
-		game->game_over = true;
-	}
+		game_over(game);
 	else if (!(game->texts.draw_mode & M_VISIBLE_HP))
 		printf("Hit points left: %d\n", game->player.hp);
+	if (game->game_over)
+	{
+		guy->face.x = -(guy->face.x > 0) + (guy->face.x < 0);
+		guy->face.y = -(guy->face.y > 0) + (guy->face.y < 0);
+		if (fabsf(guy->face.x) > fabsf(guy->face.y))
+			guy->face.y = 0;
+		else
+			guy->face.x = 0;
+		guy->state = E_STATE_CALM;
+	}
 }
+

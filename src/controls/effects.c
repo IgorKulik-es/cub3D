@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:28:30 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 15:56:24 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 12:00:31 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void	shift_color_component(float *color, float shift);
 void	blood_effect(t_game *game, float red)
 {
 	game->tint.r = red;
-	game->tint.g = WIN_DARK_FACTOR / 2;
-	game->tint.b = WIN_DARK_FACTOR / 2;
+	game->tint.g = WIN_DARK_FACTOR / 3;
+	game->tint.b = WIN_DARK_FACTOR / 3;
 }
 
 void	restore_color(t_game *game)

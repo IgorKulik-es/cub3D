@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:22:57 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:42:01 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,14 @@ void	setup_textures(t_game *game)
 {
 	int	size;
 
-	size = game->screen.win_w / (P_UI_SCALE * WIN_UPSC_FACTOR);
+	size = game->screen.win_w / WIN_UI_SCALE;
 	if (game->texts.hp.img != NULL)
 	{
 		game->texts.hp_resized = resize_texture(game, &game->texts.hp, size);
 		game->texts.draw_mode |= M_VISIBLE_HP;
 	}
 	if (game->texts.ceiling.img != NULL)
-		game->texts.draw_mode |= M_CEIL_TEXTURE;
+		game->texts.draw_mode += M_CEIL_TEXTURE;
 	if (game->texts.floor.img != NULL)
-		game->texts.draw_mode |= M_FL_TEXTURE;
+		game->texts.draw_mode += M_FL_TEXTURE;
 }
