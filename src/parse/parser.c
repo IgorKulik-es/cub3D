@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/06 16:54:12 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 11:07:51 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ static void	handle_line_2(t_game *game, t_parse_ctx *ctx)
 	else if (ft_strncmp(ctx->line, "DW", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
 			&game->texts.door_w, ctx);
+	else if (ft_strncmp(ctx->line, "HP", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&game->texts.hp, ctx);
 	else if (ft_strncmp(ctx->line, "F", 1) == 0
 		|| ft_strncmp(ctx->line, "C", 1) == 0)
 		handle_color_line(game, ctx);

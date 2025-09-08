@@ -6,13 +6,27 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:04:58 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 19:39:45 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 16:45:28 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 int	find_closest_entity(t_game *game, t_door *door);
+
+t_door	*find_door(t_game *game, int x, int y)
+{
+	int	index;
+
+	index = 0;
+	while (index < game->num_doors)
+	{
+		if ((game->doors[index]).x == x && (game->doors[index]).y == y)
+			return (&(game->doors[index]));
+		index++;
+	}
+	return (NULL);
+}
 
 void	move_door(t_game *game, t_door *door)
 {

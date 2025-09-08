@@ -6,14 +6,13 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:21:00 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 18:37:23 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 18:01:02 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 void	check_next_tile(t_game *game, t_pos *new, t_pos old, t_coords new_tile);
-
 
 t_pos	smooth_collision(t_game *game, t_pos old, t_pos new)
 {
@@ -57,7 +56,7 @@ void	check_next_tile(t_game *game, t_pos *new, t_pos old, t_coords new_tile)
 	}
 }
 
-t_pos	find_first_collision(t_game *game, t_pos start, t_pos end)
+/* t_pos	find_first_collision(t_game *game, t_pos start, t_pos end)
 {
 	t_ray	ray;
 	t_hit	hit;
@@ -93,4 +92,4 @@ t_hit	check_visibility(t_game *game, t_pos start, t_pos end)
 	if (hit.type == 1)
 		hit.dist = vector_length(subtr_vectors(end, start));
 	return (hit);
-}
+} */

@@ -6,29 +6,29 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:49:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 20:12:37 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:02:07 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3D.h"
 
-void	initialize_data(t_game *data)
+void	initialize_data(t_game *game)
 {
-	ft_bzero(data, sizeof(t_game));
-	data->screen.win_h = WIN_HEIGHT / WIN_UPSC_FACTOR;
-	data->screen.win_w = WIN_WIDTH / WIN_UPSC_FACTOR;
-	data->screen.half_w = data->screen.win_w / 2;
-	data->screen.last_frame_time = get_time();
-	data->player.moving = 0;
-	data->player.rotating = 0;
-	data->player.hp = P_BASE_HP;
-	data->player.inv_det = 1.0f / P_POV;
+	ft_bzero(game, sizeof(t_game));
+	game->screen.win_h = WIN_HEIGHT / WIN_UPSC_FACTOR;
+	game->screen.win_w = WIN_WIDTH / WIN_UPSC_FACTOR;
+	game->screen.half_w = game->screen.win_w / 2;
+	game->screen.last_frame_time = get_time();
+	game->player.moving = 0;
+	game->player.rotating = 0;
+	game->player.hp = P_BASE_HP;
+	game->player.inv_det = 1.0f / P_POV;
+	game->enemy_prot.action.img.height = 64;
+	game->enemy_prot.walk_back.img.height = 64;
+	game->enemy_prot.walk_front.img.height = 64;
+	game->tint.r = WIN_DARK_FACTOR;
+	game->tint.g = WIN_DARK_FACTOR;
+	game->tint.b = WIN_DARK_FACTOR;
 }
 
-void	setup_textures(t_game *game)
-{
-	if (game->texts.ceiling.img != NULL)
-		game->texts.draw_mode |= M_CEIL_TEXTURE;
-	if (game->texts.floor.img != NULL)
-		game->texts.draw_mode |= M_FL_TEXTURE;
-}
+

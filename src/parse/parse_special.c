@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:40:16 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/06 16:21:16 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 11:06:38 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static void	init_doors_array(t_game *game)
 	if (game->num_doors == 0)
 		return ;
 	if (game->texts.door.img == NULL || game->texts.door_w.img == NULL)
-		close_game(game);
+		clean_exit(game, "missing door textures", 1);
 	game->doors = ft_calloc(game->num_doors, sizeof(t_door));
 	if (game->doors == NULL)
-		close_game(game);
+		clean_exit(game, "malloc", EXIT_FAILURE);
 }
 
 void	load_doors(t_game *game)

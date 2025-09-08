@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 20:06:46 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:28:30 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 # define MAP_ERROR 2
 # define WALL '1'
 # define EMPTY '0'
-# define MAX_DOORS 10
 # define UP 'w'
 # define DOWN 's'
 # define LEFT 'a'
@@ -51,7 +50,12 @@
 # define P_ENEMY_SPEED 1400000
 # define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 300000
+# define P_COLOR_SPEED 2000000.0f
+# define P_RED_SHIFT 1.2f
 # define P_BASE_HP 5
+# define P_POV 1.0f
+# define P_WALL_D 0.27f
+# define P_UI_SCALE 8
 # define E_STATE_CALM 1
 # define E_STATE_ANGRY 2
 # define E_DET_RADIUS 3
@@ -59,15 +63,16 @@
 # define E_DAM_RADIUS 1.30f
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
-# define WIN_UPSC_FACTOR 1.5f
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
-# define TEXTURE_SIZE 64
-# define P_POV 1.0f
-# define P_WALL_D 0.27f
+# define WIN_UPSC_FACTOR 2.0f
+# define WIN_WIDTH 2560
+# define WIN_HEIGHT 1440
+# define WIN_DARK_FACTOR 0.7f
+# define WIN_UI_OFFSET 20
+# define TEXTURE_SIZE 256
 # define M_NO_TEXTURE 0
 # define M_FL_TEXTURE 1
 # define M_CEIL_TEXTURE 2
+# define M_VISIBLE_HP 4
 # define W 119
 # define A 97
 # define S 115
@@ -99,6 +104,13 @@ typedef struct s_float_coordinates
 	float	y;
 }		t_pos;
 
+typedef struct s_color_shift
+{
+	float	r;
+	float	g;
+	float	b;
+}			t_c_shift;
+
 typedef struct s_int_coordinates
 {
 	int	x;
@@ -125,36 +137,15 @@ typedef struct s_map_data
 
 typedef struct s_player
 {
-	t_pos	pos;
-	t_pos	facing;
-	t_pos	camera;
-	int		hp;
-	float	inv_det;
-	char	moving;
-	char	rotating;
+	t_pos		pos;
+	t_pos		facing;
+	t_pos		camera;
+	t_coords	tile;
+	int			hp;
+	float		inv_det;
+	char		moving;
+	char		rotating;
 }			t_player;
-
-typedef struct s_trapezoid
-{
-	int		left_height;
-	int		right_height;
-	int		width;
-	int		last_pxl_right;
-	int		x;
-	int		y;
-	float	top_pixel;
-	float	bot_pixel;
-	float	step_screen;
-	float	step_width;
-	float	step_height;
-	int		i_screen;
-	float	x_texture;
-	float	y_texture;
-	float	edge_left;
-	float	hor_portion;
-	float	edge_top;
-	float	vert_portion;
-}			t_trapz;
 
 typedef struct s_ray_params
 {
@@ -196,6 +187,8 @@ typedef struct s_textures
 	t_img	door_w;
 	t_img	floor;
 	t_img	ceiling;
+	t_img	hp;
+	t_img	hp_resized;
 	int		bot_color;
 	int		top_color;
 	int		draw_mode;
@@ -276,12 +269,13 @@ typedef struct s_game_data
 	int			num_enemies;
 	t_hit		hits[WIN_WIDTH];
 	float		d_max;
-	t_img		src_upscaled;
+	t_img		scr_upscaled;
 	t_screen	screen;
 	t_map_data	map;
 	t_player	player;
 	t_textures	texts;
 	t_anim_en	enemy_prot;
+	t_c_shift	tint;
 	t_entity	*enemies;
 	t_door		*doors;
 }			t_game;
@@ -301,14 +295,17 @@ typedef struct s_line
 }	t_line;
 
 //utils
-void		clean_exit(t_game *map, char *error, int exit_code);
-int			close_game(t_game *data);
-void		initialize_data( t_game *data);
+void		clean_exit(t_game *game, char *error, int exit_code);
+int			close_game(t_game *game);
+void		initialize_data( t_game *game);
 time_t		get_time(void);
 void		clean_double_array(char **arr, int n);
 void		safe_free(void **ptr);
+void		error_message(char *error, int exit_code);
 void		free_texture(void *mlx, t_img *tex);
 void		correct_pixel(t_game *game, int	*pixel);
+t_img		resize_texture(t_game *game, t_img *img, int new_size);
+void		setup_textures(t_game *game);
 
 //maths
 t_pos		mult_scalar(t_pos vector, float mult);
@@ -316,27 +313,27 @@ t_pos		add_vectors(t_pos a, t_pos b);
 t_pos		subtr_vectors(t_pos a, t_pos b);
 t_pos		rotate_vector(t_pos vector, float angle);
 float		vector_length(t_pos vector);
-float		tangent_known_length(t_pos a, t_pos b, float len_a, float len_b);
 
 //raycasting
-t_hit		cast_ray(t_game *data, float column);
-void		find_intersects(t_game *data, t_pos player, t_ray *ray);
-t_pos		find_collision_neg_x(t_game *data, t_ray *ray, t_hit *hit);
-t_pos		find_collision_pos_x(t_game *data, t_ray *ray, t_hit *hit);
-t_hit		check_visibility(t_game *game, t_pos start, t_pos end);
+t_hit		cast_ray(t_game *game, float column);
+t_pos		find_collision_neg_x(t_game *game, t_ray *ray, t_hit *hit);
+t_pos		find_collision_pos_x(t_game *game, t_ray *ray, t_hit *hit);
 t_door		*find_door(t_game *game, int x, int y);
 t_pos		dist_to_entity(t_game *game, t_entity *guy);
 
 //rendering
 int			render_frame(t_game *game);
 void		create_screen(t_game *game);
-void		put_tapezoid_to_img(t_screen *screen, t_img *texture, t_trapz trpz);
-void		put_fps_counter(t_game *game, time_t time);
+void		draw_walls(t_game *game);
 void		draw_floors(t_game *game, t_player *player);
 void		upscale_screen(t_game *game);
+void		put_img_to_srceen(t_game *game, t_img *img, int x, int y);
+void		tint_screen(t_game *game);
+void		blood_effect(t_game *game, float red);
+void		restore_color(t_game *game);
 
 //gaming
-int			key_press(int key, t_game *data);
+int			key_press(int key, t_game *game);
 int			key_release(int key, t_game *game);
 void		move_player(t_game *game, int key);
 void		rotate_player(t_game *game, int key);
@@ -346,12 +343,14 @@ t_pos		smooth_collision(t_game *game, t_pos old, t_pos new);
 void		open_door(t_game *game);
 void		damage_player(t_game *game);
 
-//minimap
+//user interface
 void		draw_minimap(t_game *game);
 void		put_pixel(t_screen *screen, int x, int y, int color);
 void		draw_line(t_screen *screen, t_coords p, t_coords h, int color);
 void		draw_square(t_screen *screen, int x, int y, int color);
 t_minimap	get_minimap_params(t_game *game);
+void		put_fps_counter(t_game *game, time_t time);
+void		put_hp_on_screen(t_game *game);
 
 
 //animation
@@ -364,7 +363,7 @@ void		put_entity(t_game *game, t_entity *guy);
 void		determine_animation(t_entity *guy);
 
 //debug
-void		create_dummy_map(t_game *data);
+void		create_dummy_map(t_game *game);
 
 //parse
 int			parse_cub(t_game *game, char *path);

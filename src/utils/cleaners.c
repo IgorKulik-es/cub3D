@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 20:01:57 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:22:46 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,70 +14,49 @@
 
 static void	free_entities(t_game *game);
 static void	free_textures(t_game *game);
-
-int	close_game(t_game *data)
-{
-	mlx_do_key_autorepeaton(data->mlx);
-	if (data->screen.img)
-		mlx_destroy_image(data->mlx, data->screen.img);
-	if (data->win)
-		mlx_destroy_window(data->mlx, data->win);
-	clean_exit(data, "OK", 0);
-	return (0);
-}
+static void	free_anim_frames(t_game *game);
 
 void	clean_exit(t_game *game, char *error, int exit_code)
 {
-	if (exit_code != 0)
-	{
-		if (exit_code == EXIT_FAILURE)
-			write(2, "cube3D: ", 8);
-		if (exit_code == MAP_ERROR)
-			write(2, "Error: ", 7);
-		if (error)
-			write(2, error, ft_strlen(error));
-		write(2, "\n", 1);
-	}
+	if (exit_code)
+		error_message(error, exit_code);
 	free_textures(game);
 	free_entities(game);
 	if (game->map.map)
 		clean_double_array(game->map.map, game->map.height);
+	if (game->screen.img)
+		mlx_destroy_image(game->mlx, game->screen.img);
+	if (game->scr_upscaled.img)
+		mlx_destroy_image(game->mlx, game->scr_upscaled.img);
+	if (game->win)
+		mlx_destroy_window(game->mlx, game->win);
+	if (game->doors)
+		free(game->doors);
+	mlx_do_key_autorepeaton(game->mlx);
 	if (game->mlx)
 	{
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
-	if (game->doors)
-		free(game->doors);
 	exit(exit_code);
 }
 
 static void	free_textures(t_game *game)
 {
-	int	index;
-
-	index = -1;
 	free_texture(game->mlx, &(game->texts.wall_n));
 	free_texture(game->mlx, &(game->texts.wall_s));
 	free_texture(game->mlx, &(game->texts.wall_w));
 	free_texture(game->mlx, &(game->texts.wall_e));
 	free_texture(game->mlx, &(game->texts.door));
+	free_texture(game->mlx, &(game->texts.door_w));
+	free_texture(game->mlx, &(game->texts.hp));
+	free_texture(game->mlx, &(game->texts.floor));
+	free_texture(game->mlx, &(game->texts.ceiling));
+	free_texture(game->mlx, &(game->texts.hp_resized));
 	free_texture(game->mlx, &(game->enemy_prot.action.img));
 	free_texture(game->mlx, &(game->enemy_prot.walk_back.img));
 	free_texture(game->mlx, &(game->enemy_prot.walk_front.img));
-	while (++index < game->enemy_prot.action.num_fr
-		&& game->enemy_prot.action.frames != NULL)
-		free_texture(game->mlx, &(game->enemy_prot.action.frames[index]));
-	index = -1;
-	while (++index < game->enemy_prot.action.num_fr
-		&& game->enemy_prot.walk_back.frames != NULL)
-		free_texture(game->mlx, &(game->enemy_prot
-				.walk_back.frames[index]));
-	index = -1;
-	while (++index < game->enemy_prot.action.num_fr
-		&& game->enemy_prot.walk_front.frames != NULL)
-		free_texture(game->mlx, &(game->enemy_prot
-				.walk_front.frames[index]));
+	free_anim_frames(game);
 }
 
 static void	free_entities(t_game *game)
@@ -102,4 +81,24 @@ static void	free_entities(t_game *game)
 	safe_free((void **)&game->enemy_prot.walk_back.frames);
 	safe_free((void **)&game->enemy_prot.walk_front.frames);
 	safe_free((void **)&(game->enemies));
+}
+
+static void	free_anim_frames(t_game *game)
+{
+	int	index;
+
+	index = -1;
+	while (++index < game->enemy_prot.action.num_fr
+		&& game->enemy_prot.action.frames != NULL)
+		free_texture(game->mlx, &(game->enemy_prot.action.frames[index]));
+	index = -1;
+	while (++index < game->enemy_prot.action.num_fr
+		&& game->enemy_prot.walk_back.frames != NULL)
+		free_texture(game->mlx, &(game->enemy_prot
+				.walk_back.frames[index]));
+	index = -1;
+	while (++index < game->enemy_prot.action.num_fr
+		&& game->enemy_prot.walk_front.frames != NULL)
+		free_texture(game->mlx, &(game->enemy_prot
+				.walk_front.frames[index]));
 }

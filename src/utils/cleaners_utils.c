@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:37:31 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/01 12:39:56 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 19:52:48 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,15 @@ void	safe_free(void **ptr)
 		free(*ptr);
 		*ptr = NULL;
 	}
+}
+
+void	error_message(char *error, int exit_code)
+{
+	if (exit_code == EXIT_FAILURE)
+		write(2, "cube3D: ", 8);
+	if (exit_code == MAP_ERROR)
+		write(2, "Error: ", 7);
+	if (error)
+		write(2, error, ft_strlen(error));
+	write(2, "\n", 1);
 }

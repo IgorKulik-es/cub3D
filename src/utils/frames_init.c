@@ -1,16 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   frames.c                                           :+:      :+:    :+:   */
+/*   frames_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/30 16:07:47 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:02:53 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	create_screen(t_game *game)
+{
+	t_screen	*screen;
+	int			dummy;
+
+	screen = &(game->screen);
+	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+	screen->img = mlx_new_image(game->mlx, screen->win_w, screen->win_h);
+	screen->pixels = (int *)mlx_get_data_addr(screen->img,
+			&dummy, &dummy, &dummy);
+	game->scr_upscaled.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	game->scr_upscaled.addr = (int *)mlx_get_data_addr(game->scr_upscaled.img,
+			&(game->scr_upscaled.bpp), &(game->scr_upscaled.line_length),
+			&(game->scr_upscaled.endian));
+	game->scr_upscaled.width = WIN_WIDTH;
+	game->scr_upscaled.height = WIN_HEIGHT;
+}
 
 void	get_frame(t_game *game, t_anim_p *anim, int ind_frame)
 {
@@ -49,7 +67,7 @@ void	set_anim_frames(t_game *game, t_anim_p *anim)
 	anim->num_fr = anim->img.width / anim->img.height;
 	anim->frames = ft_calloc(anim->num_fr, sizeof(t_img));
 	if (anim->frames == NULL)
-		close_game(game);
+		clean_exit(game, "malloc", EXIT_FAILURE);
 	while (ind_frame < anim->num_fr)
 	{
 		get_frame(game, anim, ind_frame);
@@ -65,7 +83,7 @@ void	copy_anim(t_game *game, t_anim_p *proto, t_anim *copy)
 	index = 0;
 	copy->frames = malloc (proto->num_fr * sizeof(t_img *));
 	if (copy->frames == NULL)
-		close_game(game);
+		clean_exit(game, "malloc", EXIT_FAILURE);
 	copy->num_fr = proto->num_fr;
 	copy->last_frame = game->screen.last_frame_time;
 	while (index < proto->num_fr)
@@ -73,4 +91,20 @@ void	copy_anim(t_game *game, t_anim_p *proto, t_anim *copy)
 		copy->frames[index] = &(proto->frames[index]);
 		index++;
 	}
+}
+
+void	setup_textures(t_game *game)
+{
+	int	size;
+
+	size = game->screen.win_w / (P_UI_SCALE * WIN_UPSC_FACTOR);
+	if (game->texts.hp.img != NULL)
+	{
+		game->texts.hp_resized = resize_texture(game, &game->texts.hp, size);
+		game->texts.draw_mode |= M_VISIBLE_HP;
+	}
+	if (game->texts.ceiling.img != NULL)
+		game->texts.draw_mode |= M_CEIL_TEXTURE;
+	if (game->texts.floor.img != NULL)
+		game->texts.draw_mode |= M_FL_TEXTURE;
 }
