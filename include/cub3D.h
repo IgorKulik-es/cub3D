@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 13:02:47 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:12:23 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@
 # define C_WALL_BROWN 0x47281b
 # define C_PURE_WHITE 0xffffff
 # define C_FLOOR_SAND 0xeda85b
+# define SENSITIVITY 0.005
 
 typedef enum e_modes
 {
@@ -239,7 +240,7 @@ typedef struct s_entity_data
 	t_pos	face;
 	t_mode	mode;
 }				t_entity;
-
+#define SENSITIVITY 0.005
 typedef struct s_minimap
 {
 	int	scale;
@@ -266,6 +267,7 @@ typedef struct s_game_data
 	int			debug_printed;
 	int			num_doors;
 	int			num_enemies;
+	int			last_mouse_x;
 	t_hit		hits[WIN_WIDTH];
 	float		d_max;
 	t_img		scr_upscaled;
@@ -341,6 +343,7 @@ void		move_enemy(t_game *game, t_entity *guy);
 t_pos		smooth_collision(t_game *game, t_pos old, t_pos new);
 void		open_door(t_game *game);
 void		damage_player(t_game *game);
+int mouse_move(int x, int y, t_game *game);
 
 //user interface
 void		draw_minimap(t_game *game);

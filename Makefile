@@ -6,7 +6,7 @@
 #    By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/09/08 11:05:22 by vtrofyme         ###   ########.fr        #
+#    Updated: 2025/09/08 13:47:58 by vtrofyme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c\
 
 PARSE		= parser.c parse_utils.c map_parser.c map_utils.c map_utils2.c parse_special.c
 
-CONTROLS	= gaming.c colliders.c enemy_moves.c effects.c player_moves.c
+CONTROLS	= gaming.c colliders.c enemy_moves.c effects.c player_moves.c mouse_move.c
 
 RENDER		= raycast.c raycast_utils.c vector_basics.c render_frame.c\
 			render_utils.c render_floors.c post_processing.c render_walls.c

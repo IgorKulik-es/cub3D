@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:49:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:23:06 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:07:29 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	initialize_data(t_game *game)
 	game->screen.last_frame_time = get_time();
 	game->player.moving = 0;
 	game->player.rotating = 0;
+	game->last_mouse_x = -1;
 	game->player.hp = P_BASE_HP;
 	game->player.inv_det = 1.0f / P_POV;
 	game->enemy_prot.action.img.height = 64;
