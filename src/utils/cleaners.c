@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:22:46 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:47:13 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ static void	free_anim_frames(t_game *game)
 		&& game->enemy_prot.action.frames != NULL)
 		free_texture(game->mlx, &(game->enemy_prot.action.frames[index]));
 	index = -1;
-	while (++index < game->enemy_prot.action.num_fr
+	while (++index < game->enemy_prot.walk_back.num_fr
 		&& game->enemy_prot.walk_back.frames != NULL)
 		free_texture(game->mlx, &(game->enemy_prot
 				.walk_back.frames[index]));
 	index = -1;
-	while (++index < game->enemy_prot.action.num_fr
+	while (++index < game->enemy_prot.walk_front.num_fr
 		&& game->enemy_prot.walk_front.frames != NULL)
 		free_texture(game->mlx, &(game->enemy_prot
 				.walk_front.frames[index]));
