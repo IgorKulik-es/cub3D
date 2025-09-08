@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_moves.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 20:07:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:36:11 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:50:09 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,3 @@ void	damage_player(t_game *game, t_entity *guy)
 		guy->state = E_STATE_CALM;
 	}
 }
-

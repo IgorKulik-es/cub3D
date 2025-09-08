@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animation.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:33:42 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:51:07 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
 		return ;
 	time = get_time() - anim->last_frame;
 	if (((guy->mode != ACTION) && (time > P_ANIM_SPEED
-			/ (guy->state * anim->num_fr)))
+				/ (guy->state * anim->num_fr)))
 		|| (guy->mode == ACTION && time > P_ANIM_SPEED / anim->num_fr))
 	{
 		(anim->c_frame)++;

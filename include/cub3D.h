@@ -6,7 +6,7 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:41:41 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:51:55 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ typedef struct s_entity_data
 	t_pos	face;
 	t_mode	mode;
 }				t_entity;
-#define SENSITIVITY 0.005
+
 typedef struct s_minimap
 {
 	int	scale;
