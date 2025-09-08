@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 20:07:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:36:11 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:49:51 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,3 @@ void	damage_player(t_game *game, t_entity *guy)
 		guy->state = E_STATE_CALM;
 	}
 }
-
