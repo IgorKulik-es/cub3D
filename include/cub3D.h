@@ -6,10 +6,9 @@
 /*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 12:26:20 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/08 13:02:47 by vtrofyme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -24,7 +23,7 @@
 # include "get_next_line.h"
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
-#include <X11/X.h>
+# include <X11/X.h>
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -352,7 +351,6 @@ t_minimap	get_minimap_params(t_game *game);
 void		put_fps_counter(t_game *game, time_t time);
 void		put_hp_on_screen(t_game *game);
 
-
 //animation
 void		update_all_positions(t_game *game);
 void		update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
@@ -370,7 +368,8 @@ int			parse_cub(t_game *game, char *path);
 int			parse_rgb(t_game *game, t_parse_ctx *ctx);
 int			is_map_start(char *line);
 void		set_player(t_player *p, char c, int x, int y);
-void		load_texture(t_game *game, char *path, t_img *dest, t_parse_ctx *ctx);
+void		load_texture(t_game *game, char *path, t_img *dest,
+				t_parse_ctx *ctx);
 void		handle_color_line(t_game *game, t_parse_ctx *ctx);
 void		parser_error(t_game *game, t_parse_ctx *ctx, char *msg);
 void		parse_map_lines(t_game *game, t_parse_ctx *ctx);
