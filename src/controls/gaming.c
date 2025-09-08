@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:11:58 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 12:18:24 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,19 @@ int	close_game(t_game *game)
 {
 	clean_exit(game, NULL, 0);
 	return (1);
+}
+
+void	game_over(t_game *game)
+{
+	int	index;
+
+	index = 0;
+	if (game->game_over == false)
+		printf("GAME OVER!\n");
+	game->game_over = true;
+	while (index < game->num_enemies)
+	{
+		game->enemies[index].state = E_STATE_CALM;
+		index++;
+	}
 }

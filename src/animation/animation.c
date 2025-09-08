@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:11:25 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:33:42 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
 	(void)game;
 	if (anim->active == false)
 		return ;
-	time = get_time();
-	if (time - anim->last_frame > P_ANIM_SPEED / anim->num_fr)
+	time = get_time() - anim->last_frame;
+	if (((guy->mode != ACTION) && (time > P_ANIM_SPEED
+			/ (guy->state * anim->num_fr)))
+		|| (guy->mode == ACTION && time > P_ANIM_SPEED / anim->num_fr))
 	{
 		(anim->c_frame)++;
-		anim->last_frame = time;
+		anim->last_frame += time;
 	}
 	if (anim->c_frame >= anim->num_fr)
 	{
@@ -36,7 +38,7 @@ void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
 		{
 			anim->active = false;
 			if (guy->dist < E_DAM_RADIUS)
-				damage_player(game);
+				damage_player(game, guy);
 		}
 	}
 }

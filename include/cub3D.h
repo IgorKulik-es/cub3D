@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 20:28:30 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:38:45 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define P_ANIM_SPEED 500000
 # define P_MOVE_SPEED 300000
 # define P_DOOR_SPEED 1000000
-# define P_ENEMY_SPEED 1400000
+# define P_ENEMY_SPEED 1200000
 # define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 300000
 # define P_COLOR_SPEED 2000000.0f
@@ -55,12 +55,11 @@
 # define P_BASE_HP 5
 # define P_POV 1.0f
 # define P_WALL_D 0.27f
-# define P_UI_SCALE 8
 # define E_STATE_CALM 1
 # define E_STATE_ANGRY 2
-# define E_DET_RADIUS 3
+# define E_DET_RADIUS 4
 # define E_MIN_DIST 1.10f
-# define E_DAM_RADIUS 1.30f
+# define E_DAM_RADIUS 1.80f
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
 # define WIN_UPSC_FACTOR 2.0f
@@ -68,6 +67,7 @@
 # define WIN_HEIGHT 1440
 # define WIN_DARK_FACTOR 0.7f
 # define WIN_UI_OFFSET 20
+# define WIN_UI_SCALE 16
 # define TEXTURE_SIZE 256
 # define M_NO_TEXTURE 0
 # define M_FL_TEXTURE 1
@@ -341,7 +341,8 @@ void		move_door(t_game *game, t_door *door);
 void		move_enemy(t_game *game, t_entity *guy);
 t_pos		smooth_collision(t_game *game, t_pos old, t_pos new);
 void		open_door(t_game *game);
-void		damage_player(t_game *game);
+void		damage_player(t_game *game, t_entity *guy);
+void		game_over(t_game *game);
 
 //user interface
 void		draw_minimap(t_game *game);

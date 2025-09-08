@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/04 19:31:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/08 14:38:21 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	move_enemy(t_game *game, t_entity *guy)
 
 	guy->trans = dist_to_entity(game, guy);
 	detect_player(game, guy);
+	if (guy->mode == ACTION)
+		return ;
 	step = ((get_time() - game->screen.last_frame_time) / (float)P_ENEMY_SPEED)
 		* guy->state;
 	new = add_vectors(guy->pos, mult_scalar(guy->face, step));
@@ -44,16 +46,16 @@ bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new)
 	view = subtr_vectors(new, guy->pos);
 	if (fabsf(view.x) > 0)
 	{
-		view.y = (view.x < 0) - (view.x >= 0);
+		view.y = (view.x > 0) - (view.x <= 0);
 		view.x = 0;
 	}
 	else
 	{
-		view.x = (view.y > 0) - (view.y <= 0);
+		view.x = (view.y < 0) - (view.y >= 0);
 		view.y = 0;
 	}
 	guy->face = view;
-	return (false);
+	return (true);
 }
 
 void	detect_player(t_game *game, t_entity *guy)
@@ -62,9 +64,9 @@ void	detect_player(t_game *game, t_entity *guy)
 	{
 		if (guy->dist < E_DET_RADIUS && game->game_over == false)
 			guy->state = E_STATE_ANGRY;
-		else if (guy->dist > 2 * E_DET_RADIUS || game->game_over)
+		else if (guy->dist > 2 * E_DET_RADIUS)
 		{
-			if (guy->state == E_STATE_ANGRY || game->game_over)
+			if (guy->state == E_STATE_ANGRY)
 			{
 				guy->face.x = -(guy->face.x > 0) + (guy->face.x < 0);
 				guy->face.y = -(guy->face.y > 0) + (guy->face.y < 0);
