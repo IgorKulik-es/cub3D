@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 16:56:48 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 19:10:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@
 # define E_STATE_CALM 1
 # define E_STATE_ANGRY 2
 # define E_DET_RADIUS 4
+# define E_ATT_RANGE 1.5f
 # define E_MIN_DIST 1.10f
 # define E_DAM_RADIUS 1.80f
 # define FIRST_HIT_X 1
@@ -267,7 +268,12 @@ typedef struct s_entity_data
 	float	dist;
 	t_pos	face;
 	t_mode	mode;
+	t_mode	turn;
 	bool	is_pl_visible;
+	bool	is_ent_visible;
+	int		left_edge;
+	int		right_edge;
+	int		height;
 }				t_entity;
 
 typedef struct s_minimap
@@ -333,7 +339,7 @@ void		clean_double_array(char **arr, int n);
 void		safe_free(void **ptr);
 void		error_message(char *error, int exit_code);
 void		free_texture(void *mlx, t_img *tex);
-void		correct_pixel(t_game *game, int	*pixel);
+bool		correct_pixel(t_game *game, int	*pixel);
 void		resize_texture(t_game *game, t_img *img, int new_width,
 				int new_height);
 void		setup_textures(t_game *game);
@@ -347,7 +353,7 @@ t_pos		rotate_vector(t_pos vector, float angle);
 float		vector_length(t_pos vector);
 float		cross_product(t_pos a, t_pos b);
 float		vectors_angle(t_pos a, t_pos b);
-t_mode		determine_facing(float angle);
+t_mode		determine_facing(t_entity *guy);
 
 //raycasting
 t_hit		cast_ray(t_game *game, float column);
@@ -398,6 +404,7 @@ void		update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
 				t_mode mode);
 void		set_anim_frames(t_game *game, t_anim_p *anim);
 void		copy_anim(t_game *game, t_anim_p *proto, t_anim *copy);
+bool		check_entity_visibility(t_game *game, t_entity *guy);
 void		put_entity(t_game *game, t_entity *guy);
 void		determine_animation(t_entity *guy);
 void		animate_banners(t_game *game, t_bans *banners);

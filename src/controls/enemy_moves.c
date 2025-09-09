@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 16:55:24 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 19:12:02 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new);
 void	detect_player(t_game *game, t_entity *guy);
+void	check_player_visibility(t_game *game, t_entity *guy);
 
 void	move_enemy(t_game *game, t_entity *guy)
 {
 	t_pos	new;
 	float	step;
-	float	angle;
 
 	guy->trans = dist_to_entity(game, guy);
-	angle = vectors_angle(guy->view, guy->face);
-	guy->mode = determine_facing(angle);
+	check_player_visibility(game, guy);
+	guy->is_ent_visible = check_entity_visibility(game, guy);
+	guy->turn = determine_facing(guy);
+	if (!(guy->is_pl_visible) || !(guy->turn == WALK_FRONT))
+		guy->is_pl_visible = false;
 	detect_player(game, guy);
 	if (guy->mode == ACTION)
 		return ;
@@ -63,7 +66,7 @@ bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new)
 
 void	detect_player(t_game *game, t_entity *guy)
 {
-	if (guy->mode == WALK_FRONT || guy->mode == ACTION)
+	if (guy->is_pl_visible)
 	{
 		if (guy->dist < E_DET_RADIUS && game->game_stage == PLAY)
 			guy->state = E_STATE_ANGRY;
@@ -85,7 +88,7 @@ void	calm_down_enemy(t_entity *guy)
 	guy->state = E_STATE_CALM;
 }
 
-void	check_visibility(t_game *game, t_entity *guy)
+void	check_player_visibility(t_game *game, t_entity *guy)
 {
 	t_ray	ray;
 	t_hit	hit;

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:49:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 18:59:04 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,21 @@ void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars)
 		pixel += game->screen.win_w;
 		step.y += step.x;
 	}
+}
+
+bool	check_entity_visibility(t_game *game, t_entity *guy)
+{
+	guy->height = game->screen.win_h / guy->trans.y;
+	guy->left_edge = guy->trans.x - guy->height / 2;
+	guy->right_edge = guy->left_edge + guy->height;
+	if (correct_pixel(game, &guy->left_edge)
+		&& game->hits[guy->left_edge].dist > guy->trans.y)
+		return (true);
+	if (correct_pixel(game, &guy->right_edge)
+		&& game->hits[guy->right_edge].dist > guy->trans.y)
+		return (true);
+	if (((int)guy->trans.x >= 0 && (int)guy->trans.x < game->screen.win_w
+			&& game->hits[(int)guy->trans.x].dist > guy->trans.y))
+		return (true);
+	return (false);
 }

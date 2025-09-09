@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 19:56:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 16:53:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 19:12:21 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,25 @@ float	vectors_angle(t_pos a, t_pos b)
 	float	sine;
 
 	sine = cross_product(a, b) / (vector_length(a) * vector_length(b));
-	return (asinf(sine));
+	return (acosf(sine));
 }
 
-t_mode	determine_facing(float angle)
+t_mode	determine_facing(t_entity *guy)
 {
-	angle = fmodf(angle, D_PI);
-	if (angle < 0)
-		angle += D_PI;
+	float	angle;
+	float	c_prod;
 
-	if (7 * Q_PI <= angle || angle < Q_PI)
+	c_prod = cross_product(guy->view, guy->face);
+	angle = acosf(c_prod / (vector_length(guy->view)
+				* vector_length(guy->face)));
+	if (angle < Q_PI)
 		return (WALK_BACK);
 	if (Q_PI <= angle && angle < THQ_PI)
-		return (WALK_LEFT);
-	if (THQ_PI <= angle && angle < M_PI + Q_PI)
-		return (WALK_FRONT);
-	if (M_PI + Q_PI < angle && angle < D_PI - Q_PI)
-		return (WALK_RIGHT);
+	{
+		if (c_prod > 0)
+			return (WALK_RIGHT);
+		else
+			return (WALK_LEFT);
+	}
+	return (WALK_FRONT);
 }
