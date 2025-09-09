@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 16:56:19 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:07:47 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,19 @@ void	setup_textures(t_game *game)
 
 	size = game->screen.win_w / WIN_UI_SCALE;
 	if (game->texts.hp.img != NULL)
-		resize_texture(game,
-				&game->texts.hp, size, size);
-	if (game->texts.go_plaque.img)
-		stretch_to_screen_width(game, &game->texts.go_plaque);
-	if (game->texts.vic_plaque.img)
-		stretch_to_screen_width(game, &game->texts.vic_plaque);
-	if (game->texts.go_plaque.img != NULL)
+		resize_texture(game, &game->texts.hp, size, size);
+	if (game->texts.bans.img[INTRO].img)
+		stretch_to_screen_width(game, &(game->texts.bans.img[INTRO]));
+	if (game->texts.bans.img[WIN].img)
+		stretch_to_screen_width(game, &(game->texts.bans.img[WIN]));
+	if (game->texts.bans.img[LOSE].img)
+		stretch_to_screen_width(game, &(game->texts.bans.img[LOSE]));
+	if (game->texts.bans.img[LOSE].img != NULL)
 		game->texts.draw_mode |= M_GAME_OVER_PL;
-	if (game->texts.vic_plaque.img != NULL)
+	if (game->texts.bans.img[WIN].img != NULL)
 		game->texts.draw_mode |= M_VICTORY_PL;
+	if (game->texts.bans.img[INTRO].img != NULL)
+		game->texts.draw_mode |= M_INTRO_PL;
 	if (game->texts.ceiling.img != NULL)
 		game->texts.draw_mode += M_CEIL_TEXTURE;
 	if (game->texts.floor.img != NULL)

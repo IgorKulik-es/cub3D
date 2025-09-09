@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gaming.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:41:55 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:34:31 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	key_press(int key, t_game *game)
 {
 	if (key == ESC)
 		clean_exit(game, NULL, 0);
-	if (game->game_over)
+	if (game->game_stage != PLAY)
 		return (1);
 	if (key == W || key == S)
 		game->player.moving = key;
@@ -67,12 +67,14 @@ void	game_over(t_game *game)
 	int	index;
 
 	index = 0;
-	if (game->game_over == false)
+	if ((game->texts.draw_mode & M_GAME_OVER_PL) == false)
 		printf("GAME OVER!\n");
-	game->game_over = true;
+	game->game_stage = LOSE;
+	game->texts.bans.move = 1;
 	while (index < game->num_enemies)
 	{
-		game->enemies[index].state = E_STATE_CALM;
+		if (game->enemies[index].state == E_STATE_ANGRY)
+			calm_down_enemy(&(game->enemies[index]));
 		index++;
 	}
 }

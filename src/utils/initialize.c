@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:49:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:07:29 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:27:42 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,7 @@ void	initialize_data(t_game *game)
 	game->tint.r = WIN_DARK_FACTOR;
 	game->tint.g = WIN_DARK_FACTOR;
 	game->tint.b = WIN_DARK_FACTOR;
+	game->game_stage = INTRO;
+	game->texts.bans.move = 1;
+	game->texts.bans.pos = 0;
 }

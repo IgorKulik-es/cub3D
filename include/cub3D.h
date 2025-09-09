@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 16:50:13 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:45:49 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 # define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 300000
 # define P_COLOR_SPEED 2000000.0f
+# define P_BAN_SPEED 1000000
+# define P_INTRO_TIME 300000
 # define P_RED_SHIFT 1.2f
 # define P_BASE_HP 5
 # define P_POV 1.0f
@@ -74,7 +76,7 @@
 # define M_VISIBLE_HP 4
 # define M_GAME_OVER_PL 8
 # define M_VICTORY_PL 16
-# define M_
+# define M_INTRO_PL 32
 # define W 119
 # define A 97
 # define S 115
@@ -91,7 +93,7 @@
 # define C_WALL_BROWN 0x47281b
 # define C_PURE_WHITE 0xffffff
 # define C_FLOOR_SAND 0xeda85b
-# define SENSITIVITY 0.005
+# define SENSITIVITY 0.002f
 
 typedef enum e_modes
 {
@@ -100,6 +102,14 @@ typedef enum e_modes
 	WALK_BACK,
 	NUM_ANIM
 }			t_mode;
+
+typedef enum e_game_states
+{
+	INTRO,
+	WIN,
+	LOSE,
+	PLAY
+}			t_g_state;
 
 typedef struct s_float_coordinates
 {
@@ -180,6 +190,14 @@ typedef struct s_img
 	int		height;
 }			t_img;
 
+typedef struct s_banners
+{
+	t_img		img[PLAY];
+	time_t		last_change;
+	float		pos;
+	int			move;
+}			t_bans;
+
 typedef struct s_textures
 {
 	t_img	wall_n;
@@ -191,12 +209,10 @@ typedef struct s_textures
 	t_img	floor;
 	t_img	ceiling;
 	t_img	hp;
-	t_img	go_plaque;
-	t_img	vic_plaque;
+	t_bans	bans;
 	int		bot_color;
 	int		top_color;
 	int		draw_mode;
-	int		wall_color;
 }			t_textures;
 
 typedef struct s_door_anim
@@ -267,7 +283,7 @@ typedef struct s_game_data
 {
 	void		*mlx;
 	void		*win;
-	int			game_over;
+	t_g_state	game_stage;
 	int			debug_printed;
 	int			num_doors;
 	int			num_enemies;
@@ -349,6 +365,7 @@ void		move_enemy(t_game *game, t_entity *guy);
 t_pos		smooth_collision(t_game *game, t_pos old, t_pos new);
 void		open_door(t_game *game);
 void		damage_player(t_game *game, t_entity *guy);
+void		calm_down_enemy(t_entity *guy);
 void		game_over(t_game *game);
 int			mouse_move(int x, int y, t_game *game);
 
@@ -369,6 +386,7 @@ void		set_anim_frames(t_game *game, t_anim_p *anim);
 void		copy_anim(t_game *game, t_anim_p *proto, t_anim *copy);
 void		put_entity(t_game *game, t_entity *guy);
 void		determine_animation(t_entity *guy);
+void		animate_banners(t_game *game, t_bans *banners);
 
 //debug
 void		create_dummy_map(t_game *game);

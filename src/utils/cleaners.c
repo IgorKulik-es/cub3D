@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 16:48:24 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:08:36 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ static void	free_textures(t_game *game)
 	free_texture(game->mlx, &(game->texts.hp));
 	free_texture(game->mlx, &(game->texts.floor));
 	free_texture(game->mlx, &(game->texts.ceiling));
-	free_texture(game->mlx, &(game->texts.vic_plaque));
-	free_texture(game->mlx, &(game->texts.go_plaque));
+	free_texture(game->mlx, &(game->texts.bans.img[INTRO]));
+	free_texture(game->mlx, &(game->texts.bans.img[WIN]));
+	free_texture(game->mlx, &(game->texts.bans.img[LOSE]));
 	free_texture(game->mlx, &(game->enemy_prot.action.img));
 	free_texture(game->mlx, &(game->enemy_prot.walk_back.img));
 	free_texture(game->mlx, &(game->enemy_prot.walk_front.img));

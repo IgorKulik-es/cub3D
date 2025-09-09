@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/08 11:07:51 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:24:30 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ static void	handle_line(t_game *game, t_parse_ctx *ctx)
 	else if (ft_strncmp(ctx->line, "QB", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
 			&game->enemy_prot.walk_back.img, ctx);
+	else if (ft_strncmp(ctx->line, "PG", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&(game->texts.bans.img[LOSE]), ctx);
+	else if (ft_strncmp(ctx->line, "PW", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&(game->texts.bans.img[WIN]), ctx);
+	else if (ft_strncmp(ctx->line, "PI", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&(game->texts.bans.img[INTRO]), ctx);
 	else
 		handle_line_2(game, ctx);
 }

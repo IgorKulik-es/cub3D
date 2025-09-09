@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:28:30 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 12:00:31 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:19:23 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	restore_color(t_game *game)
 	time_t	time;
 	float	shift;
 
-	if (game->game_over)
+	if (game->game_stage == LOSE)
 		return ;
 	time = get_time();
 	shift = (time - game->screen.last_frame_time) / P_COLOR_SPEED;

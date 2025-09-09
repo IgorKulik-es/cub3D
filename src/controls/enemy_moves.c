@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy_moves.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 14:41:47 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:53:53 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	move_enemy(t_game *game, t_entity *guy)
 	step = ((get_time() - game->screen.last_frame_time) / (float)P_ENEMY_SPEED)
 		* guy->state;
 	new = add_vectors(guy->pos, mult_scalar(guy->face, step));
-	if (guy->dist < E_MIN_DIST && game->game_over == false)
+	if (guy->dist < E_MIN_DIST && game->game_stage == PLAY)
 		return ;
 	if (guy->state == E_STATE_ANGRY)
 		guy->pos = smooth_collision(game, guy->pos, new);
@@ -62,22 +62,22 @@ void	detect_player(t_game *game, t_entity *guy)
 {
 	if (guy->mode == WALK_FRONT || guy->mode == ACTION)
 	{
-		if (guy->dist < E_DET_RADIUS && game->game_over == false)
+		if (guy->dist < E_DET_RADIUS && game->game_stage == PLAY)
 			guy->state = E_STATE_ANGRY;
-		else if (guy->dist > 2 * E_DET_RADIUS)
-		{
-			if (guy->state == E_STATE_ANGRY)
-			{
-				guy->face.x = -(guy->face.x > 0) + (guy->face.x < 0);
-				guy->face.y = -(guy->face.y > 0) + (guy->face.y < 0);
-				if (fabsf(guy->face.x) > fabsf(guy->face.y))
-					guy->face.y = 0;
-				else
-					guy->face.x = 0;
-			}
-			guy->state = E_STATE_CALM;
-		}
+		else if (guy->dist > 2 * E_DET_RADIUS && guy->state == E_STATE_ANGRY)
+			calm_down_enemy(guy);
 	}
 	if (guy->state == E_STATE_ANGRY)
 		guy->face = mult_scalar(guy->view, -1 / guy->dist);
+}
+
+void	calm_down_enemy(t_entity *guy)
+{
+	guy->face.x = -(guy->face.x > 0) + (guy->face.x < 0);
+	guy->face.y = -(guy->face.y > 0) + (guy->face.y < 0);
+	if (fabsf(guy->face.x) > fabsf(guy->face.y))
+		guy->face.y = 0;
+	else
+		guy->face.x = 0;
+	guy->state = E_STATE_CALM;
 }
