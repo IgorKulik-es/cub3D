@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 15:53:53 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 16:55:24 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void	move_enemy(t_game *game, t_entity *guy)
 {
 	t_pos	new;
 	float	step;
+	float	angle;
 
 	guy->trans = dist_to_entity(game, guy);
+	angle = vectors_angle(guy->view, guy->face);
+	guy->mode = determine_facing(angle);
 	detect_player(game, guy);
 	if (guy->mode == ACTION)
 		return ;
@@ -80,4 +83,24 @@ void	calm_down_enemy(t_entity *guy)
 	else
 		guy->face.x = 0;
 	guy->state = E_STATE_CALM;
+}
+
+void	check_visibility(t_game *game, t_entity *guy)
+{
+	t_ray	ray;
+	t_hit	hit;
+	t_pos	hit_vector;
+
+	guy->is_pl_visible = false;
+	ray.view = guy->view;
+	calculate_steps(&ray);
+	find_intersects(game, guy->pos, &ray);
+	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)
+		find_collision_neg_x(game, &ray, &hit);
+	else
+		find_collision_pos_x(game, &ray, &hit);
+	hit_vector = subtr_vectors(hit.point, guy->pos);
+	if (fabsf(hit_vector.x) > fabsf(guy->view.x)
+		|| fabsf(hit_vector.y) > fabsf(guy->view.y))
+		guy->is_pl_visible = true;
 }

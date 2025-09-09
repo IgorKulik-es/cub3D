@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 15:45:49 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 16:56:48 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,18 @@
 # define C_PURE_WHITE 0xffffff
 # define C_FLOOR_SAND 0xeda85b
 # define SENSITIVITY 0.002f
+# define Q_PI 0.785398163f
+# define THQ_PI 2.35619449f
+# define D_PI 6.283185307f
+
 
 typedef enum e_modes
 {
 	ACTION,
 	WALK_FRONT,
 	WALK_BACK,
+	WALK_LEFT,
+	WALK_RIGHT,
 	NUM_ANIM
 }			t_mode;
 
@@ -237,6 +243,8 @@ typedef struct s_anim_prots_enemy
 {
 	t_anim_p	walk_front;
 	t_anim_p	walk_back;
+	t_anim_p	walk_left;
+	t_anim_p	walk_right;
 	t_anim_p	action;
 }			t_anim_en;
 
@@ -259,6 +267,7 @@ typedef struct s_entity_data
 	float	dist;
 	t_pos	face;
 	t_mode	mode;
+	bool	is_pl_visible;
 }				t_entity;
 
 typedef struct s_minimap
@@ -336,9 +345,14 @@ t_pos		add_vectors(t_pos a, t_pos b);
 t_pos		subtr_vectors(t_pos a, t_pos b);
 t_pos		rotate_vector(t_pos vector, float angle);
 float		vector_length(t_pos vector);
+float		cross_product(t_pos a, t_pos b);
+float		vectors_angle(t_pos a, t_pos b);
+t_mode		determine_facing(float angle);
 
 //raycasting
 t_hit		cast_ray(t_game *game, float column);
+void		calculate_steps(t_ray *ray);
+void		find_intersects(t_game *game, t_pos player, t_ray *ray);
 t_pos		find_collision_neg_x(t_game *game, t_ray *ray, t_hit *hit);
 t_pos		find_collision_pos_x(t_game *game, t_ray *ray, t_hit *hit);
 t_door		*find_door(t_game *game, int x, int y);

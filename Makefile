@@ -6,7 +6,7 @@
 #    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/09/09 13:48:51 by ikulik           ###   ########.fr        #
+#    Updated: 2025/09/09 16:27:00 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ PARSE		= parser.c parse_utils.c map_parser.c map_utils.c map_utils2.c parse_spec
 CONTROLS	= gaming.c colliders.c enemy_moves.c effects.c player_moves.c mouse_move.c
 
 RENDER		= raycast.c raycast_utils.c vector_basics.c render_frame.c\
-			render_utils.c render_floors.c post_processing.c render_walls.c
+			render_utils.c render_floors.c post_processing.c render_walls.c\
+			vector_advanced.c
 
 ANIMATION	= door.c animation.c enemies_init.c animation_utils.c banners.c
 

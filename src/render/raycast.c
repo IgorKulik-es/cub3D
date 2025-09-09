@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:30:07 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:23:46 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/09 16:09:05 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3D.h"
 
-static void	calculate_steps(t_game *game, t_ray *ray, float column);
 static char	get_hit_type(t_game *game, t_ray *ray, t_pos point);
 static bool	check_inside_door(t_game *game, t_pos point);
-static void	find_intersects(t_game *game, t_pos player, t_ray *ray);
 
 t_hit	cast_ray(t_game *game, float column)
 {
@@ -23,7 +21,10 @@ t_hit	cast_ray(t_game *game, float column)
 	t_hit	hit;
 	t_pos	vector;
 
-	calculate_steps(game, &ray, column);
+	ray.view = mult_scalar(game->player.camera, 2 * column
+			/ game->screen.win_w - 1.0f);
+	ray.view = add_vectors(ray.view, game->player.facing);
+	calculate_steps(&ray);
 	find_intersects(game, game->player.pos, &ray);
 	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)
 		find_collision_neg_x(game, &ray, &hit);
@@ -41,11 +42,8 @@ t_hit	cast_ray(t_game *game, float column)
 	return (hit);
 }
 
-static void	calculate_steps(t_game *game, t_ray *ray, float column)
+void	calculate_steps(t_ray *ray)
 {
-	ray->view = mult_scalar(game->player.camera, 2 * column
-			/ game->screen.win_w - 1.0f);
-	ray->view = add_vectors(ray->view, game->player.facing);
 	ray->step_x.y = 0;
 	ray->step_x.x = 0;
 	ray->step_y.x = 0;
@@ -56,7 +54,7 @@ static void	calculate_steps(t_game *game, t_ray *ray, float column)
 		ray->step_y = mult_scalar(ray->view, 1.0f / fabsf(ray->view.y));
 }
 
-static void	find_intersects(t_game *game, t_pos player, t_ray *ray)
+void	find_intersects(t_game *game, t_pos player, t_ray *ray)
 {
 	ray->start_x.x = floor(player.x) + (ray->view.x > 0);
 	ray->start_y.y = floor(player.y) + (ray->view.y > 0);
