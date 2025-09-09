@@ -6,13 +6,14 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 16:07:13 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/05 19:58:53 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 19:43:26 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 void	initialize_enemy(t_game *game, int row, int column, int *index);
+void	load_entity_animations(t_game *game);
 
 void	load_enemies(t_game *game)
 {
@@ -28,9 +29,7 @@ void	load_enemies(t_game *game)
 	game->enemies = ft_calloc(game->num_enemies, sizeof(t_entity));
 	if (game->enemies == NULL)
 		clean_exit(game, "malloc", 1);
-	set_anim_frames(game, &(game->enemy_prot.walk_front));
-	set_anim_frames(game, &(game->enemy_prot.walk_back));
-	set_anim_frames(game, &(game->enemy_prot.action));
+	load_entity_animations(game);
 	while (++ind_row < game->map.height)
 	{
 		ind_column = 1;
@@ -49,6 +48,10 @@ void	initialize_enemy(t_game *game, int row, int column, int *index)
 		&(game->enemies[*index].anims[WALK_FRONT]));
 	copy_anim(game, &(game->enemy_prot.walk_back),
 		&(game->enemies[*index].anims[WALK_BACK]));
+	copy_anim(game, &(game->enemy_prot.walk_left),
+		&(game->enemies[*index].anims[WALK_LEFT]));
+	copy_anim(game, &(game->enemy_prot.walk_right),
+		&(game->enemies[*index].anims[WALK_RIGHT]));
 	copy_anim(game, &(game->enemy_prot.action),
 		&(game->enemies[*index].anims[ACTION]));
 	game->enemies[*index].face.x
@@ -61,4 +64,13 @@ void	initialize_enemy(t_game *game, int row, int column, int *index)
 	game->enemies[*index].pos.y = row + 0.5f;
 	game->map.map[row][column] = '0';
 	(*index)++;
+}
+
+void	load_entity_animations(t_game *game)
+{
+	set_anim_frames(game, &(game->enemy_prot.walk_front));
+	set_anim_frames(game, &(game->enemy_prot.walk_back));
+	set_anim_frames(game, &(game->enemy_prot.action));
+	set_anim_frames(game, &(game->enemy_prot.walk_left));
+	set_anim_frames(game, &(game->enemy_prot.walk_right));
 }

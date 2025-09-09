@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:04:58 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:27:40 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:54:08 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	move_door(t_game *game, t_door *door)
 
 	time = get_time();
 	dist = find_closest_entity(game, door);
-	if (dist <= 1)
+	if (dist <= 0)
 		door->last_open = time;
 	if (door->state == D_STATE_OPEN && time - door->last_open > P_DOOR_CL_TIME
-		&& dist > 1)
+		&& dist > 0)
 		door->moving = 1;
 	if (door->moving == 0)
 		return ;

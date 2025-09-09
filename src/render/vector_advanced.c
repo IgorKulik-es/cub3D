@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 19:56:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 19:12:21 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 19:41:31 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_mode	determine_facing(t_entity *guy)
 {
 	float	angle;
 	float	c_prod;
+	t_pos	perpend;
 
 	c_prod = cross_product(guy->view, guy->face);
 	angle = acosf(c_prod / (vector_length(guy->view)
@@ -37,7 +38,10 @@ t_mode	determine_facing(t_entity *guy)
 		return (WALK_BACK);
 	if (Q_PI <= angle && angle < THQ_PI)
 	{
-		if (c_prod > 0)
+		perpend.x = -guy->face.y;
+		perpend.y = guy->face.x;
+		c_prod = cross_product(guy->view, perpend);
+		if (c_prod < 0)
 			return (WALK_RIGHT);
 		else
 			return (WALK_LEFT);

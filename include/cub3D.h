@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 19:10:34 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 20:01:41 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@
 # define E_DAM_RADIUS 1.80f
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
-# define WIN_UPSC_FACTOR 2.5f
+# define WIN_UPSC_FACTOR 4.0f
 # define WIN_WIDTH 2560
 # define WIN_HEIGHT 1440
 # define WIN_DARK_FACTOR 0.7f

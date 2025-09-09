@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 15:47:17 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/09 20:02:46 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	render_frame(t_game *game)
 	tint_screen(game);
 	put_hp_on_screen(game);
 	draw_minimap(game);
-	put_fps_counter(game, get_time());
 	animate_banners(game, &game->texts.bans);
 	upscale_screen(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->scr_upscaled.img, 0, 0);
+	put_fps_counter(game, get_time());
 	return (0);
 }
 
