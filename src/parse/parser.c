@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/09 16:56:08 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 14:20:04 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	handle_line_2(t_game *game, t_parse_ctx *ctx)
 {
 	if (ft_strncmp(ctx->line, "QA", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->enemy_prot.action.img, ctx);
+			&game->anim_prot.action.img, ctx);
 	else if (ft_strncmp(ctx->line, "FL", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
 			&game->texts.floor, ctx);
@@ -55,16 +55,16 @@ static void	handle_line(t_game *game, t_parse_ctx *ctx)
 			&game->texts.door, ctx);
 	else if (ft_strncmp(ctx->line, "QF", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->enemy_prot.walk_front.img, ctx);
+			&game->anim_prot.walk_front.img, ctx);
 	else if (ft_strncmp(ctx->line, "QB", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->enemy_prot.walk_back.img, ctx);
+			&game->anim_prot.walk_back.img, ctx);
 	else if (ft_strncmp(ctx->line, "QL", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->enemy_prot.walk_left.img, ctx);
+			&game->anim_prot.walk_left.img, ctx);
 	else if (ft_strncmp(ctx->line, "QR", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->enemy_prot.walk_right.img, ctx);
+			&game->anim_prot.walk_right.img, ctx);
 	else if (ft_strncmp(ctx->line, "PG", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
 			&(game->texts.bans.img[LOSE]), ctx);
@@ -74,6 +74,9 @@ static void	handle_line(t_game *game, t_parse_ctx *ctx)
 	else if (ft_strncmp(ctx->line, "PI", 2) == 0)
 		load_texture(game, skip_spaces(ctx->line + 2),
 			&(game->texts.bans.img[INTRO]), ctx);
+	else if (ft_strncmp(ctx->line, "EX", 2) == 0)
+		load_texture(game, skip_spaces(ctx->line + 2),
+			&(game->anim_prot.exit.img), ctx);
 	else
 		handle_line_2(game, ctx);
 }

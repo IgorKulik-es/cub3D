@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:17 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 15:26:03 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 13:47:28 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	if (parse_cub(&game, argv[1]))
 		return (1);
 	load_doors(&game);
-	load_enemies(&game);
+	load_animations(&game);
 	create_screen(&game);
 	setup_textures(&game);
 	mlx_do_key_autorepeatoff(game.mlx);

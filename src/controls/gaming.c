@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 15:34:31 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 16:58:26 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void	update_all_positions(t_game *game)
 	while (++index < game->num_enemies)
 	{
 		move_enemy(game, &(game->enemies[index]));
-		update_anim_frame(game, &(game->enemies[index]), &(game->enemies[index]
-				.anims[game->enemies[index].mode]), game->enemies[index].mode);
+		update_enem_frame(game, &(game->enemies[index]), &(game->enemies[index]
+				.anims[game->enemies[index].mode]));
 	}
+	update_exit_frame(&game->exit);
 }
 
 int	key_press(int key, t_game *game)
@@ -43,7 +44,10 @@ int	key_press(int key, t_game *game)
 	if (key == A || key == D)
 		game->player.rotating = key;
 	if (key == SPACE)
+	{
 		open_door(game);
+		check_exit(game);
+	}
 	return (0);
 }
 

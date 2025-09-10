@@ -6,13 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 17:59:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:54:29 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 15:34:26 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-static int	rgb_shift(int color, float r_mult, float g_mult, float b_mult);
 
 void	upscale_screen(t_game *game)
 {
@@ -58,7 +56,7 @@ void	tint_screen(t_game *game)
 	}
 }
 
-static int	rgb_shift(int color, float r_mult, float g_mult, float b_mult)
+int	rgb_shift(int color, float r_mult, float g_mult, float b_mult)
 {
 	int	r;
 	int	g;

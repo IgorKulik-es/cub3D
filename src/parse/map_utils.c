@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 09:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/05 14:33:14 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:31:10 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	validate_cell(t_game *g, t_parse_ctx *ctx, int x, int y)
 	c = g->map.map[y][x];
 	if (c != '1' && c != '0' && c != 'N' && c != 'S'
 		&& c != 'E' && c != 'W' && c != ' ' && c != '\n'
-		&& c != 'D' && c != 'Q')
+		&& c != 'D' && c != 'Q' && c != 'X')
 	{
 		clean_double_array(ctx->map_lines, ctx->map_count);
 		clean_exit(g, "Invalid character in map", MAP_ERROR);

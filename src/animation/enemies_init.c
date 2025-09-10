@@ -6,16 +6,16 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 16:07:13 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 19:43:26 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 14:08:15 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	initialize_enemy(t_game *game, int row, int column, int *index);
-void	load_entity_animations(t_game *game);
+void		initialize_enemy(t_game *game, int row, int column, int *index);
+static void	load_enemies(t_game *game);
 
-void	load_enemies(t_game *game)
+static void	load_enemies(t_game *game)
 {
 	int	ind_row;
 	int	ind_column;
@@ -23,13 +23,9 @@ void	load_enemies(t_game *game)
 
 	ind_row = 0;
 	ind_enemy = 0;
-	game->num_enemies = count_items(game, 'Q');
-	if (game->num_enemies == 0)
-		return ;
 	game->enemies = ft_calloc(game->num_enemies, sizeof(t_entity));
 	if (game->enemies == NULL)
 		clean_exit(game, "malloc", 1);
-	load_entity_animations(game);
 	while (++ind_row < game->map.height)
 	{
 		ind_column = 1;
@@ -44,15 +40,15 @@ void	load_enemies(t_game *game)
 
 void	initialize_enemy(t_game *game, int row, int column, int *index)
 {
-	copy_anim(game, &(game->enemy_prot.walk_front),
+	copy_anim(game, &(game->anim_prot.walk_front),
 		&(game->enemies[*index].anims[WALK_FRONT]));
-	copy_anim(game, &(game->enemy_prot.walk_back),
+	copy_anim(game, &(game->anim_prot.walk_back),
 		&(game->enemies[*index].anims[WALK_BACK]));
-	copy_anim(game, &(game->enemy_prot.walk_left),
+	copy_anim(game, &(game->anim_prot.walk_left),
 		&(game->enemies[*index].anims[WALK_LEFT]));
-	copy_anim(game, &(game->enemy_prot.walk_right),
+	copy_anim(game, &(game->anim_prot.walk_right),
 		&(game->enemies[*index].anims[WALK_RIGHT]));
-	copy_anim(game, &(game->enemy_prot.action),
+	copy_anim(game, &(game->anim_prot.action),
 		&(game->enemies[*index].anims[ACTION]));
 	game->enemies[*index].face.x
 		= ((row + column) % 4 == 0) - ((row + column) % 4 == 1);
@@ -66,11 +62,27 @@ void	initialize_enemy(t_game *game, int row, int column, int *index)
 	(*index)++;
 }
 
-void	load_entity_animations(t_game *game)
+void	load_animations(t_game *game)
 {
-	set_anim_frames(game, &(game->enemy_prot.walk_front));
-	set_anim_frames(game, &(game->enemy_prot.walk_back));
-	set_anim_frames(game, &(game->enemy_prot.action));
-	set_anim_frames(game, &(game->enemy_prot.walk_left));
-	set_anim_frames(game, &(game->enemy_prot.walk_right));
+	game->num_exits = count_items(game, T_EXIT);
+	if (game->num_exits > 0)
+	{
+		if (!game->anim_prot.exit.img.img)
+			clean_exit(game, "exit texture failure", 1);
+		set_anim_frames(game, &(game->anim_prot.exit));
+		copy_anim(game, &game->anim_prot.exit, &game->exit);
+	}
+	game->num_enemies = count_items(game, T_ENEMY);
+	if (game->num_enemies == 0)
+		return ;
+	if (!game->anim_prot.walk_front.img.img || !game->anim_prot.walk_back.img
+		.img || !game->anim_prot.walk_left.img.img || !game->anim_prot
+		.action.img.img)
+		clean_exit(game, "enemy texture error", 1);
+	set_anim_frames(game, &(game->anim_prot.walk_front));
+	set_anim_frames(game, &(game->anim_prot.walk_back));
+	set_anim_frames(game, &(game->anim_prot.action));
+	set_anim_frames(game, &(game->anim_prot.walk_left));
+	set_anim_frames(game, &(game->anim_prot.walk_right));
+	load_enemies(game);
 }

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 16:04:58 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 19:54:08 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 16:57:27 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,23 @@ int	find_closest_entity(t_game *game, t_door *door)
 		index++;
 	}
 	return (min_dist);
+}
+
+void	check_exit(t_game *game)
+{
+	bool	win;
+
+	win = false;
+	if (game->map.map[game->player.tile.y - 1][game->player.tile.x] == T_EXIT)
+		win = true;
+	if (game->map.map[game->player.tile.y + 1][game->player.tile.x] == T_EXIT)
+		win = true;
+	if (game->map.map[game->player.tile.y][game->player.tile.x - 1] == T_EXIT)
+		win = true;
+	if (game->map.map[game->player.tile.y][game->player.tile.x + 1] == T_EXIT)
+		win = true;
+	if (!win)
+		return ;
+	game->game_stage = WIN;
+	game->texts.bans.move = 1;
 }

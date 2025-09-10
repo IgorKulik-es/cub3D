@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_minimap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 11:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/08 12:38:13 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:24:40 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ static void	draw_minimap_enemies(t_game *game, t_minimap *m)
 	k = 0;
 	while (k < game->num_enemies)
 	{
+		if (!game->enemies[k].is_ent_visible)
+		{
+			k++;
+			continue;
+		}
 		enemy = game->enemies[k];
 		x = m->offset_x + (int)(enemy.pos.x * m->scale);
 		y = m->offset_y + (int)(enemy.pos.y * m->scale);

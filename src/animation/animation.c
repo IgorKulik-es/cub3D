@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 18:59:04 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 15:06:03 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	render_entity(t_game *game, t_entity *guy, t_coords pos, int height);
 void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars);
 
-void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
-	t_mode mode)
+void	update_enem_frame(t_game *game, t_entity *guy, t_anim *anim)
 {
 	time_t	time;
 
@@ -24,9 +23,8 @@ void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
 	if (anim->active == false)
 		return ;
 	time = get_time() - anim->last_frame;
-	if (((guy->mode != ACTION) && (time > P_ANIM_SPEED
-				/ (guy->state * anim->num_fr)))
-		|| (guy->mode == ACTION && time > P_ANIM_SPEED / anim->num_fr))
+	if (((guy->mode != ACTION) && (time * guy->state > anim->time_per_frame))
+		|| (guy->mode == ACTION && time > anim->time_per_frame))
 	{
 		(anim->c_frame)++;
 		anim->last_frame += time;
@@ -34,7 +32,7 @@ void	update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
 	if (anim->c_frame >= anim->num_fr)
 	{
 		anim->c_frame = 0;
-		if (mode == ACTION)
+		if (guy->mode == ACTION)
 		{
 			anim->active = false;
 			if (guy->dist < E_DAM_RADIUS)
@@ -116,19 +114,16 @@ void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars)
 	}
 }
 
-bool	check_entity_visibility(t_game *game, t_entity *guy)
+void	update_exit_frame(t_anim *exit)
 {
-	guy->height = game->screen.win_h / guy->trans.y;
-	guy->left_edge = guy->trans.x - guy->height / 2;
-	guy->right_edge = guy->left_edge + guy->height;
-	if (correct_pixel(game, &guy->left_edge)
-		&& game->hits[guy->left_edge].dist > guy->trans.y)
-		return (true);
-	if (correct_pixel(game, &guy->right_edge)
-		&& game->hits[guy->right_edge].dist > guy->trans.y)
-		return (true);
-	if (((int)guy->trans.x >= 0 && (int)guy->trans.x < game->screen.win_w
-			&& game->hits[(int)guy->trans.x].dist > guy->trans.y))
-		return (true);
-	return (false);
+	time_t	time;
+
+	time = get_time() - exit->last_frame;
+	if (time > exit->time_per_frame * 1.5f)
+	{
+		exit->last_frame += time;
+		(exit->c_frame)++;
+	}
+	if (exit->c_frame >= exit->num_fr)
+		exit->c_frame = 0;
 }

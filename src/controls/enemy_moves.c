@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 19:52:53 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 16:49:08 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,15 @@ void	check_player_visibility(t_game *game, t_entity *guy)
 	t_pos	hit_vector;
 
 	guy->is_pl_visible = false;
-	ray.view = guy->view;
+	ray.view = mult_scalar(guy->view, -1.0f);
 	calculate_steps(&ray);
 	find_intersects(game, guy->pos, &ray);
 	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)
 		find_collision_neg_x(game, &ray, &hit);
 	else
 		find_collision_pos_x(game, &ray, &hit);
-	hit_vector = subtr_vectors(guy->pos, hit.point);
-	if (fabsf(hit_vector.x) < fabsf(guy->view.x)
-		|| fabsf(hit_vector.y) < fabsf(guy->view.y))
+	hit_vector = subtr_vectors(hit.point, guy->pos);
+	if (fabsf(hit_vector.x) > fabsf(guy->view.x)
+		|| fabsf(hit_vector.y) > fabsf(guy->view.y))
 		guy->is_pl_visible = true;
 }

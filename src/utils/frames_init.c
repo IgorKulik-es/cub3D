@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 15:07:47 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 14:56:05 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	copy_anim(t_game *game, t_anim_p *proto, t_anim *copy)
 		clean_exit(game, "malloc", EXIT_FAILURE);
 	copy->num_fr = proto->num_fr;
 	copy->last_frame = game->screen.last_frame_time;
+	copy->time_per_frame = (float)P_ANIM_SPEED / copy->num_fr;
 	while (index < proto->num_fr)
 	{
 		copy->frames[index] = &(proto->frames[index]);

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:59:05 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 19:12:48 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 16:41:13 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,25 @@ void	determine_animation(t_entity *guy)
 	while (++index < NUM_ANIM)
 		guy->anims[index].active = false;
 	guy->anims[guy->mode].active = true;
+}
+
+bool	check_entity_visibility(t_game *game, t_entity *guy)
+{
+	bool is_in_front;
+
+	guy->height = game->screen.win_h / guy->trans.y;
+	guy->left_edge = guy->trans.x - guy->height / 2;
+	guy->right_edge = guy->left_edge + guy->height;
+	is_in_front = vectors_angle(game->player.facing, guy->view) < M_PI * 0.5f;
+	if (is_in_front && correct_pixel(game, &guy->left_edge)
+		&& game->hits[guy->left_edge].dist > guy->trans.y)
+		return (true);
+	if (is_in_front && correct_pixel(game, &guy->right_edge)
+		&& game->hits[guy->right_edge].dist > guy->trans.y)
+		return (true);
+	if (((int)guy->trans.x >= 0 && (int)guy->trans.x < game->screen.win_w
+			&& is_in_front
+			&& game->hits[(int)guy->trans.x].dist > guy->trans.y))
+		return (true);
+	return (false);
 }

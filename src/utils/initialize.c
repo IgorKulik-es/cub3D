@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:49:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 20:11:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 14:00:26 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	initialize_data(t_game *game)
 	game->last_mouse_x = -1;
 	game->player.hp = P_BASE_HP;
 	game->player.inv_det = 1.0f / P_POV;
-	game->enemy_prot.action.img.height = 64;
-	game->enemy_prot.walk_back.img.height = 64;
-	game->enemy_prot.walk_front.img.height = 64;
+	game->anim_prot.action.img.height = 64;
+	game->anim_prot.walk_back.img.height = 64;
+	game->anim_prot.walk_front.img.height = 64;
 	game->tint.r = WIN_DARK_FACTOR;
 	game->tint.g = WIN_DARK_FACTOR;
 	game->tint.b = WIN_DARK_FACTOR;
-	game->game_stage = INTRO;
+	game->game_stage = PLAY;
 	game->texts.bans.move = 1;
 	game->texts.bans.pos = 0;
 }

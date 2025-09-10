@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 20:01:41 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/10 16:57:54 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@
 # define MAP_ERROR 2
 # define WALL '1'
 # define EMPTY '0'
+# define T_EXIT 'X'
+# define T_ENEMY 'Q'
 # define UP 'w'
 # define DOWN 's'
 # define LEFT 'a'
 # define RIGHT 'd'
 # define ESC XK_Escape
 # define T_MICROSEC 1000000
-# define P_ANIM_SPEED 500000
+# define P_ANIM_SPEED 1000000
 # define P_MOVE_SPEED 300000
 # define P_DOOR_SPEED 1000000
 # define P_ENEMY_SPEED 1200000
@@ -64,7 +66,7 @@
 # define E_DAM_RADIUS 1.80f
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
-# define WIN_UPSC_FACTOR 4.0f
+# define WIN_UPSC_FACTOR 3.0f
 # define WIN_WIDTH 2560
 # define WIN_HEIGHT 1440
 # define WIN_DARK_FACTOR 0.7f
@@ -240,19 +242,21 @@ typedef struct s_anim_prototype
 	int		num_fr;
 }				t_anim_p;
 
-typedef struct s_anim_prots_enemy
+typedef struct s_anim_prots
 {
 	t_anim_p	walk_front;
 	t_anim_p	walk_back;
 	t_anim_p	walk_left;
 	t_anim_p	walk_right;
 	t_anim_p	action;
+	t_anim_p	exit;
 }			t_anim_en;
 
 typedef struct s_anim_data
 {
 	t_img	**frames;
 	time_t	last_frame;
+	time_t	time_per_frame;
 	int		c_frame;
 	int		num_fr;
 	bool	active;
@@ -302,6 +306,7 @@ typedef struct s_game_data
 	int			debug_printed;
 	int			num_doors;
 	int			num_enemies;
+	int			num_exits;
 	int			last_mouse_x;
 	t_hit		hits[WIN_WIDTH];
 	float		d_max;
@@ -310,10 +315,11 @@ typedef struct s_game_data
 	t_map_data	map;
 	t_player	player;
 	t_textures	texts;
-	t_anim_en	enemy_prot;
+	t_anim_en	anim_prot;
 	t_c_shift	tint;
 	t_entity	*enemies;
 	t_door		*doors;
+	t_anim		exit;
 }			t_game;
 
 typedef struct s_parse_ctx
@@ -344,6 +350,7 @@ void		resize_texture(t_game *game, t_img *img, int new_width,
 				int new_height);
 void		setup_textures(t_game *game);
 void		stretch_to_screen_width(t_game *game, t_img *img);
+int			rgb_shift(int color, float r_mult, float g_mult, float b_mult);
 
 //maths
 t_pos		mult_scalar(t_pos vector, float mult);
@@ -388,6 +395,7 @@ void		damage_player(t_game *game, t_entity *guy);
 void		calm_down_enemy(t_entity *guy);
 void		game_over(t_game *game);
 int			mouse_move(int x, int y, t_game *game);
+void		check_exit(t_game *game);
 
 //user interface
 void		draw_minimap(t_game *game);
@@ -399,9 +407,10 @@ void		put_fps_counter(t_game *game, time_t time);
 void		put_hp_on_screen(t_game *game);
 
 //animation
+void		load_animations(t_game *game);
 void		update_all_positions(t_game *game);
-void		update_anim_frame(t_game *game, t_entity *guy, t_anim *anim,
-				t_mode mode);
+void		update_enem_frame(t_game *game, t_entity *guy, t_anim *anim);
+void		update_exit_frame(t_anim *exit);
 void		set_anim_frames(t_game *game, t_anim_p *anim);
 void		copy_anim(t_game *game, t_anim_p *proto, t_anim *copy);
 bool		check_entity_visibility(t_game *game, t_entity *guy);
@@ -427,6 +436,5 @@ char		*skip_spaces(char *str);
 void		validate_map(t_game *game, t_parse_ctx *ctx);
 int			count_items(t_game *game, char item);
 void		load_doors(t_game *game);
-void		load_enemies(t_game *game);
 
 #endif
