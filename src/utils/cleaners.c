@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 14:28:55 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:29:24 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static void	free_textures(t_game *game)
 	free_texture(game->mlx, &(game->anim_prot.action.img));
 	free_texture(game->mlx, &(game->anim_prot.walk_back.img));
 	free_texture(game->mlx, &(game->anim_prot.walk_front.img));
+	free_texture(game->mlx, &(game->anim_prot.walk_left.img));
+	free_texture(game->mlx, &(game->anim_prot.walk_right.img));
 	free_texture(game->mlx, &(game->anim_prot.exit.img));
 	free_anim_frames(game);
 }
@@ -87,6 +89,7 @@ static void	free_entities(t_game *game)
 	safe_free((void **)&game->anim_prot.walk_left.frames);
 	safe_free((void **)&game->anim_prot.walk_right.frames);
 	safe_free((void **)&game->anim_prot.exit.frames);
+	safe_free((void **)&game->exit.frames);
 	safe_free((void **)&(game->enemies));
 }
 

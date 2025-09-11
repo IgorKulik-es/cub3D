@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:13:08 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 14:42:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:39:29 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	cast_all_rays(t_game *game);
 int	render_frame(t_game *game)
 {
 	update_all_positions(game);
-	restore_color(game);
+	restore_color(game, game->darkness);
 	game->screen.last_frame_time = get_time();
 	cast_all_rays(game);
 	draw_floors(game, &game->player);

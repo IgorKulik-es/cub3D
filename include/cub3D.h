@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 16:57:54 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:39:21 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,7 @@ typedef struct s_game_data
 	int			last_mouse_x;
 	t_hit		hits[WIN_WIDTH];
 	float		d_max;
+	float		darkness;
 	t_img		scr_upscaled;
 	t_screen	screen;
 	t_map_data	map;
@@ -380,7 +381,7 @@ void		upscale_screen(t_game *game);
 void		put_img_to_srceen(t_game *game, t_img *img, int x, int y);
 void		tint_screen(t_game *game);
 void		blood_effect(t_game *game, float red);
-void		restore_color(t_game *game);
+void		restore_color(t_game *game, float target_tint);
 
 //gaming
 int			key_press(int key, t_game *game);

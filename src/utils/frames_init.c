@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 14:56:05 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:27:27 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	get_frame(t_game *game, t_anim_p *anim, int ind_frame)
 	pix_orig = anim->img.height * ind_frame;
 	frame->img = mlx_new_image(game->mlx, anim->img.height, anim->img.height);
 	frame->addr = (int *)mlx_get_data_addr(frame->img, &(frame->bpp),
-			&(frame->width), &(frame->endian));
+			&(frame->line_length), &(frame->endian));
 	frame->height = anim->img.height;
 	frame->width = frame->height;
 	while (++row < anim->img.height)
