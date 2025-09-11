@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:49:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 14:00:26 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:39:40 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ void	initialize_data(t_game *game)
 	game->game_stage = PLAY;
 	game->texts.bans.move = 1;
 	game->texts.bans.pos = 0;
+	game->darkness = WIN_DARK_FACTOR;
 }
