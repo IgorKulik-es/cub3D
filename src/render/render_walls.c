@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 17:22:04 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 17:23:31 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 19:00:29 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,9 @@ void	draw_wall_texture(t_game *game, int column, t_coords borders, t_hit hit)
 	{
 		color = get_wall_pixel(game, hit, ((int)steps.y)
 				* game->texts.wall_n.width + text_column);
-		if ((game->texts.draw_mode & M_CEIL_TEXTURE)
-			|| (game->texts.draw_mode & M_FL_TEXTURE))
+		if (((game->texts.draw_mode & M_CEIL_TEXTURE)
+				|| (game->texts.draw_mode & M_FL_TEXTURE))
+			&& (game->mode & M_DARK))
 			color = rgb_shift(color, dark, dark, dark);
 		game->screen.pixels[px_screen.x] = color;
 		px_screen.x += game->screen.win_w;

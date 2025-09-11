@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 17:59:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 12:54:28 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 19:16:38 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	tint_screen(t_game *game)
 	int	ind_pixel;
 	int	last_pixel;
 
+	if (!(game->mode & M_DARK))
+		return ;
 	ind_pixel = 0;
 	last_pixel = game->screen.win_w * game->screen.win_h;
 	while (ind_pixel < last_pixel)
@@ -63,6 +65,8 @@ int	rgb_shift(int color, float r_mult, float g_mult, float b_mult)
 	int				b;
 	unsigned char	*chanels;
 
+	if (r_mult < 0 || g_mult < 0 || b_mult < 0)
+		return (0);
 	chanels = (unsigned char *)&color;
 	b = chanels[0];
 	g = chanels[1];

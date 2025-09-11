@@ -6,7 +6,7 @@
 #    By: ikulik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:34:13 by vtrofyme          #+#    #+#              #
-#    Updated: 2025/09/09 16:27:00 by ikulik           ###   ########.fr        #
+#    Updated: 2025/09/11 21:26:09 by ikulik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ MAIN		= main_cub3D.c
 UTIL		= cleaners.c get_next_line.c get_next_line_utils.c initialize.c basics.c\
 			cleaners_utils.c frames_init.c texture_scaling.c
 
-PARSE		= parser.c parse_utils.c map_parser.c map_utils.c map_utils2.c parse_special.c
+PARSE		= parser.c parse_utils.c map_parser.c map_utils.c parse_special.c\
+			parse_textures.c
 
 CONTROLS	= gaming.c colliders.c enemy_moves.c effects.c player_moves.c mouse_move.c
 
@@ -31,7 +32,8 @@ RENDER		= raycast.c raycast_utils.c vector_basics.c render_frame.c\
 			render_utils.c render_floors.c post_processing.c render_walls.c\
 			vector_advanced.c
 
-ANIMATION	= door.c animation.c enemies_init.c animation_utils.c banners.c
+ANIMATION	= door.c animation.c enemies_init.c animation_utils.c banners.c\
+			render_enemies.c
 
 INTERFACE	= draw_minimap.c minimap_utils.c fps_counter.c hit_points.c
 

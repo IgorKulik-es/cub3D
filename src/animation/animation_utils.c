@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:59:05 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 16:41:13 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 19:07:44 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,9 @@ t_pos	dist_to_entity(t_game *game, t_entity *guy)
 	return (result);
 }
 
-void	determine_animation(t_entity *guy)
-{
-	int		index;
-
-	index = -1;
-	if ((guy->state == E_STATE_ANGRY && guy->dist < E_ATT_RANGE)
-		|| (guy->mode == ACTION && guy->anims[ACTION].active))
-		guy->mode = ACTION;
-	else
-		guy->mode = WALK_FRONT;
-	if (guy->mode != ACTION)
-		guy->mode = guy->turn;
-	while (++index < NUM_ANIM)
-		guy->anims[index].active = false;
-	guy->anims[guy->mode].active = true;
-}
-
 bool	check_entity_visibility(t_game *game, t_entity *guy)
 {
-	bool is_in_front;
+	bool	is_in_front;
 
 	guy->height = game->screen.win_h / guy->trans.y;
 	guy->left_edge = guy->trans.x - guy->height / 2;

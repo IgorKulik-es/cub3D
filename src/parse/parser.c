@@ -6,80 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 12:17:44 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/10 14:20:04 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 20:49:13 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-static void	handle_line_2(t_game *game, t_parse_ctx *ctx)
-{
-	if (ft_strncmp(ctx->line, "QA", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->anim_prot.action.img, ctx);
-	else if (ft_strncmp(ctx->line, "FL", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.floor, ctx);
-	else if (ft_strncmp(ctx->line, "CE", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.ceiling, ctx);
-	else if (ft_strncmp(ctx->line, "DW", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.door_w, ctx);
-	else if (ft_strncmp(ctx->line, "HP", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.hp, ctx);
-	else if (ft_strncmp(ctx->line, "F", 1) == 0
-		|| ft_strncmp(ctx->line, "C", 1) == 0)
-		handle_color_line(game, ctx);
-	else
-		parser_error(game, ctx, "Invalid line in .cub");
-}
-
-static void	handle_line(t_game *game, t_parse_ctx *ctx)
-{
-	if (ft_strncmp(ctx->line, "NO", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.wall_n, ctx);
-	else if (ft_strncmp(ctx->line, "SO", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.wall_s, ctx);
-	else if (ft_strncmp(ctx->line, "WE", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.wall_w, ctx);
-	else if (ft_strncmp(ctx->line, "EA", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.wall_e, ctx);
-	else if (ft_strncmp(ctx->line, "DR", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->texts.door, ctx);
-	else if (ft_strncmp(ctx->line, "QF", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->anim_prot.walk_front.img, ctx);
-	else if (ft_strncmp(ctx->line, "QB", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->anim_prot.walk_back.img, ctx);
-	else if (ft_strncmp(ctx->line, "QL", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->anim_prot.walk_left.img, ctx);
-	else if (ft_strncmp(ctx->line, "QR", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&game->anim_prot.walk_right.img, ctx);
-	else if (ft_strncmp(ctx->line, "PG", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&(game->texts.bans.img[LOSE]), ctx);
-	else if (ft_strncmp(ctx->line, "PW", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&(game->texts.bans.img[WIN]), ctx);
-	else if (ft_strncmp(ctx->line, "PI", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&(game->texts.bans.img[INTRO]), ctx);
-	else if (ft_strncmp(ctx->line, "EX", 2) == 0)
-		load_texture(game, skip_spaces(ctx->line + 2),
-			&(game->anim_prot.exit.img), ctx);
-	else
-		handle_line_2(game, ctx);
-}
 
 static void	parse_textures_and_colors(t_game *game, int fd, t_parse_ctx *ctx)
 {
@@ -127,6 +58,8 @@ int	parse_cub(t_game *game, char *path)
 	if (fd < 0)
 		parser_error(game, &ctx, "Cannot open .cub file");
 	parse_textures_and_colors(game, fd, &ctx);
+	if (game->texts.bot_color == 0 || game->texts.top_color == 0)
+		parser_error(game, &ctx, "Color not defined!");
 	read_map_lines(fd, &ctx);
 	close(fd);
 	parse_map_lines(game, &ctx);

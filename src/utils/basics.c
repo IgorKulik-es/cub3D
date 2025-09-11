@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 13:47:27 by ikulik            #+#    #+#             */
-/*   Updated: 2025/08/21 13:51:04 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 19:10:37 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,10 @@ time_t	get_time(void)
 
 	gettimeofday(&tm, NULL);
 	return (tm.tv_sec * 1000000 + tm.tv_usec);
+}
+
+int	close_game(t_game *game)
+{
+	clean_exit(game, NULL, 0);
+	return (1);
 }

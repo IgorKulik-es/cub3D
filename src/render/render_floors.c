@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:53:53 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 18:14:26 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 20:42:44 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	draw_hor_line(t_game *game, t_pos h_d, t_pos start, t_pos step);
 static void	put_darkened_pixel(t_game *game, t_coords width,
-			int text_pixel, float dark);
+				int text_pixel, float dark);
 
 void	draw_floors(t_game *game, t_player *player)
 {
@@ -74,9 +74,19 @@ static void	put_darkened_pixel(t_game *game, t_coords width,
 			int text_pixel, float dark)
 {
 	if (game->texts.draw_mode & M_FL_TEXTURE)
-		game->screen.pixels[width.x]
-			= rgb_shift(game->texts.floor.addr[text_pixel], dark, dark, dark);
+	{
+		if (game->mode & M_DARK)
+			game->screen.pixels[width.x] = rgb_shift
+				(game->texts.floor.addr[text_pixel], dark, dark, dark);
+		else
+			game->screen.pixels[width.x] = game->texts.floor.addr[text_pixel];
+	}
 	if (game->texts.draw_mode & M_CEIL_TEXTURE)
-		game->screen.pixels[width.y]
-			= rgb_shift(game->texts.ceiling.addr[text_pixel], dark, dark, dark);
+	{
+		if (game->mode & M_DARK)
+			game->screen.pixels[width.y] = rgb_shift
+				(game->texts.ceiling.addr[text_pixel], dark, dark, dark);
+		else
+			game->screen.pixels[width.y] = game->texts.ceiling.addr[text_pixel];
+	}
 }

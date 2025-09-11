@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 18:39:07 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 21:21:07 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@
 # define EMPTY '0'
 # define T_EXIT 'X'
 # define T_ENEMY 'Q'
-# define UP 'w'
-# define DOWN 's'
-# define LEFT 'a'
-# define RIGHT 'd'
 # define ESC XK_Escape
 # define T_MICROSEC 1000000
 # define P_ANIM_SPEED 1000000
@@ -57,7 +53,7 @@
 # define P_RED_SHIFT 1.4f
 # define P_BASE_HP 3
 # define P_POV 1.0f
-# define P_ENEMY_TRANSP 0.5f
+# define P_ENEMY_TRANSP 1.0f
 # define P_WALL_D 0.25f
 # define E_STATE_CALM 1
 # define E_STATE_ANGRY 2
@@ -89,6 +85,10 @@
 # define A 97
 # define S 115
 # define D 100
+# define UP 82
+# define DOWN 84
+# define LEFT 81
+# define RIGHT 83
 # define SPACE 32
 # define C_RED "\001\x1B[31m\002"
 # define C_GRN "\001\x1B[32m\002"
@@ -105,7 +105,6 @@
 # define Q_PI 0.785398163f
 # define THQ_PI 2.35619449f
 # define D_PI 6.283185307f
-
 
 typedef enum e_modes
 {
@@ -172,6 +171,7 @@ typedef struct s_player
 	float		inv_det;
 	char		moving;
 	char		rotating;
+	char		stafing;
 }			t_player;
 
 typedef struct s_ray_params
@@ -396,6 +396,7 @@ int			key_press(int key, t_game *game);
 int			key_release(int key, t_game *game);
 void		move_player(t_game *game, int key);
 void		rotate_player(t_game *game, int key);
+void		strafe_player(t_game *game, int key);
 void		move_door(t_game *game, t_door *door);
 void		move_enemy(t_game *game, t_entity *guy);
 t_pos		smooth_collision(t_game *game, t_pos old, t_pos new);
@@ -435,9 +436,7 @@ int			parse_cub(t_game *game, char *path);
 int			parse_rgb(t_game *game, t_parse_ctx *ctx);
 int			is_map_start(char *line);
 void		set_player(t_player *p, char c, int x, int y);
-void		load_texture(t_game *game, char *path, t_img *dest,
-				t_parse_ctx *ctx);
-void		handle_color_line(t_game *game, t_parse_ctx *ctx);
+void		handle_line(t_game *game, t_parse_ctx *ctx);
 void		parser_error(t_game *game, t_parse_ctx *ctx, char *msg);
 void		parse_map_lines(t_game *game, t_parse_ctx *ctx);
 int			count_map_lines(t_game *game, char *path);

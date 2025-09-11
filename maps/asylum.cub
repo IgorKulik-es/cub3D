@@ -6,11 +6,11 @@ FL ./textures/wall_concrete_256.xpm
 CE ./textures/ceiling_grill_256.xpm
 DW ./textures/wall_stone_beams_256.xpm
 DR ./textures/door_skulls_256.xpm
-QF ./textures/ghost_walk_front_256.xpm
-QB ./textures/ghost_walk_back_256.xpm
-QR ./textures/ghost_walk_right_256.xpm
-QL ./textures/ghost_walk_left_256.xpm
-QA ./textures/ghost_action_256.xpm
+QF ./textures/zombie_walk_front_256.xpm
+QB ./textures/zombie_walk_back_256.xpm
+QR ./textures/zombie_walk_right_256.xpm
+QL ./textures/zombie_walk_left_256.xpm
+QA ./textures/zombie_action_256.xpm
 HP ./textures/heart_256.xpm
 PG ./textures/plaque_game_over.xpm
 PI ./textures/plaque_intro.xpm
@@ -19,7 +19,6 @@ EX ./textures/portal.xpm
 
 F 220,100,0
 C 225,30,0
-
 
 111111111111111
 111100010000001

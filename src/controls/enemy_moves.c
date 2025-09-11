@@ -6,15 +6,15 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 18:31:01 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 21:37:08 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new);
-void	detect_player(t_game *game, t_entity *guy);
-void	check_player_visibility(t_game *game, t_entity *guy);
+static bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new);
+static void	detect_player(t_game *game, t_entity *guy);
+static void	check_player_visibility(t_game *game, t_entity *guy);
 
 void	move_enemy(t_game *game, t_entity *guy)
 {
@@ -39,7 +39,7 @@ void	move_enemy(t_game *game, t_entity *guy)
 		guy->pos = new;
 }
 
-bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new)
+static bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new)
 {
 	t_pos	new_pos;
 	t_pos	view;
@@ -62,7 +62,7 @@ bool	check_entity_collision(t_game *game, t_entity *guy, t_pos new)
 	return (true);
 }
 
-void	detect_player(t_game *game, t_entity *guy)
+static void	detect_player(t_game *game, t_entity *guy)
 {
 	if (guy->is_pl_visible)
 	{
@@ -86,14 +86,14 @@ void	calm_down_enemy(t_entity *guy)
 	guy->state = E_STATE_CALM;
 }
 
-void	check_player_visibility(t_game *game, t_entity *guy)
+static void	check_player_visibility(t_game *game, t_entity *guy)
 {
 	t_ray	ray;
 	t_hit	hit;
 	t_pos	hit_vector;
 
 	guy->is_pl_visible = false;
-	ray.view = mult_scalar(guy->view, -1.0f);
+	ray.view = mult_scalar(guy->view, -1.0f / guy->dist);
 	calculate_steps(&ray);
 	find_intersects(game, guy->pos, &ray);
 	if (ray.step_x.x < -__FLT_EPSILON__ || ray.step_y.x < -__FLT_EPSILON__)

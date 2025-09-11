@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:49:46 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 17:21:27 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 20:00:57 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	initialize_data(t_game *game)
 	game->last_mouse_x = -1;
 	game->player.hp = P_BASE_HP;
 	game->player.inv_det = 1.0f / P_POV;
+	game->mode = 0b1111;
 	game->game_stage = PLAY;
 	game->texts.bans.move = 1;
 	game->texts.bans.pos = 0;
