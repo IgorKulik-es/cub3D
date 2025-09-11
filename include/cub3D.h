@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 12:39:21 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:39:07 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,21 @@
 # define P_ANIM_SPEED 1000000
 # define P_MOVE_SPEED 300000
 # define P_DOOR_SPEED 1000000
-# define P_ENEMY_SPEED 1200000
+# define P_ENEMY_SPEED 800000
 # define P_DOOR_CL_TIME 2000000
 # define P_ROTATE_SPEED 300000
 # define P_COLOR_SPEED 2000000.0f
-# define P_BAN_SPEED 1000000
+# define P_BAN_SPEED 1200000
 # define P_INTRO_TIME 300000
-# define P_RED_SHIFT 1.2f
-# define P_BASE_HP 5
+# define P_RED_SHIFT 1.4f
+# define P_BASE_HP 3
 # define P_POV 1.0f
-# define P_WALL_D 0.27f
+# define P_ENEMY_TRANSP 0.5f
+# define P_WALL_D 0.25f
 # define E_STATE_CALM 1
 # define E_STATE_ANGRY 2
-# define E_DET_RADIUS 4
-# define E_ATT_RANGE 1.5f
-# define E_MIN_DIST 1.10f
+# define E_DET_RADIUS 3
+# define E_ATT_RANGE 1.3f
 # define E_DAM_RADIUS 1.80f
 # define FIRST_HIT_X 1
 # define FIRST_HIT_Y 0
@@ -70,6 +70,7 @@
 # define WIN_WIDTH 2560
 # define WIN_HEIGHT 1440
 # define WIN_DARK_FACTOR 0.7f
+# define WIN_LIGHT_RADIUS 2.0f
 # define WIN_UI_OFFSET 20
 # define WIN_UI_SCALE 16
 # define TEXTURE_SIZE 256
@@ -80,6 +81,10 @@
 # define M_GAME_OVER_PL 8
 # define M_VICTORY_PL 16
 # define M_INTRO_PL 32
+# define M_MINIMAP 1
+# define M_FPS 2
+# define M_HP 4
+# define M_DARK 8
 # define W 119
 # define A 97
 # define S 115
@@ -294,6 +299,7 @@ typedef struct s_screen_data
 	int		win_w;
 	float	half_w;
 	int		win_h;
+	float	half_h;
 	time_t	last_frame_time;
 	int		minimap_scale;
 }			t_screen;
@@ -308,9 +314,10 @@ typedef struct s_game_data
 	int			num_enemies;
 	int			num_exits;
 	int			last_mouse_x;
-	t_hit		hits[WIN_WIDTH];
 	float		d_max;
 	float		darkness;
+	int			mode;
+	t_hit		hits[WIN_WIDTH];
 	t_img		scr_upscaled;
 	t_screen	screen;
 	t_map_data	map;
@@ -381,6 +388,7 @@ void		upscale_screen(t_game *game);
 void		put_img_to_srceen(t_game *game, t_img *img, int x, int y);
 void		tint_screen(t_game *game);
 void		blood_effect(t_game *game, float red);
+void		mix_colors(int *old_px, int new_px, float weight);
 void		restore_color(t_game *game, float target_tint);
 
 //gaming

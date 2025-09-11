@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fps_counter.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtrofyme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 15:31:15 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/08 11:29:08 by vtrofyme         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:43:30 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	put_fps_counter(t_game *game, time_t time)
 	char	*str_time;
 	char	*str_fps;
 
+	if (!(game->mode & M_FPS))
+		return ;
 	fps = T_MICROSEC / (time - game->screen.last_frame_time);
 	str_time = ft_itoa(fps);
 	if (str_time == NULL)

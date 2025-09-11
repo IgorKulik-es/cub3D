@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:51:39 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 12:27:27 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:22:12 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	set_anim_frames(t_game *game, t_anim_p *anim)
 	int	ind_frame;
 
 	ind_frame = 0;
-	anim->num_fr = anim->img.width / anim->img.height;
+	if (anim->img.height != 0)
+		anim->num_fr = anim->img.width / anim->img.height;
+	else
+		clean_exit(game, "animation file error", EXIT_FAILURE);
 	anim->frames = ft_calloc(anim->num_fr, sizeof(t_img));
 	if (anim->frames == NULL)
 		clean_exit(game, "malloc", EXIT_FAILURE);

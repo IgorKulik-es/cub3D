@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 11:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/10 16:24:40 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:41:38 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	draw_minimap_enemies(t_game *game, t_minimap *m)
 		if (!game->enemies[k].is_ent_visible)
 		{
 			k++;
-			continue;
+			continue ;
 		}
 		enemy = game->enemies[k];
 		x = m->offset_x + (int)(enemy.pos.x * m->scale);
@@ -75,6 +75,8 @@ void	draw_minimap(t_game *game)
 	t_coords	p;
 	t_minimap	m;
 
+	if (!(game->mode & M_MINIMAP))
+		return ;
 	i = 0;
 	m = get_minimap_params(game);
 	while (i < game->map.height)

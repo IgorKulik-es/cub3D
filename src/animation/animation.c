@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 12:49:47 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 15:06:03 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:25:28 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	update_enem_frame(t_game *game, t_entity *guy, t_anim *anim)
 		return ;
 	time = get_time() - anim->last_frame;
 	if (((guy->mode != ACTION) && (time * guy->state > anim->time_per_frame))
-		|| (guy->mode == ACTION && time > anim->time_per_frame))
+		|| (guy->mode == ACTION && time * guy->state > anim->time_per_frame))
 	{
 		(anim->c_frame)++;
 		anim->last_frame += time;
@@ -108,7 +108,7 @@ void	put_anim_line(t_game *game, t_img *frame, t_coords pos, t_coords pars)
 	{
 		color = frame->addr[fr_width + (int)step.y * frame->height];
 		if (color != C_BLANK)
-			game->screen.pixels[pixel] = color;
+			mix_colors(&(game->screen.pixels[pixel]), color, P_ENEMY_TRANSP);
 		pixel += game->screen.win_w;
 		step.y += step.x;
 	}
@@ -119,7 +119,7 @@ void	update_exit_frame(t_anim *exit)
 	time_t	time;
 
 	time = get_time() - exit->last_frame;
-	if (time > exit->time_per_frame * 1.5f)
+	if (2 * time > exit->time_per_frame)
 	{
 		exit->last_frame += time;
 		(exit->c_frame)++;

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 16:49:08 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:31:01 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	move_enemy(t_game *game, t_entity *guy)
 	step = ((get_time() - game->screen.last_frame_time) / (float)P_ENEMY_SPEED)
 		* guy->state;
 	new = add_vectors(guy->pos, mult_scalar(guy->face, step));
-	if (guy->dist < E_MIN_DIST && game->game_stage == PLAY)
-		return ;
 	if (guy->state == E_STATE_ANGRY)
 		guy->pos = smooth_collision(game, guy->pos, new);
 	else if (check_entity_collision(game, guy, new))

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 09:46:27 by vtrofyme          #+#    #+#             */
-/*   Updated: 2025/09/10 14:31:10 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:18:23 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static void	validate_cell(t_game *g, t_parse_ctx *ctx, int x, int y)
 		clean_double_array(ctx->map_lines, ctx->map_count);
 		clean_exit(g, "Invalid character in map", MAP_ERROR);
 	}
-	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D')
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
+		|| c == 'D' || c == 'Q')
 	{
 		if (y == 0 || x == 0 || y == g->map.height - 1 || x == g->map.width - 1)
 		{

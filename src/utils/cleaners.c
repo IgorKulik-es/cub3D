@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 12:29:24 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 13:46:18 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	clean_exit(t_game *game, char *error, int exit_code)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->doors)
 		free(game->doors);
-	mlx_do_key_autorepeaton(game->mlx);
 	if (game->mlx)
 	{
+		mlx_do_key_autorepeaton(game->mlx);
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}

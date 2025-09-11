@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 16:58:26 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:46:31 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	update_all_positions(t_game *game)
 	int	index;
 
 	index = -1;
-	if (game->player.moving)
+	if (game->game_stage == WIN)
+		return ;
+	if (game->player.moving != 0)
 		move_player(game, game->player.moving);
 	if (game->player.rotating)
 		rotate_player(game, game->player.rotating);
@@ -48,6 +50,10 @@ int	key_press(int key, t_game *game)
 		open_door(game);
 		check_exit(game);
 	}
+	if (key == XK_1)
+		game->mode ^= M_MINIMAP;
+	if (key == XK_2)
+		game->mode ^= M_FPS;
 	return (0);
 }
 

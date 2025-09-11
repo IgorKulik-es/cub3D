@@ -6,13 +6,12 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:58:11 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/09 15:33:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 13:39:47 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	mix_colors(int *old_px, int new_px, float mult_row);
 static void	update_banner_state(t_game *game, t_bans *banner);
 static void	display_banner(t_game *game, t_bans *ban_str, t_img *banner);
 
@@ -45,29 +44,6 @@ static void	display_banner(t_game *game, t_bans *ban_str, t_img *banner)
 	}
 }
 
-static void	mix_colors(int *old_px, int new_px, float mult_row)
-{
-	t_coords	r;
-	t_coords	g;
-	t_coords	b;
-
-	if (mult_row == 1)
-		*old_px = new_px;
-	else
-	{
-		r.x = (*old_px >> 16) & 0xff;
-		r.y = (new_px >> 16) & 0xff;
-		g.x = (*old_px >> 8) & 0xff;
-		g.y = (new_px >> 8) & 0xff;
-		b.x = *old_px & 0xff;
-		b.y = new_px & 0xff;
-		r.x = r.x * (1 - mult_row) + r.y * mult_row;
-		b.x = b.x * (1 - mult_row) + b.y * mult_row;
-		g.x = g.x * (1 - mult_row) + g.y * mult_row;
-		*old_px = (r.x << 16) + (g.x << 8) + b.x;
-	}
-}
-
 static void	update_banner_state(t_game *game, t_bans *banner)
 {
 	time_t	time;
@@ -94,6 +70,8 @@ void	animate_banners(t_game *game, t_bans *banners)
 			game->game_stage = PLAY;
 			return ;
 		}
+		if (game->tint.r != game->darkness)
+			return ;
 		update_banner_state(game, banners);
 		if ((banners->pos == 1) && (get_time() - game->texts.bans.last_change
 				> P_INTRO_TIME))
@@ -105,6 +83,8 @@ void	animate_banners(t_game *game, t_bans *banners)
 		update_banner_state(game, banners);
 	if (game->game_stage == WIN && (game->texts.draw_mode & M_VICTORY_PL))
 		update_banner_state(game, banners);
+	if (game->game_stage == WIN && game->texts.bans.pos == 1)
+		game->darkness = 0;
 	if (game->game_stage != PLAY)
 		display_banner(game, &game->texts.bans,
 			&(game->texts.bans.img[game->game_stage]));

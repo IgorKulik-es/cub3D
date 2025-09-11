@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 17:59:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 12:34:29 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:54:28 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,21 @@ int	rgb_shift(int color, float r_mult, float g_mult, float b_mult)
 	chanels[1] = g;
 	chanels[2] = r;
 	return (color);
+}
+
+void	mix_colors(int *old_px, int new_px, float weight)
+{
+	unsigned char	*old_c;
+	unsigned char	*new_c;
+
+	old_c = (unsigned char *)old_px;
+	new_c = (unsigned char *)&new_px;
+	if (weight == 1)
+		*old_px = new_px;
+	else
+	{
+		old_c[0] = old_c[0] * (1 - weight) + new_c[0] * weight;
+		old_c[1] = old_c[1] * (1 - weight) + new_c[1] * weight;
+		old_c[2] = old_c[2] * (1 - weight) + new_c[2] * weight;
+	}
 }

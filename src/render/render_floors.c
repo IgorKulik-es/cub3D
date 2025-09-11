@@ -6,20 +6,21 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:53:53 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/10 16:17:12 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/11 18:14:26 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	draw_hor_line(t_game *game, t_pos h_d, t_pos start, t_pos step);
+static void	draw_hor_line(t_game *game, t_pos h_d, t_pos start, t_pos step);
+static void	put_darkened_pixel(t_game *game, t_coords width,
+			int text_pixel, float dark);
 
 void	draw_floors(t_game *game, t_player *player)
 {
 	t_pos	height_dist;
 	t_pos	step;
 	t_pos	start;
-	float	dist;
 	int		half_h;
 
 	if (game->texts.draw_mode == M_NO_TEXTURE)
@@ -28,19 +29,20 @@ void	draw_floors(t_game *game, t_player *player)
 	half_h = game->screen.win_h / 2;
 	while (height_dist.x < half_h)
 	{
-		dist = height_dist.x / (float)half_h;
-		dist = 1 / (1 - dist);
-		height_dist.y = dist;
+		height_dist.y = height_dist.x / (float)half_h;
+		height_dist.y = 1 / (1 - height_dist.y);
 		start = subtr_vectors(player->facing, player->camera);
-		start = mult_scalar (start, dist);
+		start = mult_scalar (start, height_dist.y);
 		start = add_vectors(start, player->pos);
-		step = mult_scalar(player->camera, dist / game->screen.half_w);
+		step = mult_scalar(player->camera, height_dist.y / game->screen.half_w);
 		draw_hor_line(game, height_dist, start, step);
 		(height_dist.x) += 1;
+		if (height_dist.y > game->d_max)
+			return ;
 	}
 }
 
-void	draw_hor_line(t_game *game, t_pos h_d, t_pos start, t_pos step)
+static void	draw_hor_line(t_game *game, t_pos h_d, t_pos start, t_pos step)
 {
 	int			last_pixel;
 	int			text_pixel;
@@ -58,14 +60,23 @@ void	draw_hor_line(t_game *game, t_pos h_d, t_pos start, t_pos step)
 	{
 		pos_on_tile.x = start.x - floorf(start.x);
 		pos_on_tile.y = start.y - floorf(start.y);
-		text_pixel = ((int)(pos_on_tile.x * TEXTURE_SIZE))
-			* TEXTURE_SIZE + (int)(pos_on_tile.y * TEXTURE_SIZE);
-		if (game->texts.draw_mode & M_FL_TEXTURE)
-			game->screen.pixels[width.x] = rgb_shift(game->texts.floor.addr[text_pixel], dark, dark, dark);
-		if (game->texts.draw_mode & M_CEIL_TEXTURE)
-			game->screen.pixels[width.y] = rgb_shift(game->texts.ceiling.addr[text_pixel], dark, dark, dark);
+		text_pixel = ((int)(pos_on_tile.x * game->texts.floor.width))
+			* game->texts.floor.width + (int)(pos_on_tile.y
+				* game->texts.floor.width);
+		put_darkened_pixel(game, width, text_pixel, dark);
 		start = add_vectors(start, step);
 		(width.x)++;
 		(width.y)++;
 	}
+}
+
+static void	put_darkened_pixel(t_game *game, t_coords width,
+			int text_pixel, float dark)
+{
+	if (game->texts.draw_mode & M_FL_TEXTURE)
+		game->screen.pixels[width.x]
+			= rgb_shift(game->texts.floor.addr[text_pixel], dark, dark, dark);
+	if (game->texts.draw_mode & M_CEIL_TEXTURE)
+		game->screen.pixels[width.y]
+			= rgb_shift(game->texts.ceiling.addr[text_pixel], dark, dark, dark);
 }
