@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:21:41 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 21:37:08 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/12 11:54:21 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	move_enemy(t_game *game, t_entity *guy)
 	step = ((get_time() - game->screen.last_frame_time) / (float)P_ENEMY_SPEED)
 		* guy->state;
 	new = add_vectors(guy->pos, mult_scalar(guy->face, step));
+	correct_entity_position(game, &new, guy->pos);
 	if (guy->state == E_STATE_ANGRY)
 		guy->pos = smooth_collision(game, guy->pos, new);
 	else if (check_entity_collision(game, guy, new))
@@ -93,6 +94,7 @@ static void	check_player_visibility(t_game *game, t_entity *guy)
 	t_pos	hit_vector;
 
 	guy->is_pl_visible = false;
+	ft_bzero(&ray, sizeof(t_ray));
 	ray.view = mult_scalar(guy->view, -1.0f / guy->dist);
 	calculate_steps(&ray);
 	find_intersects(game, guy->pos, &ray);

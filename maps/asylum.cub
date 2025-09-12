@@ -1,8 +1,8 @@
-SO ./textures/wall_metal_rusty_256.xpm
+SO ./textures/wall_windows_skulls_256.xpm
+EA ./textures/wall_concrete_rebar_256.xpm
 NO ./textures/wall_windows_bloody_256.xpm
-EA ./textures/wall_concrete_256.xpm
 WE ./textures/wall_concrete_plaster_256.xpm
-FL ./textures/floor_metal_cold_256.xpm
+FL ./textures/wall_concrete_256.xpm
 CE ./textures/ceiling_grill_256.xpm
 DW ./textures/wall_stone_beams_256.xpm
 DR ./textures/door_skulls_256.xpm
@@ -19,6 +19,7 @@ EX ./textures/portal.xpm
 
 F 220,100,0
 C 225,30,0
+
 
 111111111111111
 111100010000001

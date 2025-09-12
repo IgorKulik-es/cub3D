@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 20:07:06 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 20:09:07 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/12 11:55:25 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	move_player(t_game *game, int key)
 		mult *= -1;
 	new = mult_scalar(game->player.facing, mult);
 	new = add_vectors(game->player.pos, new);
+	correct_entity_position(game, &new, game->player.pos);
 	game->player.pos = smooth_collision(game, game->player.pos, new);
 	game->player.tile.x = floorf(game->player.pos.x);
 	game->player.tile.y = floorf(game->player.pos.y);

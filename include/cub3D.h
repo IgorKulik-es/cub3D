@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:28:48 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 21:21:07 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/12 12:25:26 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 # define P_BAN_SPEED 1200000
 # define P_INTRO_TIME 300000
 # define P_RED_SHIFT 1.4f
-# define P_BASE_HP 3
+# define P_BASE_HP 5
 # define P_POV 1.0f
 # define P_ENEMY_TRANSP 1.0f
 # define P_WALL_D 0.25f
@@ -359,6 +359,7 @@ void		resize_texture(t_game *game, t_img *img, int new_width,
 void		setup_textures(t_game *game);
 void		stretch_to_screen_width(t_game *game, t_img *img);
 int			rgb_shift(int color, float r_mult, float g_mult, float b_mult);
+void		correct_entity_position(t_game *game, t_pos *new, t_pos old);
 
 //maths
 t_pos		mult_scalar(t_pos vector, float mult);

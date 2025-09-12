@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:59:05 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 19:07:44 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/12 11:54:01 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,11 @@ bool	check_entity_visibility(t_game *game, t_entity *guy)
 			&& game->hits[(int)guy->trans.x].dist > guy->trans.y))
 		return (true);
 	return (false);
+}
+
+void	correct_entity_position(t_game *game, t_pos *new, t_pos old)
+{
+	if (new->x < 1 || new->x > game->map.width - 1
+		|| new->y < 1 || new->y > game->map.height - 1)
+		*new = old;
 }
