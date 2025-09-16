@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:54:25 by ikulik            #+#    #+#             */
-/*   Updated: 2025/09/11 20:08:36 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/09/16 12:12:37 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	game_over(t_game *game)
 		printf("GAME OVER!\n");
 	game->game_stage = LOSE;
 	game->texts.bans.move = 1;
+	game->mode = 0b1000;
 	while (index < game->num_enemies)
 	{
 		if (game->enemies[index].state == E_STATE_ANGRY)
@@ -110,4 +111,5 @@ void	check_exit(t_game *game)
 		return ;
 	game->game_stage = WIN;
 	game->texts.bans.move = 1;
+	game->mode = 0b1000;
 }
